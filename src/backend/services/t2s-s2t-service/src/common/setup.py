@@ -2,7 +2,6 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson import TextToSpeechV1, SpeechToTextV1
 from dotenv import load_dotenv
 from os import getenv
-from flask_session import Session
 
 
 class Setup():
