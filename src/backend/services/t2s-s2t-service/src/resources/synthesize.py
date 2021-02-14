@@ -45,9 +45,9 @@ class Synthesize(Resource):
             response = {"info": "Error caused by internal service", "error": {
                 "code": ex.code, "message": ex.message}}
             return response, 500
-
-        # Close audio file.
-        audio_file.close()
+        finally:
+            # Close audio file
+            audio_file.close()
 
         # Create response.
         return send_file("static/audio/text2speech.wav",
