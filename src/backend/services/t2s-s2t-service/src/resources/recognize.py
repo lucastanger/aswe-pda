@@ -12,6 +12,9 @@ class Recognize(Resource):
     def __init__(self, **kwargs):
         self.ibm = kwargs['ibm']
 
+    def get(self):
+        return {"message": "To transfer speech to text use POST /rest/api/v1/recognize."}
+
     def post(self):
         # Extract audio file from body. Save it as Filestorage.
         parser = reqparse.RequestParser()

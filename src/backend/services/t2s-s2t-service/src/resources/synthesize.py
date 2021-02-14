@@ -14,6 +14,9 @@ class Synthesize(Resource):
     def __init__(self, **kwargs):
         self.ibm = kwargs['ibm']
 
+    def get(self):
+        return {"message": "To transfer text to speech use POST /rest/api/v1/synthesize."}
+
     def post(self):
         # Extract text from request body.
         parser = reqparse.RequestParser()
