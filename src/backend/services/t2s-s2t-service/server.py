@@ -31,6 +31,8 @@ class CustomServer(Server):
         Setup.loadEnv()
         ibm = Setup.authenticate(ibm)
         ibm = Setup.setSettings(ibm)
+        kwargs['port'] = 5555
+        kwargs['host'] = '0.0.0.0'
         return Server.__call__(self, app, *args, **kwargs)
 
 
