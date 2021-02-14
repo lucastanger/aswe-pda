@@ -31,12 +31,14 @@ class Recognize(Resource):
                         content_type='audio/wav',
                         model='de-DE_BroadbandModel',
                     ).get_result()
-            audio_file.close()
         except ApiException as ex:
             # Raise exception if HTTP response code is in the 4xx and 5xx range
             response = {"info": "Error caused by internal service", "error": {
                 "code": ex.code, "message": ex.message}}
             return response, 500
+        finally:
+            # Close audio file
+            audio_file.close()
 
         # Extract text from json and return response.
         response = {"text": ""}
