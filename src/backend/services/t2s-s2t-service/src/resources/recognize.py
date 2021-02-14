@@ -1,25 +1,44 @@
+# Imports.
 from flask_restful import Resource, reqparse
+from ibm_watson import ApiException
 from werkzeug import datastructures
-import wave
 
 
 class Recognize(Resource):
+    '''
+        Includes post method. Receives audio file. Returns text.
+    '''
+
+    def __init__(self, **kwargs):
+        self.ibm = kwargs['ibm']
 
     def post(self):
+        # Extract audio file from body. Save it as Filestorage.
         parser = reqparse.RequestParser()
         parser.add_argument(
             'audio', required=True, type=datastructures.FileStorage, location='files')
         args = parser.parse_args(strict=True)
-        print(args['audio'])
-        stream = args['audio'].stream
+        audio_file = args['audio']
 
-        with wave.open(stream, 'rb') as audio_file:
-            print(audio_file.getframerate())
+        # Recognize.
+        try:
+            # Recognize speech to text
+            speech_recognition_results = self.ibm.speech_to_text.recognize(
+                        audio=audio_file.read(),
+                        content_type='audio/wav',
+                        model='de-DE_BroadbandModel',
+                    ).get_result()
+            audio_file.close()
+        except ApiException as ex:
+            # Raise exception if HTTP response code is in the 4xx and 5xx range
+            response = {"info": "Error caused by internal service", "error": {
+                "code": ex.code, "message": ex.message}}
+            return response, 500
 
-        # wav_file = wave.open(stream, 'rb')
-        # fs = wav_file.getframerate()
-        # wav_file.close()
+        # Extract text from json and return response.
+        response = {"text": ""}
+        for result in speech_recognition_results["results"]:
+            for alternative in result['alternatives']:
+                response["text"] += alternative['transcript']
 
-        # print(stream)
-        # print(fs)
-        # print(wav_file)
+        return response, 200
