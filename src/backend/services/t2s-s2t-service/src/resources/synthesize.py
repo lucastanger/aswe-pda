@@ -39,8 +39,9 @@ class Synthesize(Resource):
                 ).get_result().content)
         except ApiException as ex:
             # Raise exception if HTTP response code is in the 4xx and 5xx range.
-            print("Method failed with status code " +
-                  str(ex.code) + ": " + ex.message)
+            response = {"info": "Error caused by internal service", "error": {
+                "code": ex.code, "message": ex.message}}
+            return response, 500
 
         # Close audio file.
         audio_file.close()
