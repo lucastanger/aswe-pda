@@ -10,10 +10,10 @@ services:
         - 5555:5555
       restart: always
 
-  textToSpeech-service:
-    container_name: textToSpeech-service
+  t2s-s2t-service-service:
+    container_name: t2s-s2t-service-service
     build:
-      context: ./textToSpeech-service
+      context: ./t2s-s2t-service-service
       ports:
         - 5560:5560
       restart: always
