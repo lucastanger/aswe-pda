@@ -7,8 +7,8 @@ CLIENT_ID = "4648b6cee4344e04b4c2a46d2f83a1e6"
 CLIENT_SECRET = "b5512349cd434a04858487754e11d1e6"
 
 # Port and callback url can be changed or ledt to localhost:5000
-PORT = "5000"
-CALLBACK_URL = "http://127.0.0.1"
+PORT = "5565"
+CALLBACK_URL = "http://0.0.0.0"
 
 # Add needed scope from spotify user
 SCOPE = "streaming user-read-email user-read-private"
