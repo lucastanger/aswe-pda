@@ -17,6 +17,9 @@ def auth():
 
 @app.route("/callback/")
 def call():
-    token = request.args['code']
-    user_token = startup.getUserToken(token)
-    return f"Der User Token lautet: {user_token}"
+    #token = request.args['code']
+    #user_token = startup.getUserToken(token)
+    return f"Der User Token lautet: "
+
+if __name__ == '__main__':
+    app.run(port=5565, host="0.0.0.0")
