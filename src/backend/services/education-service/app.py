@@ -3,10 +3,11 @@ from concurrent import futures
 
 import requests
 from bs4 import BeautifulSoup
-from flask import jsonify, request
+from flask import jsonify, request, Flask
 from werkzeug.exceptions import abort
 
-from app import app
+app = Flask(__name__)
+
 
 BASE_URL = "https://dualis.dhbw.de"
 units = []
@@ -32,7 +33,6 @@ def get_grades():
     password = request_json.get('password')
 
     # create a session
-    #url = BASE_URL + "/scripts/mgrqcgi?APPNAME=CampusNet&PRGNAME=EXTERNALPAGES&ARGUMENTS=-N000000000000001,-N000324,-Awelcome"
     url = BASE_URL + "/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=EXTERNALPAGES&ARGUMENTS=-N000000000000001,-N000324,-Awelcome"
     cookie_request = requests.get(url)
 
@@ -53,8 +53,6 @@ def get_grades():
         abort(login_response.status_code)
 
     # redirecting to course results...
-    #url_content = BASE_URL + "/scripts/mgrqcgi?APPNAME=CampusNet&PRGNAME=STARTPAGE_DISPATCH&ARGUMENTS=" + arguments[79:]
-    #url_content = BASE_URL + "/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=STARTPAGE_DISPATCH&ARGUMENTS=" + arguments[79:]
     url_content = BASE_URL + "/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=STARTPAGE_DISPATCH&ARGUMENTS=" + arguments[84:]
     url_content = url_content.replace("STARTPAGE_DISPATCH", "COURSERESULTS")
     semester_ids_response = requests.get(url_content, cookies=login_response.cookies)
@@ -158,3 +156,7 @@ def logout(url, cookies):
     :return: boolean whether logging out was successful
     """
     return requests.get(url=url, cookies=cookies).ok
+
+
+if __name__ == '__main__':
+    app.run(port=5555, host="0.0.0.0")
