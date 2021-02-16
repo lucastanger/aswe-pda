@@ -135,6 +135,3 @@ paths:
           description: Bad request
         '500':
           description: Internal Server Error
-
-security:
-  - securityRequirement: []
