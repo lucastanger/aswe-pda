@@ -1,6 +1,8 @@
 # Imports.
+from flask_swagger_ui import get_swaggerui_blueprint
 from flask_script import Manager, Server
 from flask_restful import Api
+from yaml import Loader, load
 from flask import Flask
 
 # Include setup scripts.
@@ -42,6 +44,22 @@ api = Api(app,
           prefix='/rest/api/v1'
           )
 manager = Manager(app)
+
+# Swagger.
+SWAGGER_URL = '/rest/api/v1/docs'  # URL for exposing Swagger UI (without trailing '/')
+API_URL = './docs/swagger.yml'  # Our API url (can of course be a local resource)
+swagger_yml = load(open(API_URL, 'r'), Loader=Loader)
+
+# Call factory function to create our blueprint
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+    API_URL,
+    config={
+        'app_name': "T2S/S2T-Service",
+        'spec': swagger_yml
+    },
+)
+app.register_blueprint(swaggerui_blueprint)
 
 # Create global Ibm object so that every route has access to the variables.
 ibm = Ibm()
