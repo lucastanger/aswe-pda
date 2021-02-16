@@ -1,11 +1,15 @@
 env:
-  - DOCKER_COMPOSE_VERSION=1.25.4
+  - DOCKER_COMPOSE_VERSION=1.28.2
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+
+before_script:
+  - echo "SPEECH_TO_TEXT_APIKEY=$SPEECH_TO_TEXT_APIKEY\SPEECH_TO_TEXT_URL=$SPEECH_TO_TEXT_URL" > $TRAVIS_BUILD_DIR/src/backend/services/t2s-s2t-service/ibm-credentials-s2t.env
+  - echo "TEXT_TO_SPEECH_APIKEY=$TEXT_TO_SPEECH_APIKEY\TEXT_TO_SPEECH_URL=$TEXT_TO_SPEECH_URL" > $TRAVIS_BUILD_DIR/src/backend/services/t2s-s2t-service/ibm-credentials-t2s.env
 
 script:
   - docker-compose up -d --build

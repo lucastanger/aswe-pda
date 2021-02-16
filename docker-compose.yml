@@ -1,13 +1,13 @@
 version: "3.9"
 
 services:
-  education-service:
-    container_name: education-container
-    build:
-      context: ./education-service
-    ports:
-      - "5555:5555"
-    restart: always
+  # education-service:
+  #   container_name: education-container
+  #   build:
+  #     context: ./education-service
+  #   ports:
+  #     - "5555:5555"
+  #   restart: always
 
   t2s-s2t-service:
     container_name: t2s-s2t-container
@@ -20,11 +20,11 @@ services:
       - ./src/backend/services/t2s-s2t-service/ibm-credentials-s2t.env
     restart: always
 
-  calendar-service:
-    container_name: calendar-container
-    build:
-      context: ./calendar-service
-    ports:
-      - "5565:5565"
-    restart: always
+  # calendar-service:
+  #   container_name: calendar-container
+  #   build:
+  #     context: ./calendar-service
+  #   ports:
+  #     - "5565:5565"
+  #   restart: always
   # TODO: Add more services
