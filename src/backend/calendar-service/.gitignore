@@ -1,1 +1,6 @@
-token.pickle
+# Secrets
+.secrets
+
+# Enviroments
+.env
+venv
