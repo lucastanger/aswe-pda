@@ -8,3 +8,4 @@ venv
 # Coverage reports
 .coverage
 htmlcov
+coverage-report

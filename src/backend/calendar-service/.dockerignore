@@ -6,3 +6,4 @@ Dockerfile
 # Coverage reports
 .coverage
 htmlcov
+coverage-report
