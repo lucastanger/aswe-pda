@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "4cc958e2-228a-42f8-8ced-09475ecbfb4e",
+		"name": "PDA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET grades",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"inf18244@lehre.dhbw-stuttgart.de\",\r\n    \"password\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/{{baseurl}}/grades",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{baseurl}}",
+						"grades"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
