@@ -15,7 +15,7 @@ CLIENT_ID = "4648b6cee4344e04b4c2a46d2f83a1e6"
 CLIENT_SECRET = "b5512349cd434a04858487754e11d1e6"
 
 PORT = "5565"
-CALLBACK_URL = "http://127.0.0.1"
+CALLBACK_URL = "http://0.0.0.0"
 
 REDIRECT_URI = "{}:{}/callback/".format(CALLBACK_URL, PORT)
 SCOPE = "playlist-modify-public playlist-modify-private user-read-recently-played user-top-read"
