@@ -14,17 +14,17 @@ services:
     build: ./src/backend/services/t2s-s2t-service
     image: t2s-s2t-service:1.0
     ports:
-      - "5556:5555"
+      - "5555:5555"
     env_file:
       - ./src/backend/services/t2s-s2t-service/ibm-credentials-t2s.env
       - ./src/backend/services/t2s-s2t-service/ibm-credentials-s2t.env
     restart: always
 
-  # calendar-service:
-  #   container_name: calendar-container
-  #   build:
-  #     context: ./calendar-service
-  #   ports:
-  #     - "5565:5565"
-  #   restart: always
+  calendar-service:
+    container_name: calendar-container
+    build: ./src/backend/services/calendar-service
+    image: calendar-service:1.0
+    ports:
+      - "5560:5560"
+    restart: always
   # TODO: Add more services
