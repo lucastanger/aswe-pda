@@ -13,7 +13,7 @@ SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 app = Flask(__name__)
 
 
-@app.route('/events-today')
+@app.route('/rest/api/v1/events-today', methods=['GET'])
 def events_today():
     credentials = authenticate()
 
@@ -39,8 +39,8 @@ def authenticate():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists('src/.secrets/token.pickle'):
-        with open('src/.secrets/token.pickle', 'rb') as token:
+    if os.path.exists('.secrets/token.pickle'):
+        with open('.secrets/token.pickle', 'rb') as token:
             credentials = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not credentials or not credentials.valid:
@@ -48,14 +48,14 @@ def authenticate():
             credentials.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'src/.secrets/credentials.json', SCOPES)
+                '.secrets/credentials.json', SCOPES)
             credentials = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open('src/.secrets/token.pickle', 'wb') as token:
+        with open('.secrets/token.pickle', 'wb') as token:
             pickle.dump(credentials, token)
 
     return credentials
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5565, host='0.0.0.0')

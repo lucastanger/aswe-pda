@@ -2,6 +2,3 @@
 .gitignore
 .dockerignore
 Dockerfile
-
-# Secrets
-.secrets
