@@ -2,3 +2,7 @@
 .gitignore
 .dockerignore
 Dockerfile
+
+# Coverage reports
+.coverage
+htmlcov
