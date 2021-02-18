@@ -4,3 +4,7 @@
 # Enviroments
 .env
 venv
+
+# Coverage reports
+.coverage
+htmlcov
