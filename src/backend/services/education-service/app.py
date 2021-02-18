@@ -12,77 +12,75 @@ BASE_URL = "https://dualis.dhbw.de"
 units = []
 
 
-def create_app():
-    # create minimal app
-    app = Flask(__name__)
+# create minimal app
+app = Flask(__name__)
 
-    # REST API Route for receiving grades
-    @app.route("/rest/api/v1/grades/", methods=['GET'])
-    def get_grades():
-        """
-        api endpoint to query grades from dualis.dhbw.de. Function expects credentials in GET request
-        like {"user":"inf12345@lehre.dhbw-stuttgart.de","password":"1a2b3c4d5e"}
-        :return: grades of all semesters from all modules as json
-        """
 
-        if not request.json or not 'password' in request.json or not 'user' in request.json:
-            abort(401)
-        # retrieve password and username from body
-        request_json = request.get_json()
-        user = request_json.get('user')
-        password = request_json.get('password')
+# REST API Route for receiving grades
+@app.route("/rest/api/v1/grades/", methods=['GET'])
+def get_grades():
+    """
+    api endpoint to query grades from dualis.dhbw.de. Function expects credentials in GET request
+    like {"user":"inf12345@lehre.dhbw-stuttgart.de","password":"1a2b3c4d5e"}
+    :return: grades of all semesters from all modules as json
+    """
 
-        # create a session
-        url = BASE_URL + "/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=EXTERNALPAGES&ARGUMENTS=-N000000000000001,-N000324,-Awelcome"
-        cookie_request = requests.get(url)
+    if not request.json or not 'password' in request.json or not 'user' in request.json:
+        abort(401)
+    # retrieve password and username from body
+    request_json = request.get_json()
+    user = request_json.get('user')
+    password = request_json.get('password')
 
-        data = {"usrname": user, "pass": password,
-                "APPNAME": "CampusNet",
-                "PRGNAME": "LOGINCHECK",
-                "ARGUMENTS": "clino,usrname,pass,menuno,menu_type, browser,platform",
-                "clino": "000000000000001",
-                "menuno": "000324",
-                "menu_type": "classic",
-                "browser": "",
-                "platform": ""
-                }
-        # return dualis response code, if response code is not 200
-        login_response = requests.post(url, data=data, headers=None, verify=True, cookies=cookie_request.cookies)
-        arguments = login_response.headers['REFRESH']
-        if not login_response.ok:
-            abort(login_response.status_code)
+    # create a session
+    url = BASE_URL + "/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=EXTERNALPAGES&ARGUMENTS=-N000000000000001,-N000324,-Awelcome"
+    cookie_request = requests.get(url)
 
-        # redirecting to course results...
-        url_content = BASE_URL + "/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=STARTPAGE_DISPATCH&ARGUMENTS=" + arguments[84:]
-        url_content = url_content.replace("STARTPAGE_DISPATCH", "COURSERESULTS")
-        semester_ids_response = requests.get(url_content, cookies=login_response.cookies)
-        if not semester_ids_response.ok:
-            abort(semester_ids_response.status_code)
+    data = {"usrname": user, "pass": password,
+            "APPNAME": "CampusNet",
+            "PRGNAME": "LOGINCHECK",
+            "ARGUMENTS": "clino,usrname,pass,menuno,menu_type, browser,platform",
+            "clino": "000000000000001",
+            "menuno": "000324",
+            "menu_type": "classic",
+            "browser": "",
+            "platform": ""
+            }
+    # return dualis response code, if response code is not 200
+    login_response = requests.post(url, data=data, headers=None, verify=True, cookies=cookie_request.cookies)
+    arguments = login_response.headers['REFRESH']
+    if not login_response.ok:
+        abort(login_response.status_code)
 
-        # get ids of all semester, replaces -N ...
-        soup = BeautifulSoup(semester_ids_response.content, 'html.parser')
-        options = soup.find_all('option')
-        semester_ids = [option['value'] for option in options]
-        semester_urls = [url_content[:-15] + semester_id for semester_id in semester_ids]
+    # redirecting to course results...
+    url_content = BASE_URL + "/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=STARTPAGE_DISPATCH&ARGUMENTS=" + arguments[84:]
+    url_content = url_content.replace("STARTPAGE_DISPATCH", "COURSERESULTS")
+    semester_ids_response = requests.get(url_content, cookies=login_response.cookies)
+    if not semester_ids_response.ok:
+        abort(semester_ids_response.status_code)
 
-        # search for all unit_urls in parallel
-        with futures.ThreadPoolExecutor(8) as semester_pool:
-            tmp = semester_pool.map(parse_semester, semester_urls, [login_response.cookies] * len(semester_urls))
-        unit_urls = list(itertools.chain.from_iterable(tmp))
+    # get ids of all semester, replaces -N ...
+    soup = BeautifulSoup(semester_ids_response.content, 'html.parser')
+    options = soup.find_all('option')
+    semester_ids = [option['value'] for option in options]
+    semester_urls = [url_content[:-15] + semester_id for semester_id in semester_ids]
 
-        # query all unit_urls to obtain grades in parallel
-        with futures.ThreadPoolExecutor(8) as detail_pool:
-            semester = detail_pool.map(parse_unit, unit_urls, [login_response.cookies] * len(unit_urls))
-        units.extend(semester)
+    # search for all unit_urls in parallel
+    with futures.ThreadPoolExecutor(8) as semester_pool:
+        tmp = semester_pool.map(parse_semester, semester_urls, [login_response.cookies] * len(semester_urls))
+    unit_urls = list(itertools.chain.from_iterable(tmp))
 
-        # find logout url in html source code and logout
-        logout_url = BASE_URL + soup.find('a', {'id': 'logoutButton'})['href']
-        logout(logout_url, cookie_request.cookies)
-        # return dict containing units and exams as valid json
+    # query all unit_urls to obtain grades in parallel
+    with futures.ThreadPoolExecutor(8) as detail_pool:
+        semester = detail_pool.map(parse_unit, unit_urls, [login_response.cookies] * len(unit_urls))
+    units.extend(semester)
 
-        return jsonify(units), 200
+    # find logout url in html source code and logout
+    logout_url = BASE_URL + soup.find('a', {'id': 'logoutButton'})['href']
+    logout(logout_url, cookie_request.cookies)
+    # return dict containing units and exams as valid json
 
-    return app
+    return jsonify(units), 200
 
 
 def parse_student_results(url, cookies):
@@ -160,5 +158,4 @@ def logout(url, cookies):
 
 
 if __name__ == '__main__':
-    app = create_app()
     app.run(port=5555, host="0.0.0.0")
