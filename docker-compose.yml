@@ -1,13 +1,13 @@
 version: "3.9"
 
 services:
-  # education-service:
-  #   container_name: education-container
-  #   build:
-  #     context: ./education-service
-  #   ports:
-  #     - "5555:5555"
-  #   restart: always
+  education-service:
+    container_name: education-container
+    build: ./src/backend/services/education-service
+    image: education-service:1.0
+    ports:
+      - "5550:5550"
+    restart: always
 
   t2s-s2t-service:
     container_name: t2s-s2t-container
