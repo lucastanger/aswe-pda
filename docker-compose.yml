@@ -1,28 +1,37 @@
-# Docker Engine release 18.06.0+
-version: "3.7"
+version: "3.9"
 
 services:
   education-service:
-    container_name: education-service
-    build:
-      context: ./education-service
+    container_name: education-container
+    build: ./src/backend/services/education-service
+    image: education-service:1.0
     ports:
-      - 5555:5555
+      - "5550:5550"
     restart: always
 
   t2s-s2t-service:
-    container_name: t2s-s2t-service
-    build:
-      context: ./t2s-s2t-service
+    container_name: t2s-s2t-container
+    build: ./src/backend/services/t2s-s2t-service
+    image: t2s-s2t-service:1.0
     ports:
-      - 5560:5560
+      - "5555:5555"
+    env_file:
+      - ./src/backend/services/t2s-s2t-service/ibm-credentials-t2s.env
+      - ./src/backend/services/t2s-s2t-service/ibm-credentials-s2t.env
     restart: always
 
   calendar-service:
-    container_name: calendar-service
-    build:
-      context: ./calendar-service
+    container_name: calendar-container
+    build: ./src/backend/services/calendar-service
+    image: calendar-service:1.0
     ports:
-      - 5565:5565
+      - "5560:5560"
     restart: always
-  # TODO: Add more services
+
+  spotify-service:
+    container_name: spotify-container
+    build: ./src/backend/services/spotify-service
+    image: spotify-service:1.0
+    ports:
+      - "5565:5565"
+    restart: always

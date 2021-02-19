@@ -1,0 +1,17 @@
+# Secrets
+.secrets
+
+# Enviroments
+.env
+venv
+
+# Idea configuration
+.idea
+
+# Coverage reports
+.coverage
+htmlcov
+coverage-report
+
+# Python
+__pycache__
