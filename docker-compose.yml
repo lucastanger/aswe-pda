@@ -35,3 +35,11 @@ services:
     ports:
       - "5565:5565"
     restart: always
+    
+  maps-service:
+    container_name: maps-container
+    build: ./src/backend/services/maps-service
+    image: maps-service:1.0
+    ports:
+      - "5580:5580"
+    restart: always
