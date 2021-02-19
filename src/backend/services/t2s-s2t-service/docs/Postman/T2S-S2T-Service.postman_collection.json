@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "f733c75f-7053-4ad9-b9f4-b51ff03b1ce1",
+		"name": "T2S/S2T-Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST synthesize",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"Hier könnte Ihre Werbung stehen.\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/{{baseurl}}/synthesize",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{baseurl}}",
+						"synthesize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST recognize",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "audio",
+							"type": "file",
+							"src": "wetter.wav"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/{{baseurl}}/recognize",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{baseurl}}",
+						"recognize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recognize",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/{{baseurl}}/recognize",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{baseurl}}",
+						"recognize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET synthesize",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/{{baseurl}}/synthesize",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{baseurl}}",
+						"synthesize"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

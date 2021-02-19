@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  title: REST-API for T2S/S2T-Service
+  description: Use this Service to transfer Text to Speech and Speech.
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: flo.drinkler@gmail.com
+    url: https://floriandrinkler.com
+  license:
+   name: MIT License
+   url: https://github.com/lucastanger/aswe-pda/blob/main/LICENSE
+  
+servers:
+  - url: http://localhost:5555/rest/api/v1
+    description: Development server (using locally)
+  - url: http://0.0.0.0:5555/rest/api/v1
+    description: Production server (inside Docker)
+
+paths:
+  /synthesize:
+    get:
+      summary: Check if path is accessable.
+      description: Returns information about how to transfer text to speech.
+      tags:
+        - Text to Speech
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Information about how to transfer text to speech.
+                example:
+                  message: To transfer text to speech use POST /rest/api/v1/synthesize.
+                required:
+                  - message
+    post:
+      summary: Transfer text to speech.
+      description: Receives text in json. Returns audio file.
+      tags:
+        - Text to Speech
+      requestBody:
+        description: Text which will be synthesized.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: Text which will be synthesized.
+              required:
+                - text
+      responses:
+        '200':
+          description: OK
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                    example:
+                      text: Missing required parameter in the JSON
+        '500':
+          description: Internal Server Error
+          
+  /recognize:
+    get:
+      summary: Check if path is accessable.
+      description: Returns information about how to transfer text to speech.
+      tags:
+        - Speech to Text
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Information about how to transfer speech to text.
+                example:
+                  message: To transfer text to speech use POST /rest/api/v1/recognize.
+                required:
+                  - message
+    post:
+      summary: Transfer speech to text.
+      description: Receives audio file. Returns text in json.
+      tags:
+        - Speech to Text
+      requestBody:
+        description: Audio which will be recognized.
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                audio:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+               schema:
+                type: object
+                properties:
+                  text:
+                    type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
