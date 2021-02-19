@@ -16,8 +16,6 @@ servers:
     description: Development server (using locally)
   - url: http://0.0.0.0:5555/rest/api/v1
     description: Production server (inside Docker)
-  - url: http://localhost:5556/rest/api/v1
-    description: Production server (using docker-compose)
 
 paths:
   /synthesize:
