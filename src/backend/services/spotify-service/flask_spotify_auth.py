@@ -15,10 +15,11 @@ CLIENT_ID = "4648b6cee4344e04b4c2a46d2f83a1e6"
 CLIENT_SECRET = "b5512349cd434a04858487754e11d1e6"
 
 PORT = "5565"
-CALLBACK_URL = "http://0.0.0.0"
+CALLBACK_URL = "http://127.0.0.1"
 
 REDIRECT_URI = "{}:{}/callback/".format(CALLBACK_URL, PORT)
-SCOPE = "playlist-modify-public playlist-modify-private user-read-recently-played user-top-read"
+SCOPE = "playlist-modify-public playlist-modify-private user-read-recently-played user-top-read " \
+        "user-modify-playback-state "
 
 auth_query_parameters = {
     "response_type": "code",
@@ -29,12 +30,6 @@ auth_query_parameters = {
 URL_ARGS = "client_id={}&response_type={}&redirect_uri={}&scope={}".format(CLIENT_ID, RESPONSE_TYPE, REDIRECT_URI, SCOPE )
 
 AUTH_URL = "{}{}".format(SPOTIFY_URL_AUTH, URL_ARGS)
-
-
-def getAuth(client_id, redirect_uri, scope):
-    data = "{}client_id={}&response_type=code&redirect_uri={}&scope={}".format(SPOTIFY_URL_AUTH, client_id,
-                                                                               redirect_uri, scope)
-    return data
 
 
 def getToken(code):
