@@ -1,23 +1,38 @@
+# Imports.
 import unittest
 import json
 
-from server import app
+# Import setup and teardown.
+from tests.BaseCase import BaseCase
 
-class SynthesizeTest(unittest.TestCase):
 
-    def setUp(self):
-        self.app = app.test_client()
-
+class SynthesizeTest(BaseCase):
     def test_successful_synthesize_get(self):
-        # Given
-        message = 'To transfer text to speech use POST /rest/api/v1/synthesize.'
+        # Arrange
+        message = "To transfer text to speech use POST /rest/api/v1/synthesize."
 
-        # When
-        response = self.app.get('/rest/api/v1/synthesize')
+        # Act
+        response = self.app.get("/rest/api/v1/synthesize")
 
-        # Then
-        self.assertEqual(message, response.json['message'])
-        self.assertEqual(200, response.status_code)
+        # Assert
+        self.assertEqual(response.json["message"], message)
+        self.assertEqual(response.status_code, 200)
 
-    def tearDown(self):
-        pass
+    def test_successful_synthesize_post(self):
+        # Arrange
+        payload = json.dumps({"text": "Test"})
+
+        # Act
+        response = self.app.post(
+            "rest/api/v1/synthesize",
+            headers={"Content-Type": "application/json"},
+            data=payload,
+        )
+
+        # Assert
+        self.assertEqual(
+            response.headers["Content-Disposition"],
+            "attachment; filename=text2speech.wav",
+        )
+        self.assertEqual(response.headers["Content-Type"], "audio/wav")
+        self.assertEqual(response.status_code, 200)
