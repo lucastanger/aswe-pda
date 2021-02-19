@@ -11,3 +11,4 @@ COPY . .
 EXPOSE 5555
 
 CMD ["python", "server.py"]
+
