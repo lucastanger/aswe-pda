@@ -35,3 +35,11 @@ services:
     ports:
       - "5565:5565"
     restart: always
+
+  weather-service:
+    container_name: weather-container
+    build: ./src/backend/services/weather-service
+    image: weather-service:1.0
+    ports:
+      - "5570:5570"
+    restart: always
