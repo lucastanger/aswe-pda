@@ -2,7 +2,7 @@ version: '3.2'
 services:
   web:
     container_name: web-server
-    image: awse-pda:2021
+    image: aswe-pda-frontend:1.0
     ports:
     - 8080:80
     networks:
