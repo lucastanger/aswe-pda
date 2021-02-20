@@ -33,7 +33,7 @@ def getUserTop(auth_header, t):
         return None
     url = "{}/{type}?time_range=long_term".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=t)
     resp = requests.get(url, headers=auth_header)
-    print(resp)
+    return resp.json()
 
 
 def getUserRecentlyPlayed(auth_header):

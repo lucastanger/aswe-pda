@@ -33,22 +33,32 @@ def valid_token(resp):
 @app.route("/profile")
 def prof():
     if 'auth_header' in session:
+
+        return "Authentifizierung erfolgreich!"
+
+
+@app.route("/profile/<search_type>")
+def profileInfos(search_type):
+    if 'auth_header' in session:
         auth_header = session['auth_header']
 
-        profile_data = profile.getUserProfile(auth_header)
+        if search_type == 'info':
+            data = profile.getUserProfile(auth_header)
+        elif search_type == 'playlist':
+            data = profile.getUserPlaylists(auth_header)
+        elif search_type == 'artists':
+            data = profile.getUserTop(auth_header, 'artists')
+        elif search_type == 'tracks':
+            data = profile.getUserTop(auth_header, 'tracks')
+        elif search_type == 'recent':
+            data = profile.getUserRecentlyPlayed(auth_header)
+        elif search_type == 'featured':
+            data = profile.getFeaturedPlaylists(auth_header)
+        else:
+            return "Invalid Input"
 
-        playlist_data = profile.getUserPlaylists(auth_header)
-
-        top_artist_data = profile.getUserTop(auth_header, 'artists')
-
-        top_tracks_data = profile.getUserTop(auth_header, 'tracks')
-
-        recently_played_data = profile.getUserRecentlyPlayed(auth_header)
-
-        featured_playlist_data = profile.getFeaturedPlaylists(auth_header)
-
-        if valid_token(profile_data):
-            return json.dumps(playlist_data, indent=4)
+        if valid_token(data):
+            return json.dumps(data, indent=4)
 
 
 @app.route("/play")
@@ -59,7 +69,7 @@ def play():
         play = profile.startMusic(auth_header)
 
         if valid_token(play):
-            return "Play"
+            return
 
 
 @app.route("/pause")
@@ -70,7 +80,7 @@ def pause():
         play = profile.pauseMusic(auth_header)
 
         if valid_token(play):
-            return "Pause"
+            return
 
 
 if __name__ == '__main__':

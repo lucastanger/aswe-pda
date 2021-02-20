@@ -19,7 +19,7 @@ CALLBACK_URL = "http://127.0.0.1"
 
 REDIRECT_URI = "{}:{}/callback/".format(CALLBACK_URL, PORT)
 SCOPE = "playlist-modify-public playlist-modify-private user-read-recently-played user-top-read " \
-        "user-modify-playback-state "
+        "user-modify-playback-state user-read-private"
 
 auth_query_parameters = {
     "response_type": "code",
