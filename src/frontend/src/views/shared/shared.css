@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .min-vh-80 {
     min-height: 80vh;
 }
