@@ -42,3 +42,21 @@ function createChatElement(messagePayload) {
     div.appendChild(message);
     return div;
 }
+
+// Event Listener for Sidebar Navigation
+for (let elem of document.getElementsByClassName('c-sidebar')) {
+    // Add Event Listener
+    document.getElementById(elem.id).addEventListener("click", function (event) {
+
+        // Define list of all containers
+        let containers = ['chatContainer', 'historyContainer', 'profileContainer', 'designContainer'];
+
+        // Enable hidden state on all containers
+        for (let c of containers) {
+            document.getElementById(c).classList.add('hidden');
+        }
+
+        // Remove hidden state from currently displayed container
+        document.getElementById(elem.id.replace('link', '')+'Container').classList.remove('hidden');
+    });
+}
