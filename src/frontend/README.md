@@ -2,9 +2,11 @@
 > A website that offers a UI for the PDA.
 
 ![PHP Version][php-image]
+![Node.js Version][node-image]
 ![Docker compose Version][dockercompose-image]
 ![Docker Version][docker-image]
 ![Composer Version][composer-image]
+![NPM Version][npm-image]
 
 ## Development Setup
 Choose one of the following setup methods to run the frontend:
@@ -87,9 +89,10 @@ Installation:
 4. Open installed browser extension and enable debug
 
 <!-- Markdown link & img dfn's -->
-[php-image]: https://img.shields.io/badge/php-v7.4.3-brightgreen?style=flat-square&logo=php
-[composer-image]: https://img.shields.io/badge/composer-v1.9.3-brightgreen?style=flat-square&logo=composer
-[bootstrap-image]: https://img.shields.io/badge/bootstrap-v4.3.1-brightgreen?style=flat-square&logo=bootstrap
-[docker-image]: https://img.shields.io/badge/docker-v20.10+-brightgreen?style=flat-square&logo=docker
-[dockercompose-image]: https://img.shields.io/badge/dockercompose-v1.25.0+-brightgreen?style=flat-square&logo=docker
-[apache-image]: https://img.shields.io/badge/apache-v2.4.41+-brightgreen?style=flat-square&logo=apache
+[php-image]: https://img.shields.io/badge/php-7.4.3-brightgreen?style=flat-square&logo=php
+[composer-image]: https://img.shields.io/badge/composer-1.9.3-brightgreen?style=flat-square&logo=composer
+[bootstrap-image]: https://img.shields.io/badge/bootstrap-4.3.1-brightgreen?style=flat-square&logo=bootstrap
+[docker-image]: https://img.shields.io/badge/docker-20.10+-brightgreen?style=flat-square&logo=docker
+[dockercompose-image]: https://img.shields.io/badge/dockercompose-1.25.0+-brightgreen?style=flat-square&logo=docker
+[node-image]: https://img.shields.io/badge/node-12.13.0+-brightgreen?style=flat-square&logo=node.js
+[npm-image]: https://img.shields.io/badge/npm-~7.5.3-brightgreen?style=flat-square&logo=npm
