@@ -4,6 +4,9 @@ composer.phar
 composer.lock
 /src/resources/assets
 
+##### Node
+/node_modules
+.npm
 
 ##### PHP CodeSniffer
 # gitignore for the PHP Codesniffer framework

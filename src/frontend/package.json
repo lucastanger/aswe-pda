@@ -1,18 +1,10 @@
 {
-  "name": "frontend",
-  "version": "1.0.0",
-  "description": "> A website that offers a UI for the PDA.",
-  "main": "index.js",
-  "scripts": {
-    "dev": "vite"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^10.2.4",
     "postcss": "^8.2.6",
-    "tailwindcss": "^2.0.3",
-    "vite": "^2.0.1"
+    "tailwindcss": "^2.0.3"
+  },
+  "scripts": {
+    "postinstall": "sh ./npm-post-install.sh"
   }
 }
