@@ -1,0 +1,15 @@
+.git
+.gitignore
+.dockerignore
+Dockerfile
+
+# Idea configuration
+.idea
+
+# Coverage reports
+.coverage
+htmlcov
+coverage-report
+
+# Python
+__pycache__
