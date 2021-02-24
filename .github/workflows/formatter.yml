@@ -1,9 +1,9 @@
 name: Black Formatter 
 
-on: [pull_request]
+on: pull_request
 
 jobs:
-  build:
+  format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -15,10 +15,6 @@ jobs:
         run: pip install black
       - name: Run black --check .
         run: black --check .
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
       - name: If needed, commit black changes to the pull request
         if: failure()
         run: |
@@ -26,6 +22,7 @@ jobs:
           git config --global user.name 'Black Formatter'
           git config --global user.email 'flo.drinkler@gmail.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          git checkout ${{ steps.extract_branch.outputs.branch }}
+          git checkout $GITHUB_HEAD_REF
+          echo $GITHUB_HEAD_REF
           git commit -am ":art: Black Formatter: Format Python code with Black"
-          git push origin
+          git push origin $GITHUB_HEAD_REF
