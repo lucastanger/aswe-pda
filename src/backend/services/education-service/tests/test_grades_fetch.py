@@ -9,11 +9,8 @@ def test_grades_fetch():
     :return:
     """
     response = app.test_client().get(
-        '/rest/api/v1/grades/',
-        data=json.dumps({
-            'username': 'testuser',
-            'password': 'testpw'
-        }),
+        "/rest/api/v1/grades/",
+        data=json.dumps({"username": "testuser", "password": "testpw"}),
     )
 
     # data = json.loads(response.get_data(as_text=True))
