@@ -43,3 +43,17 @@ services:
     ports:
       - "5580:5580"
     restart: always
+
+  apache-webserver:
+    container_name: frontend-container
+    build: ./src/frontend
+    ports:
+      - 8080:80
+    volumes:
+      - type: bind
+        source: "./src/frontend/src"
+        target: "/var/www/html"
+      - webserver:/data
+
+volumes:
+  webserver:
