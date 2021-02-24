@@ -22,7 +22,7 @@ paths:
       summary: Check if path is accessable.
       description: Returns a personalized user token to create requests.
       tags:
-        - Spotify
+        - Spotify authentication
       responses:
         '200':
           description: OK
@@ -44,7 +44,7 @@ paths:
       summary: Check if path is accessable.
       description: Returns information about the Spotify profile informatio.
       tags:
-        - Spotify profile info
+        - Spotify profile features
       externalDocs:
         description: Spotify Web API Reference
         url: https://developer.spotify.com/documentation/web-api/reference/#category-user-profile
@@ -132,7 +132,7 @@ paths:
       summary: Check if path is accessable.
       description: Returns information about the associated playlists of the Spotify profile.
       tags:
-        - Spotify playlist info
+        - Spotify profile features
       externalDocs:
         description: Spotify Web API Reference
         url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
@@ -142,32 +142,213 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    collaborative:
-                      type: boolean
-                    external_urls:
+                type: object
+                properties:
+                  href:
+                    type: string
+                    example: https://api.spotify.com/v1/users/wizzler/playlists
+                  items:
+                    type: array
+                    items:
                       type: object
                       properties:
-                        spotify:
+                        collaborative:
+                          type: boolean
+                        external_urls:
+                          type: object
+                          properties:
+                            spotify:
+                              type: string
+                              example: http://open.spotify.com/user/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c
+                        href:
                           type: string
-                          example: http://open.spotify.com/user/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c
-                    href:
-                      type: string
-                      example: https://api.spotify.com/v1/users/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c
-                    id:
-                      type: string
-                      example: 53Y8wT46QIMz5H4WQ8O22c
-                    images:
+                          example: https://api.spotify.com/v1/users/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c
+                        id:
+                          type: string
+                          example: 53Y8wT46QIMz5H4WQ8O22c
+                        images:
+                          type: array
+                          items:
+                            type: object
+                            example:
+                        name:
+                          type: string
+                          example: Wizzlers Big Playlist
+                        owner:
+                          type: object
+                          properties:
+                            external_urls:
+                              type: object
+                              properties:
+                                spotify:
+                                  type: string
+                                  example: http://open.spotify.com/user/wizzler
+                            href:
+                              type: string
+                              example: https://api.spotify.com/v1/users/wizzler
+                            id:
+                              type: string
+                              example: wizzler
+                            type:
+                              type: string
+                              example: user
+                            uri:
+                              type: string
+                              example: spotify:user:wizzler
+                        public:
+                          type: boolean
+                        snapshot_id:
+                          type: string
+                          example: bNLWdmhh+HDsbHzhckXeDC0uyKyg4FjPI/KEsKjAE526usnz2LxwgyBoMShVL+z+
+                        tracks:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: https://api.spotify.com/v1/users/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c/tracks
+                            total:
+                              type: integer
+                              format: int32
+                              example: 30
+                        type:
+                          type: string
+                          example: playlist
+                        uri:
+                          type: string
+                          example: spotify:user:wizzler:playlist:53Y8wT46QIMz5H4WQ8O22c
+                  limit:
+                    type: integer
+                    format: int32
+                    example: 9
+                  next:
+                    type: string
+                    format: nullable
+                  offset:
+                    type: integer
+                    format: int32
+                    example: 0
+                  previous:
+                    type: string
+                    format: nullable
+                  total:
+                    type: integer
+                    format: int32
+                    example: 9
+  /profile/artists:
+      get:
+        summary: Check if path is accessable.
+        description: Returns information about the top listened artists.
+        tags:
+          - Spotify profile features
+        externalDocs:
+          description: Spotify Web API Reference
+          url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    items:
                       type: array
                       items:
-                        example:
-                    name:
+                        type: object
+                        properties:
+                          external_urls:
+                            type: object
+                            properties:
+                              spotify:
+                                type: string
+                                example: https://open.spotify.com/artist/0I2XqVXqHScXjHhk6AYYRe
+                          followers:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                                format: nullable
+                              total:
+                                type: integer
+                                format: int32
+                                example: 7753
+                          genres:
+                            type: array
+                            items:
+                              type: string
+                              example: swedish hip hop
+                          href:
+                            type: string
+                            example: https://api.spotify.com/v1/artists/0I2XqVXqHScXjHhk6AYYRe
+                          id:
+                            type: string
+                            example: 0I2XqVXqHScXjHhk6AYYRe
+                          images:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                height:
+                                  type: integer
+                                  format: int32
+                                  example: 640
+                                url:
+                                  type: string
+                                  example: https://i.scdn.co/image/2c8c0cea05bf3d3c070b7498d8d0b957c4cdec20
+                                width:
+                                  type: integer
+                                  format: int32
+                                  example: 640
+                          name:
+                            type: string
+                            example: Afasi & Filthy
+                          popularity:
+                            type: integer
+                            format: int32
+                            example: 54
+                          type:
+                            type: string
+                            example: artist
+                          uri:
+                            type: string
+                            example: spotify:artist:0I2XqVXqHScXjHhk6AYYRe
+                    next:
                       type: string
-                      example: Wizzlers Big Playlist
-                    owner:
+                      example: https://api.spotify.com/v1/me/top/artists?offset=20
+                    previous:
+                      type: string
+                      format: nullable
+                    total:
+                      type: integer
+                      format: int32
+                      example: 50
+                    limit:
+                      type: integer
+                      format: int32
+                      example: 20
+                    href:
+                      type: string
+                      example: https://api.spotify.com/v1/me/top/artists
+  /profile/tracks:
+    get:
+      summary: Check if path is accessable.
+      description: Returns information about the top listened tracks.
+      tags:
+        - Spotify profile features
+      externalDocs:
+        description: Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
                       type: object
                       properties:
                         external_urls:
@@ -175,54 +356,365 @@ paths:
                           properties:
                             spotify:
                               type: string
-                              example: http://open.spotify.com/user/wizzler
+                              example: https://open.spotify.com/artist/0I2XqVXqHScXjHhk6AYYRe
+                        followers:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              format: nullable
+                            total:
+                              type: integer
+                              format: int32
+                              example: 7753
+                        genres:
+                          type: array
+                          items:
+                            type: string
+                            example: swedish hip hop
                         href:
                           type: string
-                          example: https://api.spotify.com/v1/users/wizzler
+                          example: https://api.spotify.com/v1/artists/0I2XqVXqHScXjHhk6AYYRe
                         id:
                           type: string
-                          example: wizzler
+                          example: 0I2XqVXqHScXjHhk6AYYRe
+                        images:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              height:
+                                type: integer
+                                format: int32
+                                example: 640
+                              url:
+                                type: string
+                                example: https://i.scdn.co/image/2c8c0cea05bf3d3c070b7498d8d0b957c4cdec20
+                              width:
+                                type: integer
+                                format: int32
+                                example: 640
+                        name:
+                          type: string
+                          example: Afasi & Filthy
+                        popularity:
+                          type: integer
+                          format: int32
+                          example: 54
                         type:
                           type: string
-                          example: user
+                          example: artist
                         uri:
                           type: string
-                          example: spotify:user:wizzler
-                    public:
-                      type: boolean
-                    snapshot_id:
-                      type: string
-                      example: bNLWdmhh+HDsbHzhckXeDC0uyKyg4FjPI/KEsKjAE526usnz2LxwgyBoMShVL+z+
-                    tracks:
+                          example: spotify:artist:0I2XqVXqHScXjHhk6AYYRe
+                  next:
+                    type: string
+                    example: https://api.spotify.com/v1/me/top/artists?offset=20
+                  previous:
+                    type: string
+                    format: nullable
+                  total:
+                    type: integer
+                    format: int32
+                    example: 50
+                  limit:
+                    type: integer
+                    format: int32
+                    example: 20
+                  href:
+                    type: string
+                    example: https://api.spotify.com/v1/me/top/artists
+  /profile/recent:
+    get:
+      summary: Check if path is accessable.
+      description: Returns information about the recent listened tracks.
+      tags:
+        - Spotify profile features
+      externalDocs:
+        description: Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#category-player
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
                       type: object
                       properties:
-                        href:
+                        track:
+                          type: object
+                          properties:
+                            artists:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  external_urls:
+                                    type: object
+                                    properties:
+                                      spotify:
+                                        type: string
+                                        example: https://open.spotify.com/artist/5INjqkS1o8h1imAzPqGZBb
+                                  href:
+                                    type: string
+                                    example: https://api.spotify.com/v1/artists/5INjqkS1o8h1imAzPqGZBb
+                                  id:
+                                    type: string
+                                    example: 5INjqkS1o8h1imAzPqGZBb
+                                  name:
+                                    type: string
+                                    example: Tame Impala
+                                  type:
+                                    type: string
+                                    example: artist
+                                  uri:
+                                    type: string
+                                    example: spotify:artist:5INjqkS1o8h1imAzPqGZBb
+                            available_markets:
+                              type: array
+                              items:
+                                type: string
+                                example: CA
+                            disc_number:
+                              type: integer
+                              format: int32
+                              example: 1
+                            duration_ms:
+                              type: integer
+                              format: int32
+                              example: 108546
+                            explicit:
+                              type: boolean
+                            external_urls:
+                              type: object
+                              properties:
+                                spotify:
+                                  type: string
+                                  example: https://open.spotify.com/track/2gNfxysfBRfl9Lvi9T3v6R
+                            href:
+                              type: string
+                              example: https://api.spotify.com/v1/tracks/2gNfxysfBRfl9Lvi9T3v6R
+                            id:
+                              type: string
+                              example: 2gNfxysfBRfl9Lvi9T3v6R
+                            name:
+                              type: string
+                              example: Disciples
+                            preview_url:
+                              type: string
+                              example: https://p.scdn.co/mp3-preview/6023e5aac2123d098ce490488966b28838b14fa2
+                            track_number:
+                              type: integer
+                              format: int32
+                              example: 9
+                            type:
+                              type: string
+                              example: track
+                            uri:
+                              type: string
+                              example: spotify:track:2gNfxysfBRfl9Lvi9T3v6R
+                        played_at:
                           type: string
-                          example: https://api.spotify.com/v1/users/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c/tracks
-                        total:
-                          type: integer
-                          format: int32
-                          example: 30
-                    type:
-                      type: string
-                      example: playlist
-                    uri:
-                      type: string
-                      example: spotify:user:wizzler:playlist:53Y8wT46QIMz5H4WQ8O22c
+                          example: 2016-12-13T20:44:04.589Z
+                        context:
+                          type: object
+                          properties:
+                            uri:
+                              type: string
+                              example: spotify:artist:5INjqkS1o8h1imAzPqGZBb
+                            external_urls:
+                              type: object
+                              properties:
+                                spotify:
+                                  type: string
+                                  example: https://open.spotify.com/artist/5INjqkS1o8h1imAzPqGZBb
+                            href:
+                              type: string
+                              example: https://api.spotify.com/v1/artists/5INjqkS1o8h1imAzPqGZBb
+                            type:
+                              type: string
+                              example: artist
+                  next:
+                    type: string
+                    example: https://api.spotify.com/v1/me/player/recently-played?before=1481661737016&limit=2
+                  cursors:
+                    type: object
+                    properties:
+                      after:
+                        type: string
+                        example: 1481661844589
+                      before:
+                        type: string
+                        example: 1481661737016
+                  limit:
+                    type: integer
+                    format: int32
+                    example: 2
+                  href:
+                    type: string
+                    example: https://api.spotify.com/v1/me/player/recently-played?limit=2
+  /profile/featured:
+    get:
+      summary: Check if path is accessable.
+      description: Returns information about the featured playlists.
+      tags:
+        - Spotify profile features
+      externalDocs:
+        description: Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#category-player
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Monday morning music coming right up!
+                  playlists:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api.spotify.com/v1/browse/featured-playlists?country=SE&timestamp=2015-05-18T06:44:32&offset=0&limit=2
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            collaborative:
+                              type: boolean
+                            description:
+                              type: string
+                              example: Relaxed deep house to slowly help you get back on your feet and ready yourself for a productive week.
+                            external_urls:
+                              type: object
+                              properties:
+                                spotify:
+                                  type: string
+                                  example: http://open.spotify.com/user/spotify/playlist/6ftJBzU2LLQcaKefMi7ee7
+                            href:
+                              type: string
+                              example: https://api.spotify.com/v1/users/spotify/playlists/6ftJBzU2LLQcaKefMi7ee7
+                            id:
+                              type: string
+                              example: 6ftJBzU2LLQcaKefMi7ee7
+                            images:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  height:
+                                    type: integer
+                                    format: int32
+                                    example: 300
+                                  url:
+                                    type: string
+                                    example: https://i.scdn.co/image/7bd33c65ebd1e45975bbcbbf513bafe272f033c7
+                                  width:
+                                    type: integer
+                                    format: int32
+                                    example: 300
+                            name:
+                              type: string
+                              example: Monday Morning Mood
+                            owner:
+                              type: object
+                              properties:
+                                external_urls:
+                                  type: object
+                                  properties:
+                                    spotify:
+                                      type: string
+                                      example: http://open.spotify.com/user/spotify
+                                href:
+                                  type: string
+                                  example: https://api.spotify.com/v1/users/spotify
+                                id:
+                                  type: string
+                                  example: spotify
+                                type:
+                                  type: string
+                                  example: user
+                                uri:
+                                  type: string
+                                  example: spotify:user:spotify
+                            public:
+                              type: string
+                              format: nullable
+                            snapshot_id:
+                              type: string
+                              example: WwGvSIVUkUvGvqjgj/bQHlRycYmJ2TkoIxYfoalWlmIZT6TvsgvGMgtQ2dGbkrAW
+                            tracks:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api.spotify.com/v1/users/spotify/playlists/6ftJBzU2LLQcaKefMi7ee7/tracks
+                                total:
+                                  type: integer
+                                  format: int32
+                                  example: 245
+                            type:
+                              type: string
+                              example: playlist
+                            uri:
+                              type: string
+                              example: spotify:user:spotify:playlist:6ftJBzU2LLQcaKefMi7ee7
+                      limit:
+                        type: integer
+                        format: int32
+                        example: 2
+                      next:
+                        type: string
+                        example: https://api.spotify.com/v1/browse/featured-playlists?country=SE&timestamp=2015-05-18T06:44:32&offset=2&limit=2
+                      offset:
+                        type: integer
+                        format: int32
+                        example: 0
+                      previous:
+                        type: string
+                        format: nullable
+                      total:
+                        type: integer
+                        format: int32
+                        example: 12
+  /play:
+    get:
+      summary: Check if path is accessable.
+      description: Starts music playback.
+      tags:
+        - Spotify player features
+      externalDocs:
+        description: Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
+      responses:
+        '204':
+          description: NO CONTENT
+        '404':
+          description: NOT FOUND
         '403':
-            description: Forbidden
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    error:
-                      type: object
-                      properties:
-                        status:
-                          type: integer
-                          format: int32
-                          example: 403
-                        message:
-                          type: string
-                          example: Forbidden
+          description: FORBIDDEN
+  /pause:
+    get:
+      summary: Check if path is accessable.
+      description: Pauses music playback.
+      tags:
+        - Spotify player features
+      externalDocs:
+        description: Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
+      responses:
+        '204':
+          description: NO CONTENT
+        '404':
+          description: NOT FOUND
+        '403':
+          description: FORBIDDEN
