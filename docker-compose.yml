@@ -83,6 +83,14 @@ services:
     depends_on:
       - mongo
 
+  middleware:
+    container_name: middleware-container
+    build: ./src/backend/middleware
+    image: middleware:1.0
+    ports:
+      - "5600:5600"
+    restart: always
+
 volumes:
   webserver:
   mongo:
