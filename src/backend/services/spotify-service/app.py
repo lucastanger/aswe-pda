@@ -5,17 +5,17 @@ app = Flask(__name__)
 app.secret_key = 'some key for session'
 
 
-@app.route("/")
+@app.route('/')
 def home():
-    return "Spotify Service"
+    return 'Spotify Service'
 
 
-@app.route("/auth")
+@app.route('/auth')
 def auth():
     return redirect(flask_spotify_auth.AUTH_URL)
 
 
-@app.route("/callback/")
+@app.route('/callback/')
 def callback():
 
     auth_token = request.args['code']
@@ -29,7 +29,7 @@ def valid_token(resp):
     return resp is not None and not 'error' in resp
 
 
-@app.route("/profile")
+@app.route('/profile')
 def prof():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -41,8 +41,8 @@ def prof():
         recently_played = profile.getUserRecentlyPlayed(auth_header)
 
         if valid_token(recently_played):
-            return "Profildaten gefunden!"
+            return 'Profildaten gefunden!'
 
 
 if __name__ == '__main__':
-    app.run(port=5565, host="0.0.0.0")
+    app.run(port=5565, host='0.0.0.0')

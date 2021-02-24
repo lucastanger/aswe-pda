@@ -29,7 +29,7 @@ class Synthesize(Resource):
         """
 
         return {
-            "message": "To transfer text to speech use POST /rest/api/v1/synthesize."
+            'message': 'To transfer text to speech use POST /rest/api/v1/synthesize.'
         }
 
     def post(self):
@@ -41,23 +41,23 @@ class Synthesize(Resource):
 
         # Extract text from request body.
         parser = reqparse.RequestParser()
-        parser.add_argument("text", required=True, location="json")
+        parser.add_argument('text', required=True, location='json')
         args = parser.parse_args(strict=True)
-        text = args["text"]
+        text = args['text']
 
         # Create static audio folder if not exists.
-        Path("./static/audio").mkdir(parents=True, exist_ok=True)
+        Path('./static/audio').mkdir(parents=True, exist_ok=True)
 
         # Create audio file.
-        audio_file = wave.open("static/audio/text2speech.wav", "wb")
-        audio_file.setparams((1, 2, 22050, 0, "NONE", "Uncompressed"))
+        audio_file = wave.open('static/audio/text2speech.wav', 'wb')
+        audio_file.setparams((1, 2, 22050, 0, 'NONE', 'Uncompressed'))
 
         # Synthesize.
         try:
             audio_file.writeframes(
                 # Synthesize text to speech.
                 self.text_to_speech.synthesize(
-                    text, voice="de-DE_ErikaV3Voice", accept="audio/wav"
+                    text, voice='de-DE_ErikaV3Voice', accept='audio/wav'
                 )
                 .get_result()
                 .content
@@ -65,8 +65,8 @@ class Synthesize(Resource):
         except ApiException as ex:
             # Raise exception if HTTP response code is in the 4xx and 5xx range.
             response = {
-                "info": "Error caused by internal service",
-                "error": {"code": ex.code, "message": ex.message},
+                'info': 'Error caused by internal service',
+                'error': {'code': ex.code, 'message': ex.message},
             }
             return response, 500
         finally:
@@ -75,8 +75,8 @@ class Synthesize(Resource):
 
         # Create response.
         return send_file(
-            "static/audio/text2speech.wav",
-            mimetype="audio/wav",
+            'static/audio/text2speech.wav',
+            mimetype='audio/wav',
             as_attachment=True,
-            attachment_filename="text2speech.wav",
+            attachment_filename='text2speech.wav',
         )
