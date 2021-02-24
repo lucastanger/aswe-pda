@@ -11,7 +11,7 @@ paths:
       operationId: get_get_maps_route
       responses:
         '200':
-          description: OK
+          description: Success
         '400':
           description: not all required arguments specified (origin, destination,
             arrival_time)
