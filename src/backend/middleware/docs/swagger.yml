@@ -1,0 +1,105 @@
+basePath: /rest/api/v1
+consumes:
+- application/json
+info:
+  description: Middleware to connect frontend with backend
+  title: REST-API for Middleware
+  version: 1.0.0
+paths:
+  /calendar/:
+    get:
+      operationId: get_get_calendar
+      responses:
+        '200':
+          description: Success
+      tags:
+      - calendar
+  /dualis/:
+    get:
+      operationId: get_get_dualis
+      responses:
+        '200':
+          description: Success
+      tags:
+      - dualis
+  /maps/:
+    get:
+      operationId: get_get_maps
+      responses:
+        '200':
+          description: Success
+      tags:
+      - maps
+  /news/:
+    get:
+      operationId: get_get_news
+      responses:
+        '200':
+          description: Success
+      tags:
+      - news
+  /spotify/:
+    get:
+      operationId: get_get_spotify
+      responses:
+        '200':
+          description: Success
+      tags:
+      - spotify
+  /swagger/swagger.json:
+    get:
+      operationId: get_get_swagger
+      responses:
+        '200':
+          description: Success
+      tags:
+      - swagger
+  /swagger/swagger.yml:
+    get:
+      operationId: get_get_swagger
+      responses:
+        '200':
+          description: Success
+      tags:
+      - swagger
+  /t2s-s2t/:
+    get:
+      operationId: get_get_t2s_s2t
+      responses:
+        '200':
+          description: Success
+      tags:
+      - t2s-s2t
+  /weather/:
+    get:
+      operationId: get_get_weather
+      responses:
+        '200':
+          description: Success
+      tags:
+      - weather
+produces:
+- application/json
+responses:
+  MaskError:
+    description: When any error occurs on mask
+  ParseError:
+    description: When a mask can't be parsed
+swagger: '2.0'
+tags:
+- description: Swagger APIs
+  name: swagger
+- description: Calendar-Service
+  name: calendar
+- description: Dualis-Service
+  name: dualis
+- description: Maps-Service
+  name: maps
+- description: News-Service
+  name: news
+- description: Spotify-Service
+  name: spotify
+- description: T2s-S2t-Service
+  name: t2s-s2t
+- description: Weather-Service
+  name: weather
