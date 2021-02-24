@@ -15,6 +15,7 @@ before_install:
 before_script:
   - echo "SPEECH_TO_TEXT_APIKEY=$SPEECH_TO_TEXT_APIKEY\SPEECH_TO_TEXT_URL=$SPEECH_TO_TEXT_URL" > $TRAVIS_BUILD_DIR/src/backend/services/t2s-s2t-service/ibm-credentials-s2t.env
   - echo "TEXT_TO_SPEECH_APIKEY=$TEXT_TO_SPEECH_APIKEY\TEXT_TO_SPEECH_URL=$TEXT_TO_SPEECH_URL" > $TRAVIS_BUILD_DIR/src/backend/services/t2s-s2t-service/ibm-credentials-t2s.env
+  - echo "WEATHER_API_KEY=$WEATHER_API_KEY\nWEATHER_ENDPOINT=$WEATHER_ENDPOINT" > $TRAVIS_BUILD_DIR/src/backend/services/weather-service/weather-auth.env
 
 script:
   - docker-compose up -d --build
