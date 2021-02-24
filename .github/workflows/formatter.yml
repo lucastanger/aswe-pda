@@ -1,14 +1,27 @@
-name: Black Code 
+name: Black Formatter 
 
-on: push
+on: [push]
 
 jobs:
-  format-code:
-    name: Format code base
+  build:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Black Code Formatter
-        uses: jpetrucciani/black-check@20.8b1
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
         with:
-          path: './src/backend/services/'
+          python-version: 3.8
+      - name: Install Black
+        run: pip install black
+      - name: Run black --check .
+        run: black --check .
+      - name: If needed, commit black changes to the pull request
+        if: failure()
+        run: |
+          black .
+          git config --global user.name 'Black Formatter'
+          git config --global user.email 'cclauss@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout $GITHUB_HEAD_REF
+          git commit -am ":art: fixup-auto: Format Python code with Black"
+          git push
