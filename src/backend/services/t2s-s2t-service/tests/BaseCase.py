@@ -11,4 +11,4 @@ class BaseCase(unittest.TestCase):
         self.app = app.test_client()
 
     def tearDown(self):
-        shutil.rmtree("./static", ignore_errors=True)
+        shutil.rmtree('./static', ignore_errors=True)
