@@ -55,5 +55,34 @@ services:
         target: "/var/www/html"
       - webserver:/data
 
+  mongo:
+    image: mongo
+    container_name: mongo-container
+    ports:
+      - "27017:27017"
+    volumes: 
+      - mongo:/data/mongodb
+      - ./db/init.js:/docker-entrypoint-initdb.d/init.js
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dev
+      MONGO_INITDB_ROOT_PASSWORD: dev
+      MONGO_INITDB_DATABASE: aswe-pda
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express-container
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'false'
+      ME_CONFIG_MONGODB_AUTH_DATABASE: aswe-pda
+      ME_CONFIG_MONGODB_AUTH_USERNAME: dev
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: dev
+    depends_on:
+      - mongo
+
 volumes:
   webserver:
+  mongo:
