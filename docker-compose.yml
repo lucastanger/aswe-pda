@@ -1,10 +1,10 @@
 version: "3.9"
 
 services:
-  education-service:
-    container_name: education-container
-    build: ./src/backend/services/education-service
-    image: education-service:1.0
+  dualis-service:
+    container_name: dualis-container
+    build: ./src/backend/services/dualis-service
+    image: dualis-service:1.0
     ports:
       - "5550:5550"
     restart: always
