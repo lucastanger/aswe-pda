@@ -1,0 +1,51 @@
+basePath: /rest/api/v1
+consumes:
+- application/json
+info:
+  description: Some Description
+  title: Some Title
+  version: '1.0'
+paths:
+  /maps/route:
+    get:
+      operationId: get_get_maps_route
+      responses:
+        '400':
+          description: not all required arguments specified (origin, destination,
+            arrival_time)
+      tags:
+      - maps
+    parameters:
+    - description: Start location of the route
+      in: query
+      name: origin
+      type: string
+    - description: Destination location of the route
+      in: query
+      name: destination
+      type: string
+    - description: Desired arrival time
+      in: query
+      name: arrival_time
+      type: string
+  /swagger.yml:
+    get:
+      operationId: get_get_swagger
+      responses:
+        '200':
+          description: Success
+      tags:
+      - ''
+produces:
+- application/json
+responses:
+  MaskError:
+    description: When any error occurs on mask
+  ParseError:
+    description: When a mask can't be parsed
+swagger: '2.0'
+tags:
+- description: Maps APIs
+  name: maps
+- description: Swagger APIs
+  name: ''
