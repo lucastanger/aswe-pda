@@ -22,6 +22,7 @@ jobs:
           git config --global user.name 'Black Formatter'
           git config --global user.email 'flo.drinkler@gmail.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git stash clear
           git checkout $GITHUB_HEAD_REF
           git commit -am ":art: Black Formatter: Format Python code with Black"
           git push origin $GITHUB_HEAD_REF
