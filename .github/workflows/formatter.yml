@@ -15,6 +15,10 @@ jobs:
         run: pip install black
       - name: Run black --check .
         run: black --check .
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
       - name: If needed, commit black changes to the pull request
         if: failure()
         run: |
@@ -24,4 +28,4 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git checkout $GITHUB_HEAD_REF
           git commit -am ":art: fixup-auto: Format Python code with Black"
-          git push
+          git push ${{ steps.extract_branch.outputs.branch }}
