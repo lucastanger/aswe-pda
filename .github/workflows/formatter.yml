@@ -27,5 +27,5 @@ jobs:
           git config --global user.email 'flo.drinkler@gmail.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git checkout ${{ steps.extract_branch.outputs.branch }}
-          git commit -am ":art: fixup-auto: Format Python code with Black"
-          git push
+          git commit -am ":art: Black Formatter: Format Python code with Black"
+          git push origin
