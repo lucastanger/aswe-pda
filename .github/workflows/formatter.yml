@@ -11,4 +11,5 @@ jobs:
       - name: Black Code Formatter
         uses: jpetrucciani/black-check@20.8b1
         with:
+          path: ./src/backend
           fetch-depth: 0
