@@ -9,7 +9,8 @@ api = Api(
     title='REST-API for Maps-Service',
     version='1.0.0',
     description='Service to handle requests for the google maps api',
-    prefix='/rest/api/v1'
+    prefix='/rest/api/v1',
+    doc='/rest/api/v1/docs'
 )
 
 api.add_namespace(maps_ns)
