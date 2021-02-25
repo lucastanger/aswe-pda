@@ -2,9 +2,13 @@
   "devDependencies": {
     "autoprefixer": "^10.2.4",
     "postcss": "^8.2.6",
-    "tailwindcss": "^2.0.3"
+    "postcss-cli": "^8.3.1",
+    "postcss-import": "^14.0.0",
+    "tailwindcss": "^2.0.3",
+    "vite": "^2.0.2"
   },
   "scripts": {
-    "postinstall": "sh ./npm-post-install.sh"
+    "postinstall": "sh ./npm-post-install.sh",
+    "dev": "vite"
   }
 }

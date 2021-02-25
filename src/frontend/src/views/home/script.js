@@ -1,10 +1,18 @@
 let input = document.getElementById('chatInput');
 input.addEventListener("keyup", function (event) {
-
+    // TODO: keyCode deprecated
     if (event.keyCode === 13) {
         event.preventDefault()
         sendMessage();
     }
+});
+
+// Dark Mode Toggle Function
+$(document).ready(function () {
+    $('#darkMode').click(function () {
+        let root = document.getElementById('darkSwitch');
+        root.classList.contains('dark') ? root.classList.remove('dark') : root.classList.add('dark')
+    });
 });
 
 function sendMessage() {
