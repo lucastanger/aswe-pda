@@ -47,7 +47,7 @@ def getFeaturedPlaylists(auth_header):
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
-
+  
 def startMusic(auth_header):
     url = "{}/{}".format(START_STOP_MUSIC_ENDPOINT, 'play')
     resp = requests.put(url, headers=auth_header)

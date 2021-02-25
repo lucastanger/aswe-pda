@@ -10,10 +10,7 @@ def test_grades_fetch():
     """
     response = app.test_client().get(
         '/rest/api/v1/grades/',
-        data=json.dumps({
-            'username': 'testuser',
-            'password': 'testpw'
-        }),
+        data=json.dumps({'username': 'testuser', 'password': 'testpw'}),
     )
 
     # data = json.loads(response.get_data(as_text=True))
