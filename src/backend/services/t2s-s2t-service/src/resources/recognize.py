@@ -27,7 +27,7 @@ class Recognize(Resource):
         """
 
         return {
-            "message": "To transfer speech to text use POST /rest/api/v1/recognize."
+            'message': 'To transfer speech to text use POST /rest/api/v1/recognize.'
         }
 
     def post(self):
@@ -40,24 +40,24 @@ class Recognize(Resource):
         # Extract audio file from body. Save it as Filestorage.
         parser = reqparse.RequestParser()
         parser.add_argument(
-            "audio", required=True, type=datastructures.FileStorage, location="files"
+            'audio', required=True, type=datastructures.FileStorage, location='files'
         )
         args = parser.parse_args(strict=True)
-        audio_file = args["audio"]
+        audio_file = args['audio']
 
         # Recognize.
         try:
             # Recognize speech to text
             speech_recognition_results = self.speech_to_text.recognize(
                 audio=audio_file.read(),
-                content_type="audio/wav",
-                model="de-DE_BroadbandModel",
+                content_type='audio/wav',
+                model='de-DE_BroadbandModel',
             ).get_result()
         except ApiException as ex:
             # Raise exception if HTTP response code is in the 4xx and 5xx range
             response = {
-                "info": "Error caused by internal service",
-                "error": {"code": ex.code, "message": ex.message},
+                'info': 'Error caused by internal service',
+                'error': {'code': ex.code, 'message': ex.message},
             }
             return response, 500
         finally:
@@ -65,9 +65,9 @@ class Recognize(Resource):
             audio_file.close()
 
         # Extract text from json and return response.
-        response = {"text": ""}
-        for result in speech_recognition_results["results"]:
-            for alternative in result["alternatives"]:
-                response["text"] += alternative["transcript"]
+        response = {'text': ''}
+        for result in speech_recognition_results['results']:
+            for alternative in result['alternatives']:
+                response['text'] += alternative['transcript']
 
         return response, 200

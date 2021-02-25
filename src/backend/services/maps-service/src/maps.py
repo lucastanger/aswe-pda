@@ -5,6 +5,7 @@ from os.path import dirname, join
 import googlemaps
 import os
 import werkzeug  # Fix ImportError: cannot import name 'cached_property'
+
 werkzeug.cached_property = werkzeug.utils.cached_property
 
 from flask_restplus import Resource, Namespace, reqparse
@@ -25,14 +26,21 @@ parser.add_argument('arrival_time', type=str, help='Desired arrival time')
 # https://developers.google.com/maps/documentation/javascript/directions#RenderingDirections
 @ns.route('/route')
 @ns.response(200, 'Success')
-@ns.response(400, 'not all required arguments specified (origin, destination, arrival_time)')
+@ns.response(
+    400, 'not all required arguments specified (origin, destination, arrival_time)'
+)
 @ns.expect(parser)
 class GetMapsRoute(Resource):
     def get(self):
-        if 'origin' not in request.args or \
-                'destination' not in request.args or \
-                'arrival_time' not in request.args:
-            ns.abort(400, 'not all required arguments specified (origin, destination, arrival_time)')
+        if (
+            'origin' not in request.args
+            or 'destination' not in request.args
+            or 'arrival_time' not in request.args
+        ):
+            ns.abort(
+                400,
+                'not all required arguments specified (origin, destination, arrival_time)',
+            )
         origin = request.args.get('origin')
         destination = request.args.get('destination')
         arrival_time = request.args.get('arrival_time')
@@ -40,11 +48,13 @@ class GetMapsRoute(Resource):
 
         # Request directions
         # now = datetime.now()
-        directions_result = gmaps.directions(origin,
-                                             destination,
-                                             arrival_time=arrival_time,
-                                             mode='transit',
-                                             # departure_time=now,
-                                             units='metric')
+        directions_result = gmaps.directions(
+            origin,
+            destination,
+            arrival_time=arrival_time,
+            mode='transit',
+            # departure_time=now,
+            units='metric',
+        )
 
         return jsonify(directions_result), 200
