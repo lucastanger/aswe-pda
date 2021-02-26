@@ -1,7 +1,6 @@
 flask-swagger-ui==3.36.0
 python-dotenv==0.15.0
 Flask-RESTful==0.3.8
-Flask-Script==2.0.6
 pytest-cov==2.11.1
 ibm-watson==5.1.0
 Werkzeug==1.0.1
