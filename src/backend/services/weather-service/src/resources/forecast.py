@@ -15,7 +15,7 @@ class Forecast(Resource):
         # Extract arguments from get request
         parser = reqparse.RequestParser()
         parser.add_argument('city', required=True, location='args')
-        parser.add_argument('cnt', location='args')
+        parser.add_argument('days', location='args')
         args = parser.parse_args(strict=True)
 
         # Create url for openweather api
@@ -24,7 +24,7 @@ class Forecast(Resource):
             + '/forecast/daily?q='
             + args['city']
             + '&cnt='
-            + str(args['cnt'] if args['cnt'] else 8)
+            + str(args['days'] if args['days'] else 8)
             + '&appid='
             + getenv('WEATHER_API_KEY')
             + '&units=metric'
