@@ -1,10 +1,10 @@
 version: "3.9"
 
 services:
-  education-service:
-    container_name: education-container
-    build: ./src/backend/services/education-service
-    image: education-service:1.0
+  dualis-service:
+    container_name: dualis-container
+    build: ./src/backend/services/dualis-service
+    image: dualis-service:1.0
     ports:
       - "5550:5550"
     restart: always
@@ -35,7 +35,7 @@ services:
     ports:
       - "5565:5565"
     restart: always
-
+    
   weather-service:
     container_name: weather-container
     build: ./src/backend/services/weather-service
@@ -45,3 +45,54 @@ services:
     env_file:
       - ./src/backend/services/weather-service/weather-auth.env
     restart: always
+    
+  maps-service:
+    container_name: maps-container
+    build: ./src/backend/services/maps-service
+    image: maps-service:1.0
+    ports:
+      - "5580:5580"
+    restart: always
+
+  apache-webserver:
+    container_name: frontend-container
+    build: ./src/frontend
+    ports:
+      - 8080:80
+    volumes:
+      - type: bind
+        source: "./src/frontend/src"
+        target: "/var/www/html"
+      - webserver:/data
+
+  mongo:
+    image: mongo
+    container_name: mongo-container
+    ports:
+      - "27017:27017"
+    volumes: 
+      - mongo:/data/mongodb
+      - ./src/backend/services/database-service/init.js:/docker-entrypoint-initdb.d/init.js
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dev
+      MONGO_INITDB_ROOT_PASSWORD: dev
+      MONGO_INITDB_DATABASE: aswe-pda
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express-container
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'false'
+      ME_CONFIG_MONGODB_AUTH_DATABASE: aswe-pda
+      ME_CONFIG_MONGODB_AUTH_USERNAME: dev
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: dev
+    depends_on:
+      - mongo
+
+volumes:
+  webserver:
+  mongo:
