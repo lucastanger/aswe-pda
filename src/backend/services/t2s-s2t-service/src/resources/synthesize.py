@@ -57,7 +57,7 @@ class Synthesize(Resource):
             audio_file.writeframes(
                 # Synthesize text to speech.
                 self.text_to_speech.synthesize(
-                    text, voice="en-GB_JamesV3Voice", accept="audio/wav"
+                    text, voice='en-GB_JamesV3Voice', accept='audio/wav'
                 )
                 .get_result()
                 .content
