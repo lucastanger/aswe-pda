@@ -36,6 +36,16 @@ services:
       - "5565:5565"
     restart: always
     
+  weather-service:
+    container_name: weather-container
+    build: ./src/backend/services/weather-service
+    image: weather-service:1.0
+    ports:
+      - "5570:5570"
+    env_file:
+      - ./src/backend/services/weather-service/weather-auth.env
+    restart: always
+    
   maps-service:
     container_name: maps-container
     build: ./src/backend/services/maps-service

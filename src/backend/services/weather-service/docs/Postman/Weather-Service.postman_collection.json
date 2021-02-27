@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "1b93ea01-42ab-47e0-902c-e635da8aa2af",
+		"name": "Weather-Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET current-weather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/{{baseurl}}/current-weather?city=Stuttgart",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{baseurl}}",
+						"current-weather"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "Stuttgart"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET forecast",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/{{baseurl}}/forecast?city=Stuttgart",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{baseurl}}",
+						"forecast"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "Stuttgart"
+						},
+						{
+							"key": "days",
+							"value": "7",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

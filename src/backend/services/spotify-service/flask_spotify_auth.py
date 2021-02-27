@@ -18,7 +18,10 @@ PORT = '5565'
 CALLBACK_URL = 'http://0.0.0.0'
 
 REDIRECT_URI = '{}:{}/callback/'.format(CALLBACK_URL, PORT)
-SCOPE = 'playlist-modify-public playlist-modify-private user-read-recently-played user-top-read'
+SCOPE = (
+    'playlist-modify-public playlist-modify-private user-read-recently-played user-top-read '
+    'user-modify-playback-state user-read-private'
+)
 
 auth_query_parameters = {
     'response_type': 'code',
@@ -31,13 +34,6 @@ URL_ARGS = 'client_id={}&response_type={}&redirect_uri={}&scope={}'.format(
 )
 
 AUTH_URL = '{}{}'.format(SPOTIFY_URL_AUTH, URL_ARGS)
-
-
-def getAuth(client_id, redirect_uri, scope):
-    data = '{}client_id={}&response_type=code&redirect_uri={}&scope={}'.format(
-        SPOTIFY_URL_AUTH, client_id, redirect_uri, scope
-    )
-    return data
 
 
 def getToken(code):

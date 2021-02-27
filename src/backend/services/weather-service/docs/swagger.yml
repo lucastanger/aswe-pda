@@ -1,0 +1,402 @@
+openapi: 3.0.0
+info:
+  title: REST-API for Weather-Service
+  description: Use this Service to gatter weather information about the current and following days.
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: flo.drinkler@gmail.com
+    url: https://floriandrinkler.com
+  license:
+   name: MIT License
+   url: https://github.com/lucastanger/aswe-pda/blob/main/LICENSE
+  
+servers:
+  - url: http://localhost:5570/rest/api/v1
+    description: Development server (using locally)
+  - url: http://0.0.0.0:5570/rest/api/v1
+    description: Production server (inside Docker)
+
+paths:
+  '/current-weather':
+    get:
+      summary: Get the current weather information for your city.
+      description: Return the current weather information like temperature, cloudiness and more for your city as well the corresponding widget.
+      parameters:
+        - in: query
+          name: city
+          schema:
+            type: string
+          required: true
+          description: City to get current weather.
+      tags:
+        - Weather
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  city_name:
+                    type: string
+                    description: The cities name of the weather information.
+                  weather:
+                    type: object
+                    properties:
+                      main:
+                        type: string
+                        description: Group of weather parameters (Rain, Snow, Extreme etc.)
+                      description:
+                        type: string
+                        description: Weather condition within the group.
+                      cloudiness:
+                        type: number
+                        description: The cloudiness in %.
+                      wind:
+                        type: object
+                        properties:
+                          speed: 
+                            type: number
+                            description: Wind speed.
+                          deg:
+                            type: number
+                            description: Wind direction, degrees.
+                        required:
+                          - speed
+                          - deg
+                      temp:
+                        type: object
+                        properties:
+                          current:
+                            type: number
+                            description: Current temperature in Celsius.
+                          feels_like:
+                            type: number
+                            description: This temperature parameter accounts for the human perception of weather.
+                          min:
+                            type: number
+                            description: Minimum temperature in the moment.
+                          max:
+                            type: number
+                            description: Maximum temperature at the moment.
+                        required:
+                          - current
+                          - feels_like
+                          - min
+                          - max
+                    required:
+                      - cloudiness
+                      - main
+                      - description
+                  time:
+                    type: object
+                    properties:
+                      current:
+                        type: integer
+                        description: Time of data calculation, unix, UTC.
+                      timezone:
+                        type: integer
+                        description: Shifts in seconds from UTC.
+                      sunrise:
+                        type: integer
+                        description: Sunrise time, unix, UTC.
+                      sunset:
+                        type: integer
+                        description: Sunset time, unix, UTC.
+                    required:
+                      - current
+                      - timezone
+                      - sunrise
+                      - sunset
+                  widget:
+                    type: string
+                    description: html code for the current-weather widget.
+                required:
+                  - city_name
+                  - weather
+                  - time
+                  - widget
+                example:
+                  city_name: Stuttgart
+                  weather:
+                    main: Clouds
+                    description: scattered clouds
+                    cloudiness: 40
+                    wind:
+                      speed: 5.66
+                      deg: 340
+                    temp:
+                      current: 8.59
+                      feels_like: 3.83
+                      min: 8
+                      max: 8.89
+                  time:
+                    current: 1614358854
+                    timezone: 3600
+                    sunrise: 1614319871
+                    sunset: 1614358891
+                  widget: '<div id=''openweathermap-widget-21''></div><script src=''//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js''></script\>\<script\>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({id: 21,cityid: ''2825297'',appid: ''b6813f52b32285369417e4defa12c6db'',units: ''metric'',containerid: ''openweathermap-widget-21'',  });  (function() {var script = document.createElement(''script'');script.async = true;script.charset = ''utf-8'';script.src = ''//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js'';var s = document.getElementsByTagName(''script'')[0];s.parentNode.insertBefore(script, s);  })();\</script\>'
+        '400':
+          description: Bad Request.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    type: string
+                    description: General information about error.
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        description: Status code from third party api.
+                      message:
+                        type: string
+                        description: Error message from third party api.
+                      full_error:
+                        type: string
+                        description: Full error message from third party api.
+                    required:
+                      - code
+                      - message
+                      - full_error
+                required:
+                  - info
+                  - error
+                example:
+                  info: Internal server error caused by third party api.
+                  error:
+                    code: 400
+                    message: Bad Request
+                    full_error: "400 Client Error: Bad Request for url: http://api.openweathermap.org/data/2.5/weather?q=&appid=b6813f52b32285369417e4defa12c6db&units=metric"
+          
+  /forecast:
+    get:
+      summary: Daily Forecast 1-17 days for your city.
+      description: Returns weather forecast for multiple days as well the corresponding widget. You can configure how many days from 1 to 17 you want to receive. The widget always returns 8 days.
+      parameters:
+        - in: query
+          name: city
+          schema:
+            type: string
+          required: true
+          description: City to get the forecast.
+        - in: query
+          name: days
+          schema:
+            type: integer
+            default: 8
+          description: Integer between 1 and 17 of how many days should return. Default is 8
+      tags:
+        - Weather
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  city_name:
+                    type: string
+                    description: City for the forecast.
+                  timezone:
+                    type: integer
+                    description: Shifts in seconds from UTC.
+                  weather:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        main:
+                          type: string
+                          description: Group of weather parameters (Rain, Snow, Extreme etc.)
+                        description:
+                          type: string
+                          description: Weather condition within the group.
+                        cloudiness:
+                          type: number
+                          description: Cloudiness in %.
+                        wind:
+                          type: object
+                          properties:
+                            speed:
+                              type: number
+                              description: Wind speed. meters/sec.
+                            deg:
+                              type: number
+                              description: Wind direction, degrees.
+                          required:
+                            - speed
+                            - deg
+                        rain:
+                          type: object
+                          properties:
+                            volume:
+                              type: number
+                              description: Precipitation volume, mm.
+                            probability:
+                              type: number
+                              description: Probability of precipitation.
+                          required:
+                            - volume
+                            - probability
+                        snow:
+                          type: number
+                          description: Snow volume, mm.
+                        temp:
+                          type: object
+                          properties:
+                            day:
+                              type: number
+                              description: Day temperature in Celsius.
+                            min:
+                              type: number
+                              description: Min daily temperature in Celsius.
+                            max:
+                              type: number
+                              description: Max daily temperature in Celsius.
+                            night:
+                              type: number
+                              description: Night temperature in Celsius.
+                            eve:
+                              type: number
+                              description: Evening temperature in Celsius.
+                            morn:
+                              type: number
+                              description: Morning temperature in Celsius.
+                            feels_like:
+                              type: object
+                              properties:
+                                day:
+                                  type: number
+                                  description: Day temperature.This temperature parameter accounts for the human perception of weather.
+                                night:
+                                  type: number
+                                  description: Night temperature.This temperature parameter accounts for the human perception of weather.
+                                eve:
+                                  type: number
+                                  description: Evening temperature.This temperature parameter accounts for the human perception of weather.
+                                morn:
+                                  type: number
+                                  description: Morning temperature. This temperature parameter accounts for the human perception of weather.
+                              required:
+                                - day
+                                - night
+                                - eve
+                                - morn
+                          required:
+                            - day
+                            - min
+                            - max
+                            - night
+                            - eve
+                            - morn
+                            - feels_like
+                        time:
+                          type: object
+                          properties:
+                            dt:
+                              type: integer
+                              description: Time of data forecast.
+                            sunrise:
+                              type: integer
+                              description: Sunrise time, unix, UTC.
+                            sunset:
+                              type: integer
+                              description: Sunset time, unix, UTC.
+                          required:
+                            - dt
+                            - sunrise
+                            - sunset
+                      required:
+                        - main
+                        - description
+                        - cloudiness
+                        - wind
+                        - rain
+                        - snow
+                        - temp
+                        - time
+                  widget:
+                    type: string
+                    description: Html-snippet for forecast widget.
+                required:
+                - city_name
+                - timezone
+                - weather
+                - widget
+                example:
+                  city_name: Stuttgart
+                  timezone: 3600
+                  weather:
+                    - main: Rain
+                      description: light rain
+                      cloudiness: 40
+                      wind:
+                        speed: 2.22
+                        deg: 299
+                      rain:
+                        volume: 1.29
+                        probability: 0.94
+                      snow: 0
+                      temp:
+                        day: 13.84
+                        min: 6.73
+                        max: 14.11
+                        night: 6.73
+                        eve: 8.56
+                        morn: 8.2
+                        feels_like:
+                          day: 11.36
+                          night: 2.62
+                          eve: 4.89
+                          morn: 5.82
+                      time:
+                        dt: 1614337200
+                        sunrise: 1614319871
+                        sunset: 1614358891
+                  widget: '<div id=''openweathermap-widget-21''></div><script src=''//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js''></script\>\<script\>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({id: 21,cityid: ''2825297'',appid: ''b6813f52b32285369417e4defa12c6db'',units: ''metric'',containerid: ''openweathermap-widget-21'',  });  (function() {var script = document.createElement(''script'');script.async = true;script.charset = ''utf-8'';script.src = ''//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js'';var s = document.getElementsByTagName(''script'')[0];s.parentNode.insertBefore(script, s);  })();\</script\>'
+        '400':
+          description: Bad Request.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    type: string
+                    description: General information about error.
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        description: Status code from third party api.
+                      message:
+                        type: string
+                        description: Error message from third party api.
+                      full_error:
+                        type: string
+                        description: Full error message from third party api.
+                    required:
+                      - code
+                      - message
+                      - full_error
+                required:
+                  - info
+                  - error
+                example:
+                  info: Internal server error caused by third party api.
+                  error:
+                    code: 400
+                    message: Bad Request
+                    full_error: "400 Client Error: Bad Request for url: http://api.openweathermap.org/data/2.5/forecast/daily?q=&cnt=8&appid=b6813f52b32285369417e4defa12c6db&units=metric"
