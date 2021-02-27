@@ -23,7 +23,9 @@ def callback():
     auth_header = flask_spotify_auth.authorize(auth_token)
     session['auth_header'] = auth_header
 
-    return redirect("{}:{}/profile".format(flask_spotify_auth.CALLBACK_URL, flask_spotify_auth.PORT))
+    return redirect(
+        '{}:{}/profile'.format(flask_spotify_auth.CALLBACK_URL, flask_spotify_auth.PORT)
+    )
 
 
 def valid_token(resp):
@@ -34,10 +36,10 @@ def valid_token(resp):
 def prof():
     if 'auth_header' in session:
 
-        return "Authentifizierung erfolgreich!"
+        return 'Authentifizierung erfolgreich!'
 
 
-@app.route("/profile/<search_type>")
+@app.route('/profile/<search_type>')
 def profileInfos(search_type):
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -55,13 +57,13 @@ def profileInfos(search_type):
         elif search_type == 'featured':
             data = profile.getFeaturedPlaylists(auth_header)
         else:
-            return "Invalid Input"
+            return 'Invalid Input'
 
         if valid_token(data):
             return json.dumps(data, indent=4)
 
 
-@app.route("/play")
+@app.route('/play')
 def play():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -72,7 +74,7 @@ def play():
             return
 
 
-@app.route("/pause")
+@app.route('/pause')
 def pause():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -82,6 +84,6 @@ def pause():
         if valid_token(play):
             return
 
-          
+
 if __name__ == '__main__':
     app.run(port=5565, host='0.0.0.0')
