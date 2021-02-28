@@ -10,8 +10,11 @@ NEWS_TOP_HEADLINES_URL = "{}{}".format(NEWS_BASE_URL, "top-headlines")
 NEWS_SOURCES_URL = "{}{}".format(NEWS_BASE_URL, "sources")
 
 
-def topHeadlines(category):
-    url = "{}?country={}&category={}&apiKey={}".format(NEWS_TOP_HEADLINES_URL, COUNTRY, category, API_KEY)
+def topHeadlinesCategory(category=None):
+    if category is not None:
+        url = "{}?country={}&category={}&apiKey={}".format(NEWS_TOP_HEADLINES_URL, COUNTRY, category, API_KEY)
+    else:
+        url = "{}?country={}&apiKey={}".format(NEWS_TOP_HEADLINES_URL, COUNTRY, API_KEY)
     result = requests.get(url).json()
     return json.dumps(result, sort_keys=True, indent=4)
 

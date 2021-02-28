@@ -1,18 +1,23 @@
 from flask import Flask, request
-from src.news import keyWordSearch, findSources, topHeadlines
+from src.news import keyWordSearch, findSources, topHeadlinesCategory
 
 app = Flask(__name__)
 app.secret_key = 'some key for session'
 
 
 @app.route('/rest/api/v1/news/top/')
+def general():
+    result = topHeadlinesCategory()
+    return result
+
+
+@app.route('/rest/api/v1/news/top/category/')
 def top():
     if request.args['category']:
         category = request.args['category']
+        result = topHeadlinesCategory(category)
     else:
-        return "Please provide a valid category! Possible values are business entertainment general health science sports technology"
-
-    result = topHeadlines(category)
+        return "Please provide a valid category!"
     return result
 
 
