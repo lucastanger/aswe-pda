@@ -25,6 +25,15 @@ def keyWordSearch(keyWord):
     return json.dumps(result, sort_keys=True, indent=4)
 
 
+def everythingNews(excludes=None):
+    if excludes is not None:
+        url = "{}?language={}&excludeDomains={}&apiKey={}".format(NEWS_EVERYTHING_URL, COUNTRY, excludes, API_KEY)
+    else:
+        url = "{}?language={}&apiKey={}".format(NEWS_EVERYTHING_URL, COUNTRY, API_KEY)
+    result = requests.get(url).json()
+    return json.dumps(result, sort_keys=True, indent=4)
+
+
 def findSources():
     url = "{}?country={}&apiKey={}".format(NEWS_SOURCES_URL, COUNTRY, API_KEY)
     result = requests.get(url).json()

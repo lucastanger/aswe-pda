@@ -1,5 +1,5 @@
 from flask import Flask, request
-from src.news import keyWordSearch, findSources, topHeadlinesCategory
+from src.news import keyWordSearch, findSources, topHeadlinesCategory, everythingNews
 
 app = Flask(__name__)
 app.secret_key = 'some key for session'
@@ -21,7 +21,17 @@ def top():
     return result
 
 
-@app.route('/rest/api/v1/news/search/')
+@app.route('/rest/api/v1/news/everything/')
+def everything():
+    if request.args['exclude']:
+        exclude = request.args['exclude']
+        result = everythingNews(exclude)
+    else:
+        result = everythingNews()
+    return result
+
+
+@app.route('/rest/api/v1/news/everything/search')
 def search():
     if request.args['keyWord']:
         keyWord = request.args['keyWord']
