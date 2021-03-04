@@ -17,7 +17,7 @@ servers:
     description: Production server (inside Docker)
 
 paths:
-  /auth:
+  /rest/api/v1/spotify/auth:
     get:
       summary: Check if path is accessable.
       description: Returns a personalized user token to create requests.
@@ -39,7 +39,7 @@ paths:
                 required:
                   - code
 
-  /profile/info:
+  /rest/api/v1/spotify/profile/info:
     get:
       summary: Check if path is accessable.
       description: Returns information about the Spotify profile informatio.
@@ -127,7 +127,7 @@ paths:
                       message:
                         type: string
                         example: Forbidden
-  /profile/playlist:
+  /rest/api/v1/spotify/profile/playlist:
     get:
       summary: Check if path is accessable.
       description: Returns information about the associated playlists of the Spotify profile.
@@ -234,7 +234,7 @@ paths:
                     type: integer
                     format: int32
                     example: 9
-  /profile/artists:
+  /rest/api/v1/spotify/profile/artists:
       get:
         summary: Check if path is accessable.
         description: Returns information about the top listened artists.
@@ -329,7 +329,7 @@ paths:
                     href:
                       type: string
                       example: https://api.spotify.com/v1/me/top/artists
-  /profile/tracks:
+  /rest/api/v1/spotify/profile/tracks:
     get:
       summary: Check if path is accessable.
       description: Returns information about the top listened tracks.
@@ -424,7 +424,7 @@ paths:
                   href:
                     type: string
                     example: https://api.spotify.com/v1/me/top/artists
-  /profile/recent:
+  /rest/api/v1/spotify/profile/recent:
     get:
       summary: Check if path is accessable.
       description: Returns information about the recent listened tracks.
@@ -558,7 +558,7 @@ paths:
                   href:
                     type: string
                     example: https://api.spotify.com/v1/me/player/recently-played?limit=2
-  /profile/featured:
+  /rest/api/v1/spotify/profile/featured:
     get:
       summary: Check if path is accessable.
       description: Returns information about the featured playlists.
@@ -686,7 +686,7 @@ paths:
                         type: integer
                         format: int32
                         example: 12
-  /play:
+  /rest/api/v1/spotify/play:
     get:
       summary: Check if path is accessable.
       description: Starts music playback.
@@ -702,7 +702,7 @@ paths:
           description: NOT FOUND
         '403':
           description: FORBIDDEN
-  /pause:
+  /rest/api/v1/spotify/pause:
     get:
       summary: Check if path is accessable.
       description: Pauses music playback.
