@@ -1,12 +1,16 @@
-import werkzeug  # Fix ImportError: cannot import name 'cached_property'
-werkzeug.cached_property = werkzeug.utils.cached_property
-
-from flask_restplus import Namespace, Resource
-
-ns = Namespace('calendar', description='Calendar-Service')
+import requests
 
 
-@ns.route('/')
-class GetCalendar(Resource):
-    def get(self):
-        return
+class CalendarService:
+    def __init__(self, parameters: dict = None):
+        self.parameters = parameters
+        self.base_url = 'http://calendar-service:5560/rest/api/v1'
+
+    def query(self):
+        response = self.get_events()
+        return response
+
+    def get_events(self):
+        response = requests.get(f'{self.base_url}/events/today',
+                                params={'date': self.parameters['date']})
+        return response.json()

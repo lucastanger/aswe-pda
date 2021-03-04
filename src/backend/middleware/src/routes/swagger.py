@@ -14,7 +14,8 @@ ns = Namespace('swagger', description='Swagger APIs')
 
 @ns.route('/swagger.yml')
 class GetSwagger(Resource):
-    def get(self):
+    @staticmethod
+    def get():
         url = f'{request.url_root}/rest/api/v1/swagger.json'
         response = requests.get(url)
         data = json.loads(response.content)
@@ -25,7 +26,8 @@ class GetSwagger(Resource):
 
 @ns.route('/swagger.json')
 class GetSwagger(Resource):
-    def get(self):
+    @staticmethod
+    def get():
         url = f'{request.url_root}/rest/api/v1/swagger.json'
         response = requests.get(url)
         data = json.loads(response.content)

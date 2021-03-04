@@ -1,12 +1,7 @@
-import werkzeug  # Fix ImportError: cannot import name 'cached_property'
-werkzeug.cached_property = werkzeug.utils.cached_property
+class WeatherService:
+    def __init__(self, parameters: dict = None):
+        self.parameters = parameters
+        self.base_url = 'http://weather-service:5570/rest/api/v1'
 
-from flask_restplus import Namespace, Resource
-
-ns = Namespace('weather', description='Weather-Service')
-
-
-@ns.route('/')
-class GetWeather(Resource):
-    def get(self):
+    def query(self):
         return

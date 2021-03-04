@@ -1,12 +1,7 @@
-import werkzeug  # Fix ImportError: cannot import name 'cached_property'
-werkzeug.cached_property = werkzeug.utils.cached_property
+class NewsService:
+    def __init__(self, parameters: dict = None):
+        self.parameters = parameters
+        self.base_url = 'http://news-service:5575/rest/api/v1'
 
-from flask_restplus import Namespace, Resource
-
-ns = Namespace('news', description='News-Service')
-
-
-@ns.route('/')
-class GetNews(Resource):
-    def get(self):
+    def query(self):
         return
