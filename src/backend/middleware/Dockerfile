@@ -1,4 +1,4 @@
-FROM python:3.8.7-alpine3.13
+FROM python:3.8.7-slim-buster
 
 WORKDIR /usr/src/app
 
@@ -7,6 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 5580
+EXPOSE 5600
 
 CMD ["python", "app.py"]
