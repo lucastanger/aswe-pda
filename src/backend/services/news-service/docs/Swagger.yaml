@@ -1,53 +1,31 @@
 openapi: 3.0.0
 info:
-  title: REST-API for Spotify-Service
-  description: Use this Service to get information about a users Spotify profile.
+  title: REST-API for News service
+  description: Use this Service to get information about local news and top headlines.
   version: 1.0.0
   contact:
     name: API Support
     email: assadi.hakim@gmx.de
   license:
-   name: MIT License
-   url: https://github.com/lucastanger/aswe-pda/blob/main/LICENSE
+    name: MIT License
+    url: https://github.com/lucastanger/aswe-pda/blob/main/LICENSE
 
 servers:
-  - url: http://localhost:5565/rest/api/v1
+  - url: http://localhost:5575/rest/api/v1
     description: Development server (using locally)
-  - url: http://0.0.0.0:5565/rest/api/v1
+  - url: http://0.0.0.0:5575/rest/api/v1
     description: Production server (inside Docker)
 
 paths:
-  /rest/api/v1/news/top?category=:
+  /rest/api/v1/news/top/:
     get:
-      summary: Check if path is accessable.
-      description: Returns the top german articles to a provided category.
+      summary: Top headlines.
+      description: Returns the top german articles.
       tags:
         - Top news
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: An authorization code that can be exchanged for an access token.
-                example:
-                  message: To authorize with your Spotify profile use /rest/api/v1/auth.
-                required:
-                  - code
-
-  /profile/info:
-    get:
-      summary: Check if path is accessable.
-      description: Returns information about the Spotify profile informatio.
-      tags:
-        - Spotify profile features
       externalDocs:
-        description: Spotify Web API Reference
-        url: https://developer.spotify.com/documentation/web-api/reference/#category-user-profile
+        description: NewsAPI documentation
+        url: https://newsapi.org/docs/endpoints/top-headlines
       responses:
         '200':
           description: OK
@@ -56,665 +34,352 @@ paths:
               schema:
                 type: object
                 properties:
-                  country:
+                  status:
                     type: string
-                    example: SE
-                  display_name:
-                    type: string
-                    example: JM Wizzler
-                  email:
-                    type: string
-                    example: email@example.com
-                  external_urls:
-                    type: object
-                    properties:
-                      spotify:
-                        type: string
-                        example: https://open.spotify.com/user/wizzler
-                  followers:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        format: nullable
-                      total:
-                        type: integer
-                        format: int32
-                        example: 3829
-                  href:
-                    type: string
-                    example: https://api.spotify.com/v1/users/wizzler
-                  id:
-                    type: string
-                    example: wizzler
-                  images:
+                    example: ok
+                  totalResults:
+                    type: integer
+                    format: int32
+                    example: 38
+                  articles:
                     type: array
                     items:
                       type: object
                       properties:
-                        height:
+                        source:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              format: nullable
+                            name:
+                              type: string
+                              example: New York Times
+                        author:
                           type: string
-                          format: nullable
+                          example: Hannah Beech
+                        title:
+                          type: string
+                          example: In Myanmar Protests Women Are on the Front Lines - The New York Times
+                        description:
+                          type: string
+                          example: Despite the danger women have been at the forefront of the movement rebuking the generals who ousted a female civilian leader.
                         url:
                           type: string
-                          example: https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/1970403_10152215092574354_1798272330_n.jpg
-                        width:
+                          example: https://www.nytimes.com/2021/03/04/world/asia/myanmar-protests-women.html
+                        urlToImage:
                           type: string
-                          format: nullable
-                  product:
-                    type: string
-                    example: premium
-                  type:
-                    type: string
-                    example: user
-                  uri:
-                    type: string
-                    example: spotify:user:wizzler
-        '403':
-          description: Forbidden
+                          example: https://static01.nyt.com/images/2021/03/04/world/04myanmar-women-promo/04myanmar-women-promo-facebookJumbo.jpg
+                        publishedAt:
+                          type: string
+                          format: date-time
+                          example: 2021-03-04T12:10:48Z
+                        content:
+                          type: string
+                          example: Even though these are dark days and my heart breaks with all these images of bloodshed Im more optimistic because I see women on the street said Dr. Miemie Winn Byrd a Burmese-American who served … [+1697 chars]
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  error:
-                    type: object
-                    properties:
-                      status:
-                        type: integer
-                        format: int32
-                        example: 403
-                      message:
-                        type: string
-                        example: Forbidden
-  /profile/playlist:
-    get:
-      summary: Check if path is accessable.
-      description: Returns information about the associated playlists of the Spotify profile.
-      tags:
-        - Spotify profile features
-      externalDocs:
-        description: Spotify Web API Reference
-        url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  href:
+                  status:
                     type: string
-                    example: https://api.spotify.com/v1/users/wizzler/playlists
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        collaborative:
-                          type: boolean
-                        external_urls:
-                          type: object
-                          properties:
-                            spotify:
-                              type: string
-                              example: http://open.spotify.com/user/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c
-                        href:
-                          type: string
-                          example: https://api.spotify.com/v1/users/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c
-                        id:
-                          type: string
-                          example: 53Y8wT46QIMz5H4WQ8O22c
-                        images:
-                          type: array
-                          items:
-                            type: object
-                            example:
-                        name:
-                          type: string
-                          example: Wizzlers Big Playlist
-                        owner:
-                          type: object
-                          properties:
-                            external_urls:
-                              type: object
-                              properties:
-                                spotify:
-                                  type: string
-                                  example: http://open.spotify.com/user/wizzler
-                            href:
-                              type: string
-                              example: https://api.spotify.com/v1/users/wizzler
-                            id:
-                              type: string
-                              example: wizzler
-                            type:
-                              type: string
-                              example: user
-                            uri:
-                              type: string
-                              example: spotify:user:wizzler
-                        public:
-                          type: boolean
-                        snapshot_id:
-                          type: string
-                          example: bNLWdmhh+HDsbHzhckXeDC0uyKyg4FjPI/KEsKjAE526usnz2LxwgyBoMShVL+z+
-                        tracks:
-                          type: object
-                          properties:
-                            href:
-                              type: string
-                              example: https://api.spotify.com/v1/users/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c/tracks
-                            total:
-                              type: integer
-                              format: int32
-                              example: 30
-                        type:
-                          type: string
-                          example: playlist
-                        uri:
-                          type: string
-                          example: spotify:user:wizzler:playlist:53Y8wT46QIMz5H4WQ8O22c
-                  limit:
-                    type: integer
-                    format: int32
-                    example: 9
-                  next:
+                    example: error
+                  code:
                     type: string
-                    format: nullable
-                  offset:
-                    type: integer
-                    format: int32
-                    example: 0
-                  previous:
-                    type: string
-                    format: nullable
-                  total:
-                    type: integer
-                    format: int32
-                    example: 9
-  /profile/artists:
-      get:
-        summary: Check if path is accessable.
-        description: Returns information about the top listened artists.
-        tags:
-          - Spotify profile features
-        externalDocs:
-          description: Spotify Web API Reference
-          url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
-        responses:
-          '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    items:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          external_urls:
-                            type: object
-                            properties:
-                              spotify:
-                                type: string
-                                example: https://open.spotify.com/artist/0I2XqVXqHScXjHhk6AYYRe
-                          followers:
-                            type: object
-                            properties:
-                              href:
-                                type: string
-                                format: nullable
-                              total:
-                                type: integer
-                                format: int32
-                                example: 7753
-                          genres:
-                            type: array
-                            items:
-                              type: string
-                              example: swedish hip hop
-                          href:
-                            type: string
-                            example: https://api.spotify.com/v1/artists/0I2XqVXqHScXjHhk6AYYRe
-                          id:
-                            type: string
-                            example: 0I2XqVXqHScXjHhk6AYYRe
-                          images:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                height:
-                                  type: integer
-                                  format: int32
-                                  example: 640
-                                url:
-                                  type: string
-                                  example: https://i.scdn.co/image/2c8c0cea05bf3d3c070b7498d8d0b957c4cdec20
-                                width:
-                                  type: integer
-                                  format: int32
-                                  example: 640
-                          name:
-                            type: string
-                            example: Afasi & Filthy
-                          popularity:
-                            type: integer
-                            format: int32
-                            example: 54
-                          type:
-                            type: string
-                            example: artist
-                          uri:
-                            type: string
-                            example: spotify:artist:0I2XqVXqHScXjHhk6AYYRe
-                    next:
-                      type: string
-                      example: https://api.spotify.com/v1/me/top/artists?offset=20
-                    previous:
-                      type: string
-                      format: nullable
-                    total:
-                      type: integer
-                      format: int32
-                      example: 50
-                    limit:
-                      type: integer
-                      format: int32
-                      example: 20
-                    href:
-                      type: string
-                      example: https://api.spotify.com/v1/me/top/artists
-  /profile/tracks:
-    get:
-      summary: Check if path is accessable.
-      description: Returns information about the top listened tracks.
-      tags:
-        - Spotify profile features
-      externalDocs:
-        description: Spotify Web API Reference
-        url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        external_urls:
-                          type: object
-                          properties:
-                            spotify:
-                              type: string
-                              example: https://open.spotify.com/artist/0I2XqVXqHScXjHhk6AYYRe
-                        followers:
-                          type: object
-                          properties:
-                            href:
-                              type: string
-                              format: nullable
-                            total:
-                              type: integer
-                              format: int32
-                              example: 7753
-                        genres:
-                          type: array
-                          items:
-                            type: string
-                            example: swedish hip hop
-                        href:
-                          type: string
-                          example: https://api.spotify.com/v1/artists/0I2XqVXqHScXjHhk6AYYRe
-                        id:
-                          type: string
-                          example: 0I2XqVXqHScXjHhk6AYYRe
-                        images:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              height:
-                                type: integer
-                                format: int32
-                                example: 640
-                              url:
-                                type: string
-                                example: https://i.scdn.co/image/2c8c0cea05bf3d3c070b7498d8d0b957c4cdec20
-                              width:
-                                type: integer
-                                format: int32
-                                example: 640
-                        name:
-                          type: string
-                          example: Afasi & Filthy
-                        popularity:
-                          type: integer
-                          format: int32
-                          example: 54
-                        type:
-                          type: string
-                          example: artist
-                        uri:
-                          type: string
-                          example: spotify:artist:0I2XqVXqHScXjHhk6AYYRe
-                  next:
-                    type: string
-                    example: https://api.spotify.com/v1/me/top/artists?offset=20
-                  previous:
-                    type: string
-                    format: nullable
-                  total:
-                    type: integer
-                    format: int32
-                    example: 50
-                  limit:
-                    type: integer
-                    format: int32
-                    example: 20
-                  href:
-                    type: string
-                    example: https://api.spotify.com/v1/me/top/artists
-  /profile/recent:
-    get:
-      summary: Check if path is accessable.
-      description: Returns information about the recent listened tracks.
-      tags:
-        - Spotify profile features
-      externalDocs:
-        description: Spotify Web API Reference
-        url: https://developer.spotify.com/documentation/web-api/reference/#category-player
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        track:
-                          type: object
-                          properties:
-                            artists:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  external_urls:
-                                    type: object
-                                    properties:
-                                      spotify:
-                                        type: string
-                                        example: https://open.spotify.com/artist/5INjqkS1o8h1imAzPqGZBb
-                                  href:
-                                    type: string
-                                    example: https://api.spotify.com/v1/artists/5INjqkS1o8h1imAzPqGZBb
-                                  id:
-                                    type: string
-                                    example: 5INjqkS1o8h1imAzPqGZBb
-                                  name:
-                                    type: string
-                                    example: Tame Impala
-                                  type:
-                                    type: string
-                                    example: artist
-                                  uri:
-                                    type: string
-                                    example: spotify:artist:5INjqkS1o8h1imAzPqGZBb
-                            available_markets:
-                              type: array
-                              items:
-                                type: string
-                                example: CA
-                            disc_number:
-                              type: integer
-                              format: int32
-                              example: 1
-                            duration_ms:
-                              type: integer
-                              format: int32
-                              example: 108546
-                            explicit:
-                              type: boolean
-                            external_urls:
-                              type: object
-                              properties:
-                                spotify:
-                                  type: string
-                                  example: https://open.spotify.com/track/2gNfxysfBRfl9Lvi9T3v6R
-                            href:
-                              type: string
-                              example: https://api.spotify.com/v1/tracks/2gNfxysfBRfl9Lvi9T3v6R
-                            id:
-                              type: string
-                              example: 2gNfxysfBRfl9Lvi9T3v6R
-                            name:
-                              type: string
-                              example: Disciples
-                            preview_url:
-                              type: string
-                              example: https://p.scdn.co/mp3-preview/6023e5aac2123d098ce490488966b28838b14fa2
-                            track_number:
-                              type: integer
-                              format: int32
-                              example: 9
-                            type:
-                              type: string
-                              example: track
-                            uri:
-                              type: string
-                              example: spotify:track:2gNfxysfBRfl9Lvi9T3v6R
-                        played_at:
-                          type: string
-                          example: 2016-12-13T20:44:04.589Z
-                        context:
-                          type: object
-                          properties:
-                            uri:
-                              type: string
-                              example: spotify:artist:5INjqkS1o8h1imAzPqGZBb
-                            external_urls:
-                              type: object
-                              properties:
-                                spotify:
-                                  type: string
-                                  example: https://open.spotify.com/artist/5INjqkS1o8h1imAzPqGZBb
-                            href:
-                              type: string
-                              example: https://api.spotify.com/v1/artists/5INjqkS1o8h1imAzPqGZBb
-                            type:
-                              type: string
-                              example: artist
-                  next:
-                    type: string
-                    example: https://api.spotify.com/v1/me/player/recently-played?before=1481661737016&limit=2
-                  cursors:
-                    type: object
-                    properties:
-                      after:
-                        type: string
-                        example: 1481661844589
-                      before:
-                        type: string
-                        example: 1481661737016
-                  limit:
-                    type: integer
-                    format: int32
-                    example: 2
-                  href:
-                    type: string
-                    example: https://api.spotify.com/v1/me/player/recently-played?limit=2
-  /profile/featured:
-    get:
-      summary: Check if path is accessable.
-      description: Returns information about the featured playlists.
-      tags:
-        - Spotify profile features
-      externalDocs:
-        description: Spotify Web API Reference
-        url: https://developer.spotify.com/documentation/web-api/reference/#category-player
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
+                    example: apiKeyMissing
                   message:
                     type: string
-                    example: Monday morning music coming right up!
-                  playlists:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.spotify.com/v1/browse/featured-playlists?country=SE&timestamp=2015-05-18T06:44:32&offset=0&limit=2
-                      items:
-                        type: array
-                        items:
+                    example: Your API key is missing. Append this to the URL with the apiKey param or use the x-api-key HTTP header.
+  /rest/api/v1/news/top/category/:
+    get:
+      summary: Top headlines of category.
+      description: Returns the top german articles to a provided category. The category can be provided using ?category= and a valid category string.
+      tags:
+        - Top news
+      externalDocs:
+        description: NewsAPI documentation
+        url: https://newsapi.org/docs/endpoints/top-headlines
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  totalResults:
+                    type: integer
+                    format: int32
+                    example: 38
+                  articles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        source:
                           type: object
                           properties:
-                            collaborative:
-                              type: boolean
-                            description:
-                              type: string
-                              example: Relaxed deep house to slowly help you get back on your feet and ready yourself for a productive week.
-                            external_urls:
-                              type: object
-                              properties:
-                                spotify:
-                                  type: string
-                                  example: http://open.spotify.com/user/spotify/playlist/6ftJBzU2LLQcaKefMi7ee7
-                            href:
-                              type: string
-                              example: https://api.spotify.com/v1/users/spotify/playlists/6ftJBzU2LLQcaKefMi7ee7
                             id:
                               type: string
-                              example: 6ftJBzU2LLQcaKefMi7ee7
-                            images:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  height:
-                                    type: integer
-                                    format: int32
-                                    example: 300
-                                  url:
-                                    type: string
-                                    example: https://i.scdn.co/image/7bd33c65ebd1e45975bbcbbf513bafe272f033c7
-                                  width:
-                                    type: integer
-                                    format: int32
-                                    example: 300
+                              format: nullable
                             name:
                               type: string
-                              example: Monday Morning Mood
-                            owner:
-                              type: object
-                              properties:
-                                external_urls:
-                                  type: object
-                                  properties:
-                                    spotify:
-                                      type: string
-                                      example: http://open.spotify.com/user/spotify
-                                href:
-                                  type: string
-                                  example: https://api.spotify.com/v1/users/spotify
-                                id:
-                                  type: string
-                                  example: spotify
-                                type:
-                                  type: string
-                                  example: user
-                                uri:
-                                  type: string
-                                  example: spotify:user:spotify
-                            public:
-                              type: string
-                              format: nullable
-                            snapshot_id:
-                              type: string
-                              example: WwGvSIVUkUvGvqjgj/bQHlRycYmJ2TkoIxYfoalWlmIZT6TvsgvGMgtQ2dGbkrAW
-                            tracks:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api.spotify.com/v1/users/spotify/playlists/6ftJBzU2LLQcaKefMi7ee7/tracks
-                                total:
-                                  type: integer
-                                  format: int32
-                                  example: 245
-                            type:
-                              type: string
-                              example: playlist
-                            uri:
-                              type: string
-                              example: spotify:user:spotify:playlist:6ftJBzU2LLQcaKefMi7ee7
-                      limit:
-                        type: integer
-                        format: int32
-                        example: 2
-                      next:
-                        type: string
-                        example: https://api.spotify.com/v1/browse/featured-playlists?country=SE&timestamp=2015-05-18T06:44:32&offset=2&limit=2
-                      offset:
-                        type: integer
-                        format: int32
-                        example: 0
-                      previous:
-                        type: string
-                        format: nullable
-                      total:
-                        type: integer
-                        format: int32
-                        example: 12
-  /play:
+                              example: New York Times
+                        author:
+                          type: string
+                          example: Hannah Beech
+                        title:
+                          type: string
+                          example: In Myanmar Protests Women Are on the Front Lines - The New York Times
+                        description:
+                          type: string
+                          example: Despite the danger women have been at the forefront of the movement rebuking the generals who ousted a female civilian leader.
+                        url:
+                          type: string
+                          example: https://www.nytimes.com/2021/03/04/world/asia/myanmar-protests-women.html
+                        urlToImage:
+                          type: string
+                          example: https://static01.nyt.com/images/2021/03/04/world/04myanmar-women-promo/04myanmar-women-promo-facebookJumbo.jpg
+                        publishedAt:
+                          type: string
+                          format: date-time
+                          example: 2021-03-04T12:10:48Z
+                        content:
+                          type: string
+                          example: Even though these are dark days and my heart breaks with all these images of bloodshed Im more optimistic because I see women on the street said Dr. Miemie Winn Byrd a Burmese-American who served … [+1697 chars]
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  code:
+                    type: string
+                    example: apiKeyMissing
+                  message:
+                    type: string
+                    example: Your API key is missing. Append this to the URL with the apiKey param or use the x-api-key HTTP header.
+  /rest/api/v1/news/everything/:
     get:
-      summary: Check if path is accessable.
-      description: Starts music playback.
+      summary: General news.
+      description: Returns every german news. Excluding certain domains is possible by using ?exclude= followed by a comma separated string of domains.
       tags:
-        - Spotify player features
+        - General news
       externalDocs:
-        description: Spotify Web API Reference
-        url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
+        description: NewsAPI documentation
+        url: https://newsapi.org/docs/endpoints/everything
       responses:
-        '204':
-          description: NO CONTENT
-        '404':
-          description: NOT FOUND
-        '403':
-          description: FORBIDDEN
-  /pause:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  totalResults:
+                    type: integer
+                    format: int32
+                    example: 2034
+                  articles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        source:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: techcrunch
+                            name:
+                              type: string
+                              example: TechCrunch
+                        author:
+                          type: string
+                          example: Mary Ann Azevedo
+                        title:
+                          type: string
+                          example: Snapcommerce raises $85M to make over your mobile shopping experience
+                        description:
+                          type: string
+                          example: The Toronto Ontario-based startup has built out an AI-driven vertical-agnostic platform that uses messaging in an effort to personalize the mobile shopping...
+                        url:
+                          type: string
+                          example: https://techcrunch.com/2021/03/04/snapcommerce-raises-85m-to-help-consumers-find-good-deals-over-chat/
+                        urlToImage:
+                          type: string
+                          example: https://s.yimg.com/ny/api/res/1.2/.E_U8hKMN4apSOCXiCKwog--/YXBwaWQ9aGlnaGxhbmRlcjt3PTIwMDA7aD0xMTk5/https://s.yimg.com/uu/api/res/1.2/9FVpDxhEoccKlh8Bcvdewg--~B/aD0xMzQwO3c9MjIzNjthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/techcrunch_350/2b57c4b8e1847835710c9f51fbdbd3d6
+                        publishedAt:
+                          type: string
+                          format: date-time
+                          example: 2021-03-04T14:30:53Z
+                        content:
+                          type: string
+                          example: People are not only shopping digitally more than ever. Theyre also shopping using their mobile phones more than ever. And for mobile-first companies like Snapcommerce this is good news. Snapcommer… [+4500 chars]
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  code:
+                    type: string
+                    example: apiKeyMissing
+                  message:
+                    type: string
+                    example: Your API key is missing. Append this to the URL with the apiKey param or use the x-api-key HTTP header.
+  /rest/api/v1/news/everything/search/:
     get:
-      summary: Check if path is accessable.
-      description: Pauses music playback.
+      summary: Keyword search in general news.
+      description: Returns every german news containing a provided keyword. The keyword can be added by using ?keyWord= followed by a key word string.
       tags:
-        - Spotify player features
+        - General news
       externalDocs:
-        description: Spotify Web API Reference
-        url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
+        description: NewsAPI documentation
+        url: https://newsapi.org/docs/endpoints/everything
       responses:
-        '204':
-          description: NO CONTENT
-        '404':
-          description: NOT FOUND
-        '403':
-          description: FORBIDDEN
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  totalResults:
+                    type: integer
+                    format: int32
+                    example: 9400
+                  articles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        source:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: engadget
+                            name:
+                              type: string
+                              example: Engadget
+                        author:
+                          type: string
+                          example: Jon Fingas
+                        title:
+                          type: string
+                          example: Tesla buys $1.5 in Bitcoin will soon accept it as payment
+                        description:
+                          type: string
+                          example: Elon Musk’s cryptocurrency hype was more than just idle talk. CNBC reports that Tesla not only bought $1.5 billion worth of Bitcoin to help “diversify and maximize” its returns but will start taking payments using the digital asset sometime in the “near futu…
+                        url:
+                          type: string
+                          example: https://www.engadget.com/tesla-to-take-bitcoin-payments-140109988.html
+                        urlToImage:
+                          type: string
+                          example: https://s.yimg.com/os/creatr-uploaded-images/2021-02/389f89e0-6a11-11eb-b5c5-309f2241e56a
+                        publishedAt:
+                          type: string
+                          format: date-time
+                          example: 2021-02-08T14:01:09Z
+                        content:
+                          type: string
+                          example: Elon Musks cryptocurrency hype was more than just idle talk. CNBCreports that Tesla not only bought $1.5 billion worth of Bitcoin to help diversify and maximize its returns but will start taking pay… [+1182 chars]
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  code:
+                    type: string
+                    example: apiKeyMissing
+                  message:
+                    type: string
+                    example: Your API key is missing. Append this to the URL with the apiKey param or use the x-api-key HTTP header.
+  /rest/api/v1/news/sources/:
+    get:
+      summary: Available news sources.
+      description: Returns every german news source that provides news to NewsAPI.
+      tags:
+        - News sources
+      externalDocs:
+        description: NewsAPI documentation
+        url: https://newsapi.org/docs/endpoints/sources
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  sources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: abc-news
+                        name:
+                          type: string
+                          example: ABC News
+                        description:
+                          type: string
+                          example: Your trusted source for breaking news analysis exclusive interviews headlines and videos at ABCNews.com.
+                        url:
+                          type: string
+                          example: https://abcnews.go.com
+                        category:
+                          type: string
+                          example: general
+                        language:
+                          type: string
+                          example: en
+                        country:
+                          type: string
+                          example: us
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  code:
+                    type: string
+                    example: apiKeyMissing
+                  message:
+                    type: string
+                    example: Your API key is missing. Append this to the URL with the apiKey param or use the x-api-key HTTP header.
