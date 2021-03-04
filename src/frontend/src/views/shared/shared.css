@@ -2,40 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-.min-vh-80 {
-    min-height: 80vh;
+/** Custom code **/
+
+.grow {
+    @apply h-full;
+    -transition-duration:0.5s;
+    -webkit-transition-duration:0.5s;
+    -moz-transition-duration:0.5s;
 }
 
-.dot {
-    height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    background: black;
-    border-style: solid;
-    display: inline-block;
+.expand{
+    @apply w-52;
 }
-
-.dot-green-blue {
-    background: rgb(167,243,208);
-    background: linear-gradient(135deg, rgba(167,243,208,1) 0%, rgba(191,219,254,1) 100%);
-}
-
-.dot-red-orange {
-    background: rgb(255,50,9);
-    background: linear-gradient(135deg, rgba(255,50,9,1) 0%, rgba(255,141,0,1) 100%);
-}
-
-.dot-blue-orange {
-    background: rgb(9,59,255);
-    background: linear-gradient(135deg, rgba(9,59,255,1) 0%, rgba(255,141,0,1) 100%);
-}
-
-.toggle-checkbox:checked {
-    @apply: right-0 border-green-400;
-    right: 0;
-    border-color: #68D391;
-}
-.toggle-checkbox:checked + .toggle-label {
-    @apply: bg-green-400;
-    background-color: #68D391;
+.shrink{
+    @apply w-16;
 }
