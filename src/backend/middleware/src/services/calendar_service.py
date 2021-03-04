@@ -11,6 +11,7 @@ class CalendarService:
         return response
 
     def get_events(self):
-        response = requests.get(f'{self.base_url}/events/today',
-                                params={'date': self.parameters['date']})
+        response = requests.get(
+            f'{self.base_url}/events/today', params={'date': self.parameters['date']}
+        )
         return response.json()
