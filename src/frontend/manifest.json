@@ -1,5 +1,7 @@
 {
- "name": "App",
+ "lang": "en-EN",
+ "start_url": "/",
+ "name": "J.A.R.V.I.S",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
