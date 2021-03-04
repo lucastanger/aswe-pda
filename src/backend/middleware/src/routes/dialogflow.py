@@ -1,16 +1,14 @@
 from os.path import dirname, join
 from dotmap import DotMap
-from flask import request, jsonify, make_response, send_file
+from flask import request, jsonify, make_response
 from google.cloud import dialogflow_v2
 from google.api_core.exceptions import InvalidArgument
 from google.protobuf.json_format import MessageToDict
 
 import json
 import os
-import werkzeug  # Fix ImportError: cannot import name 'cached_property'
-werkzeug.cached_property = werkzeug.utils.cached_property
 
-from flask_restplus import Resource, Namespace, reqparse, fields
+from flask_restplus import Resource, Namespace, reqparse
 from src.services import query
 
 ns = Namespace('dialogflow', description='Dialogflow APIs')

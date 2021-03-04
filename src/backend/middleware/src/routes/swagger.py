@@ -2,10 +2,7 @@ from flask import request
 
 import json
 import yaml
-
 import requests
-import werkzeug  # Fix ImportError: cannot import name 'cached_property'
-werkzeug.cached_property = werkzeug.utils.cached_property
 
 from flask_restplus import Resource, Namespace
 
