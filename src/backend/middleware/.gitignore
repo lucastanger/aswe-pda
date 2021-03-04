@@ -16,3 +16,6 @@ coverage-report
 # Python
 __pycache__
 .pytest_cache
+
+# Generated files
+response.wav
