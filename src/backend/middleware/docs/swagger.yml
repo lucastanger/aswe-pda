@@ -6,46 +6,40 @@ info:
   title: REST-API for Middleware
   version: 1.0.0
 paths:
-  /calendar/:
-    get:
-      operationId: get_get_calendar
+  /dialogflow/query:
+    parameters:
+    - description: Message used to detect intent with dialogflow.
+      in: query
+      name: message
+      type: string
+    post:
+      operationId: post_dialogflow
       responses:
         '200':
-          description: Success
+          description: "{\n  \"dialogflow\": {\n    \"output_audio\": \"UklGRn6NBABXQVZFZm10IBAAAAABAAEAwF0AAIC7AAACABAAZGF0YVqNBAD...\"\
+            ,\n    \"output_audio_config\": {\n      \"audio_encoding\": \"OUTPUT_AUDIO_ENCODING_LINEAR_16\"\
+            ,\n      \"synthesize_speech_config\": {\n        \"speaking_rate\": 1.0,\n\
+            \        \"voice\": {}\n      }\n    },\n    \"query_result\": {\n   \
+            \   \"all_required_params_present\": true,\n      \"diagnostic_info\"\
+            : {\n        \"end_conversation\": true,\n        \"webhook_latency_ms\"\
+            : 80.0\n      },\n      \"fulfillment_messages\": [\n        {\n     \
+            \     \"text\": {\n            \"text\": [\n              \"Hier sind\
+            \ deine Termine f\\u00fcr Thursday, March 4, 2021.\"\n            ]\n\
+            \          }\n        }\n      ],\n      \"fulfillment_text\": \"Hier\
+            \ sind deine Termine f\\u00fcr Thursday, March 4, 2021.\",\n      \"intent\"\
+            : {\n        \"display_name\": \"calendar-intent\",\n        \"name\"\
+            : \"projects/dhbw-aswe-pda-1613143292614/locations/europe-west1/agent/intents/0f470d01-52a9-4f2e-83c7-b8322d811218\"\
+            \n      },\n      \"intent_detection_confidence\": 1.0,\n      \"language_code\"\
+            : \"de\",\n      \"parameters\": {\n        \"date\": \"2021-03-04T12:00:00+01:00\"\
+            \n      },\n      \"query_text\": \"Welche Termine stehen heute auf meinem\
+            \ Kalender\"\n    },\n    \"response_id\": \"04b948a3-3065-41e1-a20e-f062d231deff-7a5b4213\"\
+            ,\n    \"webhook_status\": {\n      \"message\": \"Webhook execution successful\"\
+            \n    }\n  },\n  \"response\": {\n    \"data\": \"any data from the specific\
+            \ service\"\n  }\n}"
+        '400':
+          description: 'Missing argument: message'
       tags:
-      - calendar
-  /dualis/:
-    get:
-      operationId: get_get_dualis
-      responses:
-        '200':
-          description: Success
-      tags:
-      - dualis
-  /maps/:
-    get:
-      operationId: get_get_maps
-      responses:
-        '200':
-          description: Success
-      tags:
-      - maps
-  /news/:
-    get:
-      operationId: get_get_news
-      responses:
-        '200':
-          description: Success
-      tags:
-      - news
-  /spotify/:
-    get:
-      operationId: get_get_spotify
-      responses:
-        '200':
-          description: Success
-      tags:
-      - spotify
+      - dialogflow
   /swagger/swagger.json:
     get:
       operationId: get_get_swagger
@@ -62,22 +56,6 @@ paths:
           description: Success
       tags:
       - swagger
-  /t2s-s2t/:
-    get:
-      operationId: get_get_t2s_s2t
-      responses:
-        '200':
-          description: Success
-      tags:
-      - t2s-s2t
-  /weather/:
-    get:
-      operationId: get_get_weather
-      responses:
-        '200':
-          description: Success
-      tags:
-      - weather
 produces:
 - application/json
 responses:
@@ -89,17 +67,5 @@ swagger: '2.0'
 tags:
 - description: Swagger APIs
   name: swagger
-- description: Calendar-Service
-  name: calendar
-- description: Dualis-Service
-  name: dualis
-- description: Maps-Service
-  name: maps
-- description: News-Service
-  name: news
-- description: Spotify-Service
-  name: spotify
-- description: T2s-S2t-Service
-  name: t2s-s2t
-- description: Weather-Service
-  name: weather
+- description: Dialogflow APIs
+  name: dialogflow
