@@ -1,4 +1,5 @@
 import werkzeug  # Fix ImportError: cannot import name 'cached_property'
+
 werkzeug.cached_property = werkzeug.utils.cached_property
 
 from flask_restplus import Api
@@ -10,7 +11,7 @@ api = Api(
     version='1.0.0',
     description='Middleware to connect frontend with backend',
     prefix='/rest/api/v1',
-    doc='/rest/api/v1/docs'
+    doc='/rest/api/v1/docs',
 )
 
 api.add_namespace(swagger_ns)
