@@ -7,13 +7,27 @@ input.addEventListener("keyup", function (event) {
     }
 });
 
-// Dark Mode Toggle Function
 $(document).ready(function () {
+    // Dark Mode Toggle Function
     $('#darkMode').click(function () {
         let root = document.getElementById('darkSwitch');
         root.classList.contains('dark') ? root.classList.remove('dark') : root.classList.add('dark')
     });
+    // Buttons Toggle Function
+    $('.btn').click(function () {
+        for (let btn of document.getElementsByClassName('btn')) {
+            btn.classList.remove('active');
+        }
+        // Invoke button click function
+        onButtonClick(this);
+    });
 });
+
+function onButtonClick(btn) {
+    btn.classList.add('active');
+
+
+}
 
 function sendMessage() {
     // Retrieve user message
