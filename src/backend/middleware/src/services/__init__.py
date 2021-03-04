@@ -20,7 +20,7 @@ def query(intent, parameters):
         'maps-intent': maps_service,
         'news-intent': news_service,
         'spotify-intent': spotify_service,
-        'weather-intent': weather_service
+        'weather-intent': weather_service,
     }
     service = switch.get(intent, lambda: 'Unknown intent.')
     service.__init__(parameters)

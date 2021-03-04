@@ -14,7 +14,9 @@ from src.services import query
 ns = Namespace('dialogflow', description='Dialogflow APIs')
 
 parser = reqparse.RequestParser()
-parser.add_argument('message', type=str, help='Message used to detect intent with dialogflow.')
+parser.add_argument(
+    'message', type=str, help='Message used to detect intent with dialogflow.'
+)
 
 with open('docs/dialogflow_response.json') as json_file:
     dialogflow_response = json.load(json_file)
@@ -42,7 +44,9 @@ class Dialogflow(Resource):
         message = parsed_request.message
 
         session_client = dialogflow_v2.SessionsClient(
-            client_options={'api_endpoint': f'{self.LOCATION_ID}-dialogflow.googleapis.com'}
+            client_options={
+                'api_endpoint': f'{self.LOCATION_ID}-dialogflow.googleapis.com'
+            }
         )
 
         session = (
@@ -50,32 +54,41 @@ class Dialogflow(Resource):
             f'agent/sessions/{self.SESSION_ID}'
         )
 
-        text_input = dialogflow_v2.types.TextInput(text=message,
-                                                   language_code=self.DIALOGFLOW_LANGUAGE_CODE)
+        text_input = dialogflow_v2.types.TextInput(
+            text=message, language_code=self.DIALOGFLOW_LANGUAGE_CODE
+        )
         query_input = dialogflow_v2.types.QueryInput(text=text_input)
 
         try:
-            response = session_client.detect_intent(session=session, query_input=query_input)
-            dict_response = MessageToDict(response._pb, preserving_proto_field_name=True)
+            response = session_client.detect_intent(
+                session=session, query_input=query_input
+            )
+            dict_response = MessageToDict(
+                response._pb, preserving_proto_field_name=True
+            )
             parsed_response = DotMap(dict_response)
         except InvalidArgument:
             raise
 
         print('Query text:', parsed_response.query_result.query_text)
         print('Detected intent:', parsed_response.query_result.intent.display_name)
-        print('Detected intent confidence:',
-              parsed_response.query_result.intent_detection_confidence)
+        print(
+            'Detected intent confidence:',
+            parsed_response.query_result.intent_detection_confidence,
+        )
         print('Fulfillment text:', parsed_response.query_result.fulfillment_text)
 
         # Parse response to audio file
-        with open("response.wav", "wb") as out:
+        with open('response.wav', 'wb') as out:
             out.write(response.output_audio)
             print('Audio content written to file "response.wav"')
 
         # Call the corresponding function for the intent
         parameters = parsed_response.query_result.parameters.toDict()
-        service_response = query(parsed_response.query_result.intent.display_name,
-                                 parameters)
+        service_response = query(
+            parsed_response.query_result.intent.display_name, parameters
+        )
 
-        return make_response(jsonify({'response': service_response,
-                                      'dialogflow': dict_response}), 200)
+        return make_response(
+            jsonify({'response': service_response, 'dialogflow': dict_response}), 200
+        )
