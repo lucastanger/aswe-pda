@@ -9,7 +9,7 @@ import json
 class Forecast(Resource):
     def __init__(self):
         # Load environment variables.
-        load_dotenv('weather-auth.env')
+        load_dotenv("weather-auth.env")
 
     def get(self):
         # Extract arguments from get request
