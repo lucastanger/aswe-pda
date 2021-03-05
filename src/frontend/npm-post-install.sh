@@ -1,6 +1,5 @@
 #!/bin/bash
 # Tailwind CSS
-mkdir src/resources/assets/tailwindcss
-cp -R node_modules/tailwindcss/dist/*.css src/resources/assets/tailwindcss
+npx tailwindcss-cli@latest build ./src/views/shared/shared.css -o ./src/resources/css/tailwind.css
 
 # Add other node_module files to use in apache server here
