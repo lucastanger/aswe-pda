@@ -1,22 +1,17 @@
-from flask import Flask, redirect, request, session, g, render_template
-import flask_spotify_auth, profile
+from flask import Flask, redirect, request, session
+from src import flask_spotify_auth, profile
 import json
 
 app = Flask(__name__)
 app.secret_key = 'some key for session'
 
 
-@app.route('/')
-def home():
-    return 'Spotify Service'
-
-
-@app.route('/auth')
+@app.route('/rest/api/v1/spotify/auth')
 def auth():
     return redirect(flask_spotify_auth.AUTH_URL)
 
 
-@app.route('/callback/')
+@app.route('/rest/api/v1/spotify/callback/')
 def callback():
 
     auth_token = request.args['code']
@@ -24,7 +19,9 @@ def callback():
     session['auth_header'] = auth_header
 
     return redirect(
-        '{}:{}/profile'.format(flask_spotify_auth.CALLBACK_URL, flask_spotify_auth.PORT)
+        '{}:{}/rest/api/v1/spotify/profile'.format(
+            flask_spotify_auth.CALLBACK_URL, flask_spotify_auth.PORT
+        )
     )
 
 
@@ -32,14 +29,14 @@ def valid_token(resp):
     return resp is not None and not 'error' in resp
 
 
-@app.route('/profile')
+@app.route('/rest/api/v1/spotify/profile')
 def prof():
     if 'auth_header' in session:
 
         return 'Authentifizierung erfolgreich!'
 
 
-@app.route('/profile/<search_type>')
+@app.route('/rest/api/v1/spotify/profile/<search_type>')
 def profileInfos(search_type):
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -63,7 +60,7 @@ def profileInfos(search_type):
             return json.dumps(data, indent=4)
 
 
-@app.route('/play')
+@app.route('/rest/api/v1/spotify/play')
 def play():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -71,10 +68,10 @@ def play():
         play = profile.startMusic(auth_header)
 
         if valid_token(play):
-            return
+            return 'Play'
 
 
-@app.route('/pause')
+@app.route('/rest/api/v1/spotify/pause')
 def pause():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -82,7 +79,7 @@ def pause():
         play = profile.pauseMusic(auth_header)
 
         if valid_token(play):
-            return
+            return 'Pause'
 
 
 if __name__ == '__main__':

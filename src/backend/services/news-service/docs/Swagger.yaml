@@ -1,0 +1,385 @@
+openapi: 3.0.0
+info:
+  title: REST-API for News service
+  description: Use this Service to get information about local news and top headlines.
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: assadi.hakim@gmx.de
+  license:
+    name: MIT License
+    url: https://github.com/lucastanger/aswe-pda/blob/main/LICENSE
+
+servers:
+  - url: http://localhost:5575/rest/api/v1
+    description: Development server (using locally)
+  - url: http://0.0.0.0:5575/rest/api/v1
+    description: Production server (inside Docker)
+
+paths:
+  /rest/api/v1/news/top/:
+    get:
+      summary: Top headlines.
+      description: Returns the top german articles.
+      tags:
+        - Top news
+      externalDocs:
+        description: NewsAPI documentation
+        url: https://newsapi.org/docs/endpoints/top-headlines
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  totalResults:
+                    type: integer
+                    format: int32
+                    example: 38
+                  articles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        source:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              format: nullable
+                            name:
+                              type: string
+                              example: New York Times
+                        author:
+                          type: string
+                          example: Hannah Beech
+                        title:
+                          type: string
+                          example: In Myanmar Protests Women Are on the Front Lines - The New York Times
+                        description:
+                          type: string
+                          example: Despite the danger women have been at the forefront of the movement rebuking the generals who ousted a female civilian leader.
+                        url:
+                          type: string
+                          example: https://www.nytimes.com/2021/03/04/world/asia/myanmar-protests-women.html
+                        urlToImage:
+                          type: string
+                          example: https://static01.nyt.com/images/2021/03/04/world/04myanmar-women-promo/04myanmar-women-promo-facebookJumbo.jpg
+                        publishedAt:
+                          type: string
+                          format: date-time
+                          example: 2021-03-04T12:10:48Z
+                        content:
+                          type: string
+                          example: Even though these are dark days and my heart breaks with all these images of bloodshed Im more optimistic because I see women on the street said Dr. Miemie Winn Byrd a Burmese-American who served … [+1697 chars]
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  code:
+                    type: string
+                    example: apiKeyMissing
+                  message:
+                    type: string
+                    example: Your API key is missing. Append this to the URL with the apiKey param or use the x-api-key HTTP header.
+  /rest/api/v1/news/top/category/:
+    get:
+      summary: Top headlines of category.
+      description: Returns the top german articles to a provided category. The category can be provided using ?category= and a valid category string.
+      tags:
+        - Top news
+      externalDocs:
+        description: NewsAPI documentation
+        url: https://newsapi.org/docs/endpoints/top-headlines
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  totalResults:
+                    type: integer
+                    format: int32
+                    example: 38
+                  articles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        source:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              format: nullable
+                            name:
+                              type: string
+                              example: New York Times
+                        author:
+                          type: string
+                          example: Hannah Beech
+                        title:
+                          type: string
+                          example: In Myanmar Protests Women Are on the Front Lines - The New York Times
+                        description:
+                          type: string
+                          example: Despite the danger women have been at the forefront of the movement rebuking the generals who ousted a female civilian leader.
+                        url:
+                          type: string
+                          example: https://www.nytimes.com/2021/03/04/world/asia/myanmar-protests-women.html
+                        urlToImage:
+                          type: string
+                          example: https://static01.nyt.com/images/2021/03/04/world/04myanmar-women-promo/04myanmar-women-promo-facebookJumbo.jpg
+                        publishedAt:
+                          type: string
+                          format: date-time
+                          example: 2021-03-04T12:10:48Z
+                        content:
+                          type: string
+                          example: Even though these are dark days and my heart breaks with all these images of bloodshed Im more optimistic because I see women on the street said Dr. Miemie Winn Byrd a Burmese-American who served … [+1697 chars]
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  code:
+                    type: string
+                    example: apiKeyMissing
+                  message:
+                    type: string
+                    example: Your API key is missing. Append this to the URL with the apiKey param or use the x-api-key HTTP header.
+  /rest/api/v1/news/everything/:
+    get:
+      summary: General news.
+      description: Returns every german news. Excluding certain domains is possible by using ?exclude= followed by a comma separated string of domains.
+      tags:
+        - General news
+      externalDocs:
+        description: NewsAPI documentation
+        url: https://newsapi.org/docs/endpoints/everything
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  totalResults:
+                    type: integer
+                    format: int32
+                    example: 2034
+                  articles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        source:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: techcrunch
+                            name:
+                              type: string
+                              example: TechCrunch
+                        author:
+                          type: string
+                          example: Mary Ann Azevedo
+                        title:
+                          type: string
+                          example: Snapcommerce raises $85M to make over your mobile shopping experience
+                        description:
+                          type: string
+                          example: The Toronto Ontario-based startup has built out an AI-driven vertical-agnostic platform that uses messaging in an effort to personalize the mobile shopping...
+                        url:
+                          type: string
+                          example: https://techcrunch.com/2021/03/04/snapcommerce-raises-85m-to-help-consumers-find-good-deals-over-chat/
+                        urlToImage:
+                          type: string
+                          example: https://s.yimg.com/ny/api/res/1.2/.E_U8hKMN4apSOCXiCKwog--/YXBwaWQ9aGlnaGxhbmRlcjt3PTIwMDA7aD0xMTk5/https://s.yimg.com/uu/api/res/1.2/9FVpDxhEoccKlh8Bcvdewg--~B/aD0xMzQwO3c9MjIzNjthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/techcrunch_350/2b57c4b8e1847835710c9f51fbdbd3d6
+                        publishedAt:
+                          type: string
+                          format: date-time
+                          example: 2021-03-04T14:30:53Z
+                        content:
+                          type: string
+                          example: People are not only shopping digitally more than ever. Theyre also shopping using their mobile phones more than ever. And for mobile-first companies like Snapcommerce this is good news. Snapcommer… [+4500 chars]
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  code:
+                    type: string
+                    example: apiKeyMissing
+                  message:
+                    type: string
+                    example: Your API key is missing. Append this to the URL with the apiKey param or use the x-api-key HTTP header.
+  /rest/api/v1/news/everything/search/:
+    get:
+      summary: Keyword search in general news.
+      description: Returns every german news containing a provided keyword. The keyword can be added by using ?keyWord= followed by a key word string.
+      tags:
+        - General news
+      externalDocs:
+        description: NewsAPI documentation
+        url: https://newsapi.org/docs/endpoints/everything
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  totalResults:
+                    type: integer
+                    format: int32
+                    example: 9400
+                  articles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        source:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: engadget
+                            name:
+                              type: string
+                              example: Engadget
+                        author:
+                          type: string
+                          example: Jon Fingas
+                        title:
+                          type: string
+                          example: Tesla buys $1.5 in Bitcoin will soon accept it as payment
+                        description:
+                          type: string
+                          example: Elon Musk’s cryptocurrency hype was more than just idle talk. CNBC reports that Tesla not only bought $1.5 billion worth of Bitcoin to help “diversify and maximize” its returns but will start taking payments using the digital asset sometime in the “near futu…
+                        url:
+                          type: string
+                          example: https://www.engadget.com/tesla-to-take-bitcoin-payments-140109988.html
+                        urlToImage:
+                          type: string
+                          example: https://s.yimg.com/os/creatr-uploaded-images/2021-02/389f89e0-6a11-11eb-b5c5-309f2241e56a
+                        publishedAt:
+                          type: string
+                          format: date-time
+                          example: 2021-02-08T14:01:09Z
+                        content:
+                          type: string
+                          example: Elon Musks cryptocurrency hype was more than just idle talk. CNBCreports that Tesla not only bought $1.5 billion worth of Bitcoin to help diversify and maximize its returns but will start taking pay… [+1182 chars]
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  code:
+                    type: string
+                    example: apiKeyMissing
+                  message:
+                    type: string
+                    example: Your API key is missing. Append this to the URL with the apiKey param or use the x-api-key HTTP header.
+  /rest/api/v1/news/sources/:
+    get:
+      summary: Available news sources.
+      description: Returns every german news source that provides news to NewsAPI.
+      tags:
+        - News sources
+      externalDocs:
+        description: NewsAPI documentation
+        url: https://newsapi.org/docs/endpoints/sources
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  sources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: abc-news
+                        name:
+                          type: string
+                          example: ABC News
+                        description:
+                          type: string
+                          example: Your trusted source for breaking news analysis exclusive interviews headlines and videos at ABCNews.com.
+                        url:
+                          type: string
+                          example: https://abcnews.go.com
+                        category:
+                          type: string
+                          example: general
+                        language:
+                          type: string
+                          example: en
+                        country:
+                          type: string
+                          example: us
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  code:
+                    type: string
+                    example: apiKeyMissing
+                  message:
+                    type: string
+                    example: Your API key is missing. Append this to the URL with the apiKey param or use the x-api-key HTTP header.

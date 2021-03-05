@@ -1,3 +1,19 @@
-.min-vh-80 {
-    min-height: 80vh;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/** Custom code **/
+
+.grow {
+    @apply h-full;
+    -transition-duration:0.5s;
+    -webkit-transition-duration:0.5s;
+    -moz-transition-duration:0.5s;
+}
+
+.expand{
+    @apply w-52;
+}
+.shrink{
+    @apply w-16;
 }
