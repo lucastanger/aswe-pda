@@ -1,0 +1,46 @@
+{
+    "dialogflow": {
+        "output_audio": "UklGRn6NBABXQVZFZm10IBAAAAABAAEAwF0AAIC7AAACABAAZGF0YVqNBAD...",
+        "output_audio_config": {
+            "audio_encoding": "OUTPUT_AUDIO_ENCODING_LINEAR_16",
+            "synthesize_speech_config": {
+                "speaking_rate": 1.0,
+                "voice": {}
+            }
+        },
+        "query_result": {
+            "all_required_params_present": true,
+            "diagnostic_info": {
+                "end_conversation": true,
+                "webhook_latency_ms": 80.0
+            },
+            "fulfillment_messages": [
+                {
+                    "text": {
+                        "text": [
+                            "Hier sind deine Termine für Thursday, March 4, 2021."
+                        ]
+                    }
+                }
+            ],
+            "fulfillment_text": "Hier sind deine Termine für Thursday, March 4, 2021.",
+            "intent": {
+                "display_name": "calendar-intent",
+                "name": "projects/dhbw-aswe-pda-1613143292614/locations/europe-west1/agent/intents/0f470d01-52a9-4f2e-83c7-b8322d811218"
+            },
+            "intent_detection_confidence": 1.0,
+            "language_code": "de",
+            "parameters": {
+                "date": "2021-03-04T12:00:00+01:00"
+            },
+            "query_text": "Welche Termine stehen heute auf meinem Kalender"
+        },
+        "response_id": "04b948a3-3065-41e1-a20e-f062d231deff-7a5b4213",
+        "webhook_status": {
+            "message": "Webhook execution successful"
+        }
+    },
+    "response": {
+        "data": "any data from the specific service"
+    }
+}
