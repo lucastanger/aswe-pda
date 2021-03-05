@@ -19,7 +19,9 @@ def callback():
     session['auth_header'] = auth_header
 
     return redirect(
-        '{}:{}/rest/api/v1/spotify/profile'.format(flask_spotify_auth.CALLBACK_URL, flask_spotify_auth.PORT)
+        '{}:{}/rest/api/v1/spotify/profile'.format(
+            flask_spotify_auth.CALLBACK_URL, flask_spotify_auth.PORT
+        )
     )
 
 
@@ -66,7 +68,7 @@ def play():
         play = profile.startMusic(auth_header)
 
         if valid_token(play):
-            return "Play"
+            return 'Play'
 
 
 @app.route('/rest/api/v1/spotify/pause')
@@ -77,7 +79,7 @@ def pause():
         play = profile.pauseMusic(auth_header)
 
         if valid_token(play):
-            return "Pause"
+            return 'Pause'
 
 
 if __name__ == '__main__':

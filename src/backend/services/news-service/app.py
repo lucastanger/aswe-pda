@@ -17,7 +17,7 @@ def top():
         category = request.args['category']
         result = topHeadlinesCategory(category)
     else:
-        return "Please provide a valid category!"
+        return 'Please provide a valid category!'
     return result
 
 
@@ -36,7 +36,9 @@ def search():
     if request.args['keyWord']:
         keyWord = request.args['keyWord']
     else:
-        return "Please provide a key word by using ?keyWord= at the end of your request!"
+        return (
+            'Please provide a key word by using ?keyWord= at the end of your request!'
+        )
 
     result = keyWordSearch(keyWord)
     return result
