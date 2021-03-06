@@ -10,9 +10,13 @@ updates:
     directory: "/src/backend/services/dualis-service" 
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: "dependabot/aswe
   # Root Directory
   - package-ecosystem: "docker" 
     directory: "/" 
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: "dependabot/aswe
 
