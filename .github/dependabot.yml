@@ -2,21 +2,21 @@
 # package ecosystems to update and where the package manifests are located.
 # Please see the documentation for all configuration options:
 # https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
-  # Dualis Service
-  - package-ecosystem: "pip" 
-    directory: "/src/backend/services/dualis-service" 
-    schedule:
-      interval: "daily"
-    commit-message:
-      prefix: "dependabot/aswe
+
   # Root Directory
   - package-ecosystem: "docker" 
     directory: "/" 
     schedule:
       interval: "daily"
     commit-message:
-      prefix: "dependabot/aswe
+      prefix: "dependabot/aswe"
 
+  # Dualis Service
+  - package-ecosystem: "pip" 
+    directory: "/src/backend/services/dualis-service" 
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "dependabot/aswe"
