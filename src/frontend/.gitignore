@@ -3,6 +3,8 @@ composer.phar
 /vendor/
 composer.lock
 /src/resources/assets
+### Ignore tailwind
+/src/resources/css/tailwind.css
 
 ##### Node
 /node_modules
