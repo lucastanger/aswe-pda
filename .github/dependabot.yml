@@ -5,7 +5,14 @@
 
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # Dualis Service
+  - package-ecosystem: "pip" 
+    directory: "/src/backend/services/dualis-service" 
     schedule:
       interval: "daily"
+  # Root Directory
+  - package-ecosystem: "docker" 
+    directory: "/" 
+    schedule:
+      interval: "daily"
+
