@@ -14,10 +14,9 @@ class NewsService:
 
     def __init__(self, parameters: dict = None):
         self.parameters = parameters
-        #self.base_url = 'http://news-service:5575/rest/api/v1'
-        self.base_url = 'http://localhost:5575/rest/api/v1'
+        self.base_url = 'http://news-service:5575/rest/api/v1'
 
-    def query(self, type, category=None, search=None, exclude=None):
+    def query(self):
         """
         :param type: 'top', 'everything', 'sources'
         :param category: 'business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology' or None
@@ -29,11 +28,11 @@ class NewsService:
         article_img = []
         article_headline = []
 
-        if type == 'top':
-            result = self.getTopNews(category)
-        elif type == 'everything':
-            result = self.getNewsSearch(search, exclude)
-        elif type == 'sources':
+        if self.parameters['type'] == 'top':
+            result = self.getTopNews(self.parameters['category'])
+        elif self.parameters['type'] == 'everything':
+            result = self.getNewsSearch(self.parameters['search'], self.parameters['exclude'])
+        elif self.parameters['type'] == 'sources':
             result = self.getNewsSources()
 
             sources_json = result.json()
@@ -100,9 +99,3 @@ class NewsService:
 
         return news
 
-
-news = NewsService()
-result = news.query('sources', None, None, None)
-
-for i in range(0, len(result[0])):
-    print(f'{result[0][i]} : {result[1][i]}')
