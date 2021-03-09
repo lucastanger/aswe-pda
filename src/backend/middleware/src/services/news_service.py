@@ -35,7 +35,19 @@ class NewsService:
             result = self.getNewsSearch(search, exclude)
         elif type == 'sources':
             result = self.getNewsSources()
-            return result
+
+            sources_json = result.json()
+
+            sources_name = []
+            sources_url = []
+
+            for source in sources_json['sources']:
+                sources_name.append(source['name'])
+                sources_url.append(source['url'])
+
+            sources = [sources_name, sources_url]
+
+            return sources
         else:
             return 'Please provide a valid type!'
 
@@ -90,6 +102,7 @@ class NewsService:
 
 
 news = NewsService()
-result = news.query('top', 'sports', None, None)
+result = news.query('sources', None, None, None)
+
 for i in range(0, len(result[0])):
     print(f'{result[0][i]} : {result[1][i]}')
