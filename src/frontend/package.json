@@ -10,5 +10,8 @@
   "scripts": {
     "postinstall": "sh ./npm-post-install.sh",
     "dev": "vite"
+  },
+  "dependencies": {
+    "pug": "^3.0.2"
   }
 }
