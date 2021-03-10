@@ -9,16 +9,6 @@
 </head>
 <body class="w-screen h-screen bg-gradient-to-b from-gray-300 to-gray-100 dark:from-gray-800 dark:to-gray-500">
 <img class="absolute h-screen w-auto overflow-hidden transform -translate-x-1/2 opacity-60" src="/resources/images/jaarvishead.png" alt="">
-<!-- start container -->
-<div class="flex flex-col justify-center items-center h-full hidden" id="container">
-    <?php include "{$_SERVER['DOCUMENT_ROOT']}/views/setup/setup.html" ?>
-    <div class="mt-20">
-        <button onclick="startSetup()" class="text-3xl p-5 rounded-2xl bg-turquoise-700 text-gray-900 shadow-2xl hover:bg-gray-900 hover:text-turquoise-700 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
-            Start your setup
-        </button>
-    </div>
-</div>
-<!-- end start container -->
 <div class="snap-wrapper">
     <section class="snap-box box-1 flex flex-col justify-center items-center" data-index="1">
         <?php include "{$_SERVER['DOCUMENT_ROOT']}/views/setup/setup.html" ?>
@@ -78,31 +68,125 @@
                     </button>
                     <p id = "status"></p>
                     <a id="map-link" target="_blank"></a>
-                    <label class="radio flex flex-row justify-center items-center">
-                          <span class="radio__input">
-                            <input type="radio" name="radio">
-                            <span class="radio__control"></span>
-                          </span>
-                        <span class="radio__label">°C</span>
-                    </label>
-
-                    <label class="radio flex flex-row justify-center items-center">
-                          <span class="radio__input">
-                            <input type="radio" name="radio">
-                            <span class="radio__control"></span>
-                          </span>
-                        <span class="radio__label">°F</span>
-                    </label>
+                    <div class="block">
+                        <div class="mt-2">
+                            <div>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-turquoise-400" name="radio" value="1" checked>
+                                    <span class="ml-2 text-gray-300">Celsius - °C</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-turquoise-400" name="radio" value="2">
+                                    <span class="ml-2 text-gray-300">Fahrenheit - °F</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <?php include "{$_SERVER['DOCUMENT_ROOT']}/views/setup/progressbar.html" ?>
     </section>
     <section class="snap-box box-6" data-index="6">
+        <div class="h-full flex flex-col justify-center items-center rounded-2xl">
+            <div class="w-auto py-7 px-5 flex flex-col justify-center items-center">
+                <h1 class="text-5xl text-gray-300 mb-8">
+                    Choose your paper and news categories
+                </h1>
+                <label class="block w-full">
+                    <?php include "{$_SERVER['DOCUMENT_ROOT']}/resources/templates/news.html" ?>
+                </label>
+                <div class="block mt-20">
+                    <span class="text-gray-300">News categories</span>
+                    <div class="mt-2 grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded text-turquoise-400" checked>
+                                <span class="ml-2 text-gray-300">Business</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded text-turquoise-400">
+                                <span class="ml-2 text-gray-300">Entertainment</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded text-turquoise-400">
+                                <span class="ml-2 text-gray-300">General</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded text-turquoise-400">
+                                <span class="ml-2 text-gray-300">Health</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded text-turquoise-400">
+                                <span class="ml-2 text-gray-300">Science</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded text-turquoise-400">
+                                <span class="ml-2 text-gray-300">Sports</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded text-turquoise-400">
+                                <span class="ml-2 text-gray-300">Technology</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php include "{$_SERVER['DOCUMENT_ROOT']}/views/setup/progressbar.html" ?>
     </section>
     <section class="snap-box box-7" data-index="7">
+        <div class="h-full flex flex-col justify-center items-center rounded-2xl">
+            <div class="w-auto py-7 px-5 flex flex-col justify-center items-center">
+                <h1 class="text-5xl text-gray-300 mb-8">
+                    Log in to your Dualis account
+                </h1>
+                <label class="block w-full">
+                    <span class="text-gray-100">Email</span>
+                    <input type="email" class="form-input mt-1 block w-full bg-transparent border-b border-gray-300 text-gray-300" placeholder="foo.bar@lehre.dhbw-stuttgart.de">
+                </label>
+                <label class="block w-full mt-10">
+                    <span class="text-gray-100">Password</span>
+                    <input type="password" class="form-input mt-1 block w-full bg-transparent border-b border-gray-300 text-gray-300" placeholder="Password">
+                </label>
+            </div>
+        </div>
         <?php include "{$_SERVER['DOCUMENT_ROOT']}/views/setup/progressbar.html" ?>
+    </section>
+    <section class="snap-box box-8" data-index="8">
+        <div class="h-full flex flex-col justify-center items-center rounded-2xl">
+            <div class="w-auto py-7 px-5 flex flex-col justify-center items-center">
+                <h1 class="text-5xl text-gray-300 mb-8">
+                    Choose your STONKS
+                </h1>
+
+            </div>
+        </div>
+        <?php include "{$_SERVER['DOCUMENT_ROOT']}/views/setup/progressbar.html" ?>
+    </section>
+    <section class="snap-box box-9 cursor-pointer" data-index="9">
+        <div class="h-full flex flex-col justify-center items-center rounded-2xl">
+            <div class="w-auto py-7 px-5 flex flex-col justify-center items-center">
+                <h1 class="text-5xl text-gray-300 mb-8">
+                    Setup finished!
+                </h1>
+                <span class="wave">&nbsp;</span>
+            </div>
+        </div>
     </section>
 </div>
 <script src="/views/setup/setup.js"></script>

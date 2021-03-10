@@ -55,3 +55,12 @@ function geoFindMe() {
 }
 
 document.querySelector('#location').addEventListener('click', geoFindMe);
+
+
+document.getElementsByClassName('box-9')[0].addEventListener('click', function (){
+    document.querySelector('.wave').classList.toggle('active');
+
+    setTimeout(() => location.replace('/'), 2000);
+
+
+})

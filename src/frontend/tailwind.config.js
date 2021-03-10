@@ -3,6 +3,8 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
+      backgroundColor: ['checked'],
+      borderColor: ['checked'],
       colors: {
         turquoise: {
           '50':  '#edf8f9',
@@ -25,5 +27,7 @@ module.exports = {
       height: ['hover'],
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/custom-forms'),
+  ],
 }

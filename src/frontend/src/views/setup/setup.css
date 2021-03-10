@@ -57,102 +57,102 @@
 
 @keyframes glitch-animation-1 {
   0% {
-    clip: rect(111px, 550px, 141px, 30px);
+    clip: rect(55px, 550px, 83px, 30px);
   }
   5% {
-    clip: rect(8px, 550px, 47px, 30px);
+    clip: rect(72px, 550px, 103px, 30px);
   }
   10% {
-    clip: rect(12px, 550px, 4px, 30px);
+    clip: rect(28px, 550px, 91px, 30px);
   }
   15% {
-    clip: rect(43px, 550px, 23px, 30px);
+    clip: rect(98px, 550px, 74px, 30px);
   }
   20% {
-    clip: rect(107px, 550px, 3px, 30px);
+    clip: rect(25px, 550px, 102px, 30px);
   }
   25% {
-    clip: rect(98px, 550px, 58px, 30px);
+    clip: rect(102px, 550px, 132px, 30px);
   }
   30% {
-    clip: rect(89px, 550px, 80px, 30px);
+    clip: rect(150px, 550px, 38px, 30px);
   }
   35% {
-    clip: rect(25px, 550px, 132px, 30px);
+    clip: rect(102px, 550px, 20px, 30px);
   }
   40% {
-    clip: rect(109px, 550px, 39px, 30px);
+    clip: rect(119px, 550px, 118px, 30px);
   }
   45% {
-    clip: rect(107px, 550px, 14px, 30px);
+    clip: rect(122px, 550px, 118px, 30px);
   }
   50% {
-    clip: rect(109px, 550px, 124px, 30px);
+    clip: rect(90px, 550px, 91px, 30px);
   }
   55% {
-    clip: rect(136px, 550px, 69px, 30px);
+    clip: rect(24px, 550px, 87px, 30px);
   }
   60% {
-    clip: rect(85px, 550px, 22px, 30px);
+    clip: rect(144px, 550px, 116px, 30px);
   }
   65% {
-    clip: rect(98px, 550px, 147px, 30px);
+    clip: rect(11px, 550px, 18px, 30px);
   }
   70% {
-    clip: rect(93px, 550px, 79px, 30px);
+    clip: rect(105px, 550px, 110px, 30px);
   }
   75% {
-    clip: rect(48px, 550px, 66px, 30px);
+    clip: rect(109px, 550px, 146px, 30px);
   }
   80% {
-    clip: rect(146px, 550px, 35px, 30px);
+    clip: rect(117px, 550px, 133px, 30px);
   }
   85% {
-    clip: rect(32px, 550px, 64px, 30px);
+    clip: rect(110px, 550px, 62px, 30px);
   }
   90% {
-    clip: rect(111px, 550px, 92px, 30px);
+    clip: rect(125px, 550px, 16px, 30px);
   }
   95% {
-    clip: rect(6px, 550px, 71px, 30px);
+    clip: rect(87px, 550px, 83px, 30px);
   }
   100% {
-    clip: rect(14px, 550px, 71px, 30px);
+    clip: rect(75px, 550px, 72px, 30px);
   }
 }
 @keyframes glitch-animation-2 {
   0% {
-    clip: rect(129px, 550px, 148px, 30px);
+    clip: rect(88px, 550px, 124px, 30px);
   }
   10% {
-    clip: rect(58px, 550px, 148px, 30px);
+    clip: rect(34px, 550px, 143px, 30px);
   }
   20% {
-    clip: rect(115px, 550px, 95px, 30px);
+    clip: rect(28px, 550px, 122px, 30px);
   }
   30% {
-    clip: rect(116px, 550px, 5px, 30px);
+    clip: rect(104px, 550px, 20px, 30px);
   }
   40% {
-    clip: rect(113px, 550px, 98px, 30px);
+    clip: rect(113px, 550px, 35px, 30px);
   }
   50% {
-    clip: rect(41px, 550px, 77px, 30px);
+    clip: rect(62px, 550px, 106px, 30px);
   }
   60% {
-    clip: rect(20px, 550px, 117px, 30px);
+    clip: rect(90px, 550px, 138px, 30px);
   }
   70% {
-    clip: rect(16px, 550px, 147px, 30px);
+    clip: rect(81px, 550px, 7px, 30px);
   }
   80% {
-    clip: rect(48px, 550px, 150px, 30px);
+    clip: rect(89px, 550px, 45px, 30px);
   }
   90% {
-    clip: rect(75px, 550px, 35px, 30px);
+    clip: rect(10px, 550px, 122px, 30px);
   }
   100% {
-    clip: rect(99px, 550px, 101px, 30px);
+    clip: rect(127px, 550px, 133px, 30px);
   }
 }
 .snap-wrapper {
@@ -234,6 +234,25 @@ input + .radio__control::before {
 
 input:checked + .radio__control::before {
   transform: scale(1);
+}
+
+.wave {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  left: 50%;
+  bottom: 50%;
+  border-radius: 100%;
+  width: 2px;
+  height: 2px;
+  display: block;
+  box-shadow: 0 0 0 0 #222222;
+  transition: box-shadow 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wave.active {
+  background: #222222;
+  box-shadow: 0 0 0 9999px #222222;
 }
 
 /*# sourceMappingURL=setup.css.map */

@@ -136,3 +136,20 @@ input + .radio__control::before
 
 input:checked + .radio__control::before
   transform: scale(1)
+
+.wave
+  position: absolute
+  top: 50%
+  right: 50%
+  left: 50%
+  bottom: 50%
+  border-radius: 100%
+  width: 2px
+  height: 2px
+  display: block
+  box-shadow: 0 0 0 0 #222222
+  transition: box-shadow .9s cubic-bezier(0.4, 0.0, 0.2, 1)
+
+.wave.active
+  background: #222222
+  box-shadow: 0 0 0 9999px #222222
