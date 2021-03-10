@@ -1,12 +1,22 @@
 @import "//fonts.googleapis.com/css?family=Allerta+Stencil"
 
+*
+  font-family: Allerta Stencil, serif
+  box-sizing: border-box
+
+*:before
+  box-sizing: border-box
+
+*:after
+  box-sizing: border-box
+
 .wrapper
   display: flex
   justify-content: center
   align-items: center
 
   h1.glitch
-    font-family: Allerta Stencil
+    font-family: Allerta Stencil, serif
     font-weight: 800
     position: relative
     font-size: 100px
@@ -43,7 +53,7 @@
     animation-direction: reverse-alternate
 
 @keyframes glitch-animation-1
-  $steps: 10
+  $steps: 20
   @for $i from 0 through $steps
     #{percentage($i*(1/$steps))}
       clip: rect(random(150)+px, 550px, random(150)+px, 30px)
@@ -53,3 +63,76 @@
   @for $i from 0 through $steps
     #{percentage($i*(1/$steps))}
       clip: rect(random(150)+px, 550px, random(150)+px, 30px)
+
+
+.snap-wrapper
+  width: 100%
+  height: 100vh
+  overflow-y: scroll
+  scroll-snap-type: y mandatory
+
+  .snap-box
+    width: 100%
+    min-height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+    margin: 0 0 5px 0
+    scroll-snap-align: center
+
+    h3
+      color: white
+      text-align: center
+      font-size: 3rem
+
+section
+    opacity: 0
+
+section.is-visible
+    opacity: 1
+    transition: opacity 3000ms
+
+
+.radio
+  font-size: 2.25rem
+  color: whitesmoke
+
+  display: grid
+  grid-template-columns: min-content auto
+  grid-gap: 0.5em
+
+.radio__input
+  display: flex
+  input
+    opacity: 0
+    width: 0
+    height: 0
+
+    &:checked + .radio__control
+      background: radial-gradient(currentcolor 50%, rgba(255,0,0,0) 51%)
+
+.radio__control
+  display: block
+  width: 1em
+  height: 1em
+  border-radius: 50%
+  border: 0.1em solid currentColor
+
+.radio__label
+  transform: translateY(-0.05em)
+
+.radio__control
+  display: grid
+  place-items: center
+
+input + .radio__control::before
+  content: ""
+  width: .5em
+  height: .5em
+  box-shadow: inset .5em .5em currentColor
+  border-radius: 50%
+  transition: 180ms transform ease-in-out
+  transform: scale(0)
+
+input:checked + .radio__control::before
+  transform: scale(1)

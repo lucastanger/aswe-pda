@@ -1,11 +1,24 @@
 @import "//fonts.googleapis.com/css?family=Allerta+Stencil";
+* {
+  font-family: Allerta Stencil, serif;
+  box-sizing: border-box;
+}
+
+*:before {
+  box-sizing: border-box;
+}
+
+*:after {
+  box-sizing: border-box;
+}
+
 .wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .wrapper h1.glitch {
-  font-family: Allerta Stencil;
+  font-family: Allerta Stencil, serif;
   font-weight: 800;
   position: relative;
   font-size: 100px;
@@ -44,73 +57,183 @@
 
 @keyframes glitch-animation-1 {
   0% {
-    clip: rect(53px, 550px, 104px, 30px);
+    clip: rect(111px, 550px, 141px, 30px);
+  }
+  5% {
+    clip: rect(8px, 550px, 47px, 30px);
   }
   10% {
-    clip: rect(55px, 550px, 79px, 30px);
+    clip: rect(12px, 550px, 4px, 30px);
+  }
+  15% {
+    clip: rect(43px, 550px, 23px, 30px);
   }
   20% {
-    clip: rect(89px, 550px, 104px, 30px);
+    clip: rect(107px, 550px, 3px, 30px);
+  }
+  25% {
+    clip: rect(98px, 550px, 58px, 30px);
   }
   30% {
-    clip: rect(134px, 550px, 129px, 30px);
+    clip: rect(89px, 550px, 80px, 30px);
+  }
+  35% {
+    clip: rect(25px, 550px, 132px, 30px);
   }
   40% {
-    clip: rect(72px, 550px, 99px, 30px);
+    clip: rect(109px, 550px, 39px, 30px);
+  }
+  45% {
+    clip: rect(107px, 550px, 14px, 30px);
   }
   50% {
-    clip: rect(120px, 550px, 93px, 30px);
+    clip: rect(109px, 550px, 124px, 30px);
+  }
+  55% {
+    clip: rect(136px, 550px, 69px, 30px);
   }
   60% {
-    clip: rect(3px, 550px, 70px, 30px);
+    clip: rect(85px, 550px, 22px, 30px);
+  }
+  65% {
+    clip: rect(98px, 550px, 147px, 30px);
   }
   70% {
-    clip: rect(17px, 550px, 134px, 30px);
+    clip: rect(93px, 550px, 79px, 30px);
+  }
+  75% {
+    clip: rect(48px, 550px, 66px, 30px);
   }
   80% {
-    clip: rect(98px, 550px, 139px, 30px);
+    clip: rect(146px, 550px, 35px, 30px);
+  }
+  85% {
+    clip: rect(32px, 550px, 64px, 30px);
   }
   90% {
-    clip: rect(12px, 550px, 135px, 30px);
+    clip: rect(111px, 550px, 92px, 30px);
+  }
+  95% {
+    clip: rect(6px, 550px, 71px, 30px);
   }
   100% {
-    clip: rect(23px, 550px, 39px, 30px);
+    clip: rect(14px, 550px, 71px, 30px);
   }
 }
 @keyframes glitch-animation-2 {
   0% {
-    clip: rect(102px, 550px, 63px, 30px);
+    clip: rect(129px, 550px, 148px, 30px);
   }
   10% {
-    clip: rect(83px, 550px, 63px, 30px);
+    clip: rect(58px, 550px, 148px, 30px);
   }
   20% {
-    clip: rect(48px, 550px, 63px, 30px);
+    clip: rect(115px, 550px, 95px, 30px);
   }
   30% {
-    clip: rect(38px, 550px, 61px, 30px);
+    clip: rect(116px, 550px, 5px, 30px);
   }
   40% {
-    clip: rect(92px, 550px, 17px, 30px);
+    clip: rect(113px, 550px, 98px, 30px);
   }
   50% {
-    clip: rect(85px, 550px, 6px, 30px);
+    clip: rect(41px, 550px, 77px, 30px);
   }
   60% {
-    clip: rect(144px, 550px, 88px, 30px);
+    clip: rect(20px, 550px, 117px, 30px);
   }
   70% {
-    clip: rect(149px, 550px, 126px, 30px);
+    clip: rect(16px, 550px, 147px, 30px);
   }
   80% {
-    clip: rect(130px, 550px, 29px, 30px);
+    clip: rect(48px, 550px, 150px, 30px);
   }
   90% {
-    clip: rect(8px, 550px, 32px, 30px);
+    clip: rect(75px, 550px, 35px, 30px);
   }
   100% {
-    clip: rect(111px, 550px, 82px, 30px);
+    clip: rect(99px, 550px, 101px, 30px);
   }
+}
+.snap-wrapper {
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+.snap-wrapper .snap-box {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 5px 0;
+  scroll-snap-align: center;
+}
+.snap-wrapper .snap-box h3 {
+  color: white;
+  text-align: center;
+  font-size: 3rem;
+}
+
+section {
+  opacity: 0;
+}
+
+section.is-visible {
+  opacity: 1;
+  transition: opacity 3000ms;
+}
+
+.radio {
+  font-size: 2.25rem;
+  color: whitesmoke;
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-gap: 0.5em;
+}
+
+.radio__input {
+  display: flex;
+}
+.radio__input input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.radio__input input:checked + .radio__control {
+  background: radial-gradient(currentcolor 50%, rgba(255, 0, 0, 0) 51%);
+}
+
+.radio__control {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  border: 0.1em solid currentColor;
+}
+
+.radio__label {
+  transform: translateY(-0.05em);
+}
+
+.radio__control {
+  display: grid;
+  place-items: center;
+}
+
+input + .radio__control::before {
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  box-shadow: inset 0.5em 0.5em currentColor;
+  border-radius: 50%;
+  transition: 180ms transform ease-in-out;
+  transform: scale(0);
+}
+
+input:checked + .radio__control::before {
+  transform: scale(1);
 }
 
 /*# sourceMappingURL=setup.css.map */
