@@ -15,7 +15,7 @@ CLIENT_ID = '4648b6cee4344e04b4c2a46d2f83a1e6'
 CLIENT_SECRET = 'b5512349cd434a04858487754e11d1e6'
 
 PORT = '5565'
-CALLBACK_URL = 'http://0.0.0.0'
+CALLBACK_URL = 'http://localhost'
 
 REDIRECT_URI = '{}:{}/rest/api/v1/spotify/callback/'.format(CALLBACK_URL, PORT)
 SCOPE = (

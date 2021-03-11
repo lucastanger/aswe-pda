@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, session
+from flask import Flask, redirect, request, session, make_response
 from src import flask_spotify_auth, profile
 import json
 
@@ -8,7 +8,7 @@ app.secret_key = 'some key for session'
 
 @app.route('/rest/api/v1/spotify/auth')
 def auth():
-    return redirect(flask_spotify_auth.AUTH_URL)
+    return make_response({"authorization_url": flask_spotify_auth.AUTH_URL}, 200)
 
 
 @app.route('/rest/api/v1/spotify/callback/')
@@ -18,22 +18,11 @@ def callback():
     auth_header = flask_spotify_auth.authorize(auth_token)
     session['auth_header'] = auth_header
 
-    return redirect(
-        '{}:{}/rest/api/v1/spotify/profile'.format(
-            flask_spotify_auth.CALLBACK_URL, flask_spotify_auth.PORT
-        )
-    )
+    return "Authentication successful"
 
 
 def valid_token(resp):
     return resp is not None and not 'error' in resp
-
-
-@app.route('/rest/api/v1/spotify/profile')
-def prof():
-    if 'auth_header' in session:
-
-        return 'Authentifizierung erfolgreich!'
 
 
 @app.route('/rest/api/v1/spotify/profile/<search_type>')
