@@ -1,14 +1,14 @@
-from os.path import dirname, join
-from dotmap import DotMap
-from flask import request, jsonify, make_response
-from google.cloud import dialogflow_v2
-from google.api_core.exceptions import InvalidArgument
-from google.protobuf.json_format import MessageToDict
-
 import json
 import os
+from os.path import dirname, join
 
-from flask_restplus import Resource, Namespace, reqparse
+from dotmap import DotMap
+from flask import request, jsonify, make_response
+from flask_restx import Resource, Namespace, reqparse
+from google.api_core.exceptions import InvalidArgument
+from google.cloud import dialogflow_v2
+from google.protobuf.json_format import MessageToDict
+
 from src.services import query
 
 ns = Namespace('dialogflow', description='Dialogflow APIs')
@@ -34,7 +34,7 @@ class Dialogflow(Resource):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = output_path
 
         self.DIALOGFLOW_PROJECT_ID = 'dhbw-aswe-pda-1613143292614'
-        self.DIALOGFLOW_LANGUAGE_CODE = 'de'
+        self.DIALOGFLOW_LANGUAGE_CODE = 'en'
         self.LOCATION_ID = 'europe-west1'
         self.SESSION_ID = 'pda'
 

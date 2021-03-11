@@ -1,16 +1,15 @@
-from flask import request
-
 import json
-import yaml
-import requests
 
-from flask_restplus import Resource, Namespace
+import requests
+import yaml
+from flask import request
+from flask_restx import Resource, Namespace
 
 ns = Namespace('swagger', description='Swagger APIs')
 
 
 @ns.route('/swagger.yml')
-class GetSwagger(Resource):
+class Swagger(Resource):
     @staticmethod
     def get():
         url = f'{request.url_root}/rest/api/v1/swagger.json'
@@ -22,7 +21,7 @@ class GetSwagger(Resource):
 
 
 @ns.route('/swagger.json')
-class GetSwagger(Resource):
+class Swagger(Resource):
     @staticmethod
     def get():
         url = f'{request.url_root}/rest/api/v1/swagger.json'

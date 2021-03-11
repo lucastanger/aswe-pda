@@ -1,16 +1,17 @@
-from flask import make_response, jsonify
-from flask_restplus import Namespace, Resource
-from googleapiclient.discovery import build
-
 import datetime
 import json
 
-from src.authentication import authenticate
+from flask import make_response, jsonify
+from flask_restx import Namespace, Resource
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
 
-ns = Namespace('events', description='Dialogflow APIs')
+from src.routes.authorization import get_credentials
+
+ns = Namespace('events', description='Google calendar events APIs')
 
 
-@ns.route('/')
+@ns.route('/', endpoint="events_endpoint")
 @ns.route('/<date>')
 class Events(Resource):
     def __init__(self, *args, **kwargs):
@@ -20,21 +21,26 @@ class Events(Resource):
     def get(self, date=None):
         if date is None:
             date = self.date_now
-        # Get credentials and initialize service
-        credentials = authenticate()
+
+        # Load credentials from the session.
+        result, success = get_credentials()
+        if not success:
+            return result
+        credentials = Credentials(**result)
+
         service = build('calendar', 'v3', credentials=credentials)
 
         # Call the Calendar API
         events_result = (
             service.events()
-            .list(
+                .list(
                 calendarId='primary',
                 timeMin=date,
                 maxResults=10,
                 singleEvents=True,
                 orderBy='startTime',
             )
-            .execute()
+                .execute()
         )
         events = events_result.get('items', [])
 

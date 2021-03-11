@@ -4,6 +4,8 @@ from src.routes import api
 
 # Create flask and app
 app = Flask(__name__)
+# key. See https://flask.palletsprojects.com/quickstart/#sessions.
+app.secret_key = 'ASWE_KEY'
 api.init_app(app)
 
 
