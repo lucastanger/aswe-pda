@@ -18,9 +18,6 @@ parser.add_argument(
     'message', type=str, help='Message used to detect intent with dialogflow.'
 )
 
-with open('docs/dialogflow_response.json') as json_file:
-    dialogflow_response = json.load(json_file)
-
 query_response_model = ns.model('Query response', {
     'dialogflow': fields.Raw({}),
     'response': fields.Raw({})
