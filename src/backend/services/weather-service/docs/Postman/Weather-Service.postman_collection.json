@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1b93ea01-42ab-47e0-902c-e635da8aa2af",
+		"_postman_id": "e0fde0d9-5ffb-4c0b-ade6-9c599f779251",
 		"name": "Weather-Service",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}:{{port}}/{{baseurl}}/current-weather?city=Stuttgart",
+					"raw": "{{host}}:{{port}}/{{baseurl}}/current-weather?city=Stuttgart&unit=metric",
 					"host": [
 						"{{host}}"
 					],
@@ -24,6 +24,20 @@
 						{
 							"key": "city",
 							"value": "Stuttgart"
+						},
+						{
+							"key": "lat",
+							"value": "48.783333",
+							"disabled": true
+						},
+						{
+							"key": "lon",
+							"value": "9.183333",
+							"disabled": true
+						},
+						{
+							"key": "unit",
+							"value": "metric"
 						}
 					]
 				}
@@ -36,7 +50,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}:{{port}}/{{baseurl}}/forecast?city=Stuttgart",
+					"raw": "{{host}}:{{port}}/{{baseurl}}/forecast?city=Stuttgart&unit=metric",
 					"host": [
 						"{{host}}"
 					],
@@ -51,9 +65,23 @@
 							"value": "Stuttgart"
 						},
 						{
-							"key": "days",
-							"value": "7",
+							"key": "lat",
+							"value": "48.783333",
 							"disabled": true
+						},
+						{
+							"key": "lon",
+							"value": "9.183333",
+							"disabled": true
+						},
+						{
+							"key": "days",
+							"value": "8",
+							"disabled": true
+						},
+						{
+							"key": "unit",
+							"value": "metric"
 						}
 					]
 				}

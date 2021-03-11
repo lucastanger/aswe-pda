@@ -14,18 +14,46 @@ class CurrentWeather(Resource):
     def get(self):
         # Extract arguments from get request
         parser = reqparse.RequestParser()
-        parser.add_argument('city', required=True, location='args')
+        parser.add_argument('city', location='args')
+        parser.add_argument('lat', type=float, location='args')
+        parser.add_argument('lon', type=float, location='args')
+        parser.add_argument(
+            'unit',
+            required=True,
+            choices=('metric', 'imperial'),
+            location='args',
+            help='Invalid Unit: {error_msg}',
+        )
         args = parser.parse_args(strict=True)
 
-        # Create url for openweather api
-        url = (
-            getenv('WEATHER_ENDPOINT')
-            + '/weather?q='
-            + args['city']
-            + '&appid='
-            + getenv('WEATHER_API_KEY')
-            + '&units=metric'
-        )
+        # Check if get current weather by city name or coordinates
+        if args['city'] and not (args['lat'] or args['lon']):
+            # Create url for openweather api
+            url = (
+                getenv('WEATHER_ENDPOINT')
+                + '/weather?q='
+                + args['city']
+                + '&appid='
+                + getenv('WEATHER_API_KEY')
+                + '&units='
+                + args['unit']
+            )
+        elif args['lat'] and args['lon'] and not args['city']:
+            # Create url for openweather api
+            url = (
+                getenv('WEATHER_ENDPOINT')
+                + '/weather?lat='
+                + str(args['lat'])
+                + '&lon='
+                + str(args['lon'])
+                + '&appid='
+                + getenv('WEATHER_API_KEY')
+                + '&units='
+                + args['unit']
+            )
+        else:
+            response_error = {'error': 'Either `city` or `lat` and `lon` are required.'}
+            return response_error, 400
 
         # Send request to openweather api
         try:
