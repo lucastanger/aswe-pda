@@ -15,9 +15,6 @@ services:
     image: t2s-s2t-service:1.0
     ports:
       - "5555:5555"
-    env_file:
-      - ./src/backend/services/t2s-s2t-service/ibm-credentials-t2s.env
-      - ./src/backend/services/t2s-s2t-service/ibm-credentials-s2t.env
     restart: always
 
   calendar-service:
