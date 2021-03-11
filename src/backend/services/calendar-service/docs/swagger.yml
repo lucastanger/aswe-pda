@@ -12,54 +12,45 @@ definitions:
       authorization_url:
         type: string
     type: object
-  Calendar service callback response - error:
+  Callback response - error:
     properties:
       error:
         type: string
     type: object
-  Calendar service callback response - success:
+  Callback response - success:
     properties:
       message:
         type: string
     type: object
-  Calendar service clear response - error:
+  Clear response - error:
     properties:
       error:
         type: string
     type: object
-  Calendar service clear response - success:
+  Clear response - success:
     properties:
       message:
         type: string
     type: object
-  Calendar service revoke response - error:
+  Revoke response - error:
     properties:
       error:
         type: string
     type: object
-  Calendar service revoke response - success:
+  Revoke response - success:
     properties:
       message:
         type: string
-    type: object
-  Query response:
-    properties:
-      dialogflow:
-        default: {}
-        type: object
-      response:
-        default: {}
-        type: object
     type: object
 info:
-  description: Middleware to connect frontend with backend.
-  title: REST-API for Middleware
+  description: Service to receive appointments from google calendar
+  title: REST-API for Calendar-Service
   version: 1.0.0
 paths:
-  /authorization/calendar-service:
+  /authorization/:
     get:
       description: Authorize with google.
-      operationId: get_calendar_service
+      operationId: get_authorize
       responses:
         '200':
           description: OK
@@ -71,70 +62,81 @@ paths:
             $ref: '#/definitions/Calendar%20service%20authorization%20response%20-%20error'
       tags:
       - authorization
-  /authorization/calendar-service/clear:
+  /authorization/clear:
     get:
       description: Clear all authentication data, if you want to completely remove
-        the permissions, call /authorization/calendar-service/revoke first.
-      operationId: get_calendar_service_clear
+        the permissions, call /authorization/revoke first.
+      operationId: get_clear
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/Calendar%20service%20clear%20response%20-%20success'
+            $ref: '#/definitions/Clear%20response%20-%20success'
         '400':
           description: Error
           schema:
-            $ref: '#/definitions/Calendar%20service%20clear%20response%20-%20error'
+            $ref: '#/definitions/Clear%20response%20-%20error'
       tags:
       - authorization
-  /authorization/calendar-service/oauth2callback:
+  /authorization/oauth2callback:
     get:
       description: Callback to be called after authentication.
-      operationId: get_calendar_service_callback
+      operationId: get_callback
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/Calendar%20service%20callback%20response%20-%20success'
+            $ref: '#/definitions/Callback%20response%20-%20success'
         '400':
           description: Error
           schema:
-            $ref: '#/definitions/Calendar%20service%20callback%20response%20-%20error'
+            $ref: '#/definitions/Callback%20response%20-%20error'
       tags:
       - authorization
-  /authorization/calendar-service/revoke:
+  /authorization/revoke:
     get:
       description: Revoke the permissions.
-      operationId: get_calendar_service_revoke
+      operationId: get_revoke
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/Calendar%20service%20revoke%20response%20-%20success'
+            $ref: '#/definitions/Revoke%20response%20-%20success'
         '400':
           description: Error
           schema:
-            $ref: '#/definitions/Calendar%20service%20revoke%20response%20-%20error'
+            $ref: '#/definitions/Revoke%20response%20-%20error'
       tags:
       - authorization
-  /dialogflow/query:
-    post:
-      description: Query a message and return the dialogflow and service response.
-      operationId: post_dialogflow
-      parameters:
-      - description: Message used to detect intent with dialogflow.
-        in: query
-        name: message
-        type: string
+  /events/:
+    get:
+      description: Get events with specified date, if no date is specified, the current
+        date is used.
+      operationId: get_events
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/Query%20response'
         '400':
-          description: 'Missing argument: message'
+          description: Error
       tags:
-      - dialogflow
+      - events
+  /events/{date}:
+    get:
+      description: Get events with specified date, if no date is specified, the current
+        date is used.
+      operationId: get_events
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Error
+      tags:
+      - events
+    parameters:
+    - in: path
+      name: date
+      required: true
+      type: string
   /swagger/swagger.json:
     get:
       description: Generate a swagger.json file.
@@ -164,7 +166,7 @@ swagger: '2.0'
 tags:
 - description: Swagger APIs
   name: swagger
-- description: Dialogflow APIs
-  name: dialogflow
-- description: Authorization APIs
+- description: Google calendar events APIs
+  name: events
+- description: Google authentication APIs
   name: authorization

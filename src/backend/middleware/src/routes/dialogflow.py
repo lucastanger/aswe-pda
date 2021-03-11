@@ -1,14 +1,14 @@
-from os.path import dirname, join
-from dotmap import DotMap
-from flask import request, jsonify, make_response
-from google.cloud import dialogflow_v2
-from google.api_core.exceptions import InvalidArgument
-from google.protobuf.json_format import MessageToDict
-
 import json
 import os
+from os.path import dirname, join
 
-from flask_restplus import Resource, Namespace, reqparse
+from dotmap import DotMap
+from flask import request, jsonify, make_response
+from flask_restx import Resource, Namespace, reqparse, fields
+from google.api_core.exceptions import InvalidArgument
+from google.cloud import dialogflow_v2
+from google.protobuf.json_format import MessageToDict
+
 from src.services import query
 
 ns = Namespace('dialogflow', description='Dialogflow APIs')
@@ -18,13 +18,12 @@ parser.add_argument(
     'message', type=str, help='Message used to detect intent with dialogflow.'
 )
 
-with open('docs/dialogflow_response.json') as json_file:
-    dialogflow_response = json.load(json_file)
+query_response_model = ns.model(
+    'Query response', {'dialogflow': fields.Raw({}), 'response': fields.Raw({})}
+)
 
 
 @ns.route('/query')
-@ns.response(400, 'Missing argument: message')
-@ns.expect(parser)
 class Dialogflow(Resource):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -34,11 +33,16 @@ class Dialogflow(Resource):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = output_path
 
         self.DIALOGFLOW_PROJECT_ID = 'dhbw-aswe-pda-1613143292614'
-        self.DIALOGFLOW_LANGUAGE_CODE = 'de'
+        self.DIALOGFLOW_LANGUAGE_CODE = 'en'
         self.LOCATION_ID = 'europe-west1'
         self.SESSION_ID = 'pda'
 
-    @ns.response(200, json.dumps(dialogflow_response, indent=2))
+    @ns.expect(parser)
+    @ns.response(200, 'OK', query_response_model)
+    @ns.response(400, 'Missing argument: message')
+    @ns.doc(
+        description='Query a message and return the dialogflow and service response.'
+    )
     def post(self):
         parsed_request = DotMap(request.json)
         message = parsed_request.message
