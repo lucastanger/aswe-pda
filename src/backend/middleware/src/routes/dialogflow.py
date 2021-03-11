@@ -18,10 +18,9 @@ parser.add_argument(
     'message', type=str, help='Message used to detect intent with dialogflow.'
 )
 
-query_response_model = ns.model('Query response', {
-    'dialogflow': fields.Raw({}),
-    'response': fields.Raw({})
-})
+query_response_model = ns.model(
+    'Query response', {'dialogflow': fields.Raw({}), 'response': fields.Raw({})}
+)
 
 
 @ns.route('/query')
@@ -41,7 +40,9 @@ class Dialogflow(Resource):
     @ns.expect(parser)
     @ns.response(200, 'OK', query_response_model)
     @ns.response(400, 'Missing argument: message')
-    @ns.doc(description='Query a message and return the dialogflow and service response.')
+    @ns.doc(
+        description='Query a message and return the dialogflow and service response.'
+    )
     def post(self):
         parsed_request = DotMap(request.json)
         message = parsed_request.message

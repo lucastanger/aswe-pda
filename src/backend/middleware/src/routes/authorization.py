@@ -7,13 +7,14 @@ ns = Namespace('authorization', description='Authorization APIs')
 
 @ns.route('/calendar-service')
 class CalendarService(Resource):
-    success_model = ns.model('Calendar service authorization response - success', {
-        'authorization_url': fields.String
-    })
+    success_model = ns.model(
+        'Calendar service authorization response - success',
+        {'authorization_url': fields.String},
+    )
 
-    error_model = ns.model('Calendar service authorization response - error', {
-        'error': fields.String
-    })
+    error_model = ns.model(
+        'Calendar service authorization response - error', {'error': fields.String}
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -33,13 +34,13 @@ class CalendarService(Resource):
 
 @ns.route('/calendar-service/oauth2callback')
 class CalendarServiceCallback(Resource):
-    success_model = ns.model('Calendar service callback response - success', {
-        'message': fields.String
-    })
+    success_model = ns.model(
+        'Calendar service callback response - success', {'message': fields.String}
+    )
 
-    error_model = ns.model('Calendar service callback response - error', {
-        'error': fields.String
-    })
+    error_model = ns.model(
+        'Calendar service callback response - error', {'error': fields.String}
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -60,13 +61,13 @@ class CalendarServiceCallback(Resource):
 
 @ns.route('/calendar-service/revoke')
 class CalendarServiceRevoke(Resource):
-    success_model = ns.model('Calendar service revoke response - success', {
-        'message': fields.String
-    })
+    success_model = ns.model(
+        'Calendar service revoke response - success', {'message': fields.String}
+    )
 
-    error_model = ns.model('Calendar service revoke response - error', {
-        'error': fields.String
-    })
+    error_model = ns.model(
+        'Calendar service revoke response - error', {'error': fields.String}
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -76,21 +77,19 @@ class CalendarServiceRevoke(Resource):
     @ns.response(400, 'Error', error_model)
     @ns.doc(description='Revoke the permissions.')
     def get(self):
-        response = requests.get(
-            f'{self.base_url}/authorization/revoke'
-        )
+        response = requests.get(f'{self.base_url}/authorization/revoke')
         return response.json()
 
 
 @ns.route('/calendar-service/clear')
 class CalendarServiceClear(Resource):
-    success_model = ns.model('Calendar service clear response - success', {
-        'message': fields.String
-    })
+    success_model = ns.model(
+        'Calendar service clear response - success', {'message': fields.String}
+    )
 
-    error_model = ns.model('Calendar service clear response - error', {
-        'error': fields.String
-    })
+    error_model = ns.model(
+        'Calendar service clear response - error', {'error': fields.String}
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -98,11 +97,10 @@ class CalendarServiceClear(Resource):
 
     @ns.response(200, 'OK', success_model)
     @ns.response(400, 'Error', error_model)
-    @ns.doc(description='Clear all authentication data, if you want to completely remove the '
-                        'permissions, call /authorization/calendar-service/revoke first.')
+    @ns.doc(
+        description='Clear all authentication data, if you want to completely remove the '
+        'permissions, call /authorization/calendar-service/revoke first.'
+    )
     def get(self):
-        response = requests.get(
-            f'{self.base_url}/authorization/clear'
-        )
+        response = requests.get(f'{self.base_url}/authorization/clear')
         return response.json()
-

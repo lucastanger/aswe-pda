@@ -24,22 +24,21 @@ authorization = db['authorization']
 
 @ns.route('/')
 class Authorize(Resource):
-    success_model = ns.model('Calendar service authorization response - success', {
-        'authorization_url': fields.String
-    })
+    success_model = ns.model(
+        'Calendar service authorization response - success',
+        {'authorization_url': fields.String},
+    )
 
-    error_model = ns.model('Calendar service authorization response - error', {
-        'error': fields.String
-    })
+    error_model = ns.model(
+        'Calendar service authorization response - error', {'error': fields.String}
+    )
 
     @staticmethod
     @ns.response(200, 'OK', success_model)
     @ns.response(400, 'Error', error_model)
     @ns.doc(description='Authorize with google.')
     def get():
-        flow = Flow.from_client_secrets_file(
-            '.secrets/credentials.json', SCOPES
-        )
+        flow = Flow.from_client_secrets_file('.secrets/credentials.json', SCOPES)
 
         # The URI created here must exactly match one of the authorized redirect URIs
         # for the OAuth 2.0 client, which you configured in the API Console. If this
@@ -52,25 +51,24 @@ class Authorize(Resource):
             # re-prompting the user for permission. Recommended for web server apps.
             access_type='offline',
             # Enable incremental authorization. Recommended as a best practice.
-            include_granted_scopes='true')
+            include_granted_scopes='true',
+        )
 
         # Store the state so the callback can verify the auth server response.
-        authorization.replace_one({'service': 'calendar-service', 'type': 'state'},
-                                  {'service': 'calendar-service', 'type': 'state',
-                                  'state': state}, upsert=True)
+        authorization.replace_one(
+            {'service': 'calendar-service', 'type': 'state'},
+            {'service': 'calendar-service', 'type': 'state', 'state': state},
+            upsert=True,
+        )
 
         return {'authorization_url': authorization_url}
 
 
 @ns.route('/oauth2callback')
 class Callback(Resource):
-    success_model = ns.model('Callback response - success', {
-        'message': fields.String
-    })
+    success_model = ns.model('Callback response - success', {'message': fields.String})
 
-    error_model = ns.model('Callback response - error', {
-        'error': fields.String
-    })
+    error_model = ns.model('Callback response - error', {'error': fields.String})
 
     @staticmethod
     @ns.response(200, 'OK', success_model)
@@ -79,7 +77,9 @@ class Callback(Resource):
     def get():
         # Specify the state when creating the flow in the callback so that it can
         # verified in the authorization server response.
-        result = authorization.find_one({'service': 'calendar-service', 'type': 'state'})
+        result = authorization.find_one(
+            {'service': 'calendar-service', 'type': 'state'}
+        )
         state = result['state']
 
         flow = Flow.from_client_secrets_file(
@@ -93,36 +93,39 @@ class Callback(Resource):
 
         # Store credentials in mongo.
         credentials = flow.credentials
-        authorization.replace_one({'service': 'calendar-service', 'type': 'credentials'},
-                                  credentials_to_dict(credentials), upsert=True)
+        authorization.replace_one(
+            {'service': 'calendar-service', 'type': 'credentials'},
+            credentials_to_dict(credentials),
+            upsert=True,
+        )
 
         return make_response({'message': 'Successfully authorized.'}, 200)
 
 
 @ns.route('/revoke')
 class Revoke(Resource):
-    success_model = ns.model('Revoke response - success', {
-        'message': fields.String
-    })
+    success_model = ns.model('Revoke response - success', {'message': fields.String})
 
-    error_model = ns.model('Revoke response - error', {
-        'error': fields.String
-    })
+    error_model = ns.model('Revoke response - error', {'error': fields.String})
 
     @staticmethod
     @ns.response(200, 'OK', success_model)
     @ns.response(400, 'Error', error_model)
     @ns.doc(description='Revoke the permissions.')
     def get():
-        result = authorization.find_one({'service': 'calendar-service', 'type': 'credentials'})
+        result = authorization.find_one(
+            {'service': 'calendar-service', 'type': 'credentials'}
+        )
         if result is None:
             return 'You need to authorize before revoking credentials.'
 
         credentials = Credentials(**document_to_dict(result))
 
-        revoke = requests.post('https://oauth2.googleapis.com/revoke',
-                               params={'token': credentials.token},
-                               headers={'content-type': 'application/x-www-form-urlencoded'})
+        revoke = requests.post(
+            'https://oauth2.googleapis.com/revoke',
+            params={'token': credentials.token},
+            headers={'content-type': 'application/x-www-form-urlencoded'},
+        )
 
         status_code = getattr(revoke, 'status_code')
         if status_code == 200:
@@ -133,19 +136,17 @@ class Revoke(Resource):
 
 @ns.route('/clear')
 class Clear(Resource):
-    success_model = ns.model('Clear response - success', {
-        'message': fields.String
-    })
+    success_model = ns.model('Clear response - success', {'message': fields.String})
 
-    error_model = ns.model('Clear response - error', {
-        'error': fields.String
-    })
+    error_model = ns.model('Clear response - error', {'error': fields.String})
 
     @staticmethod
     @ns.response(200, 'OK', success_model)
     @ns.response(400, 'Error', error_model)
-    @ns.doc(description='Clear all authentication data, if you want to completely remove the '
-                        'permissions, call /authorization/revoke first.')
+    @ns.doc(
+        description='Clear all authentication data, if you want to completely remove the '
+        'permissions, call /authorization/revoke first.'
+    )
     def get():
         authorization.delete_many({'service': 'calendar-service'})
         return make_response({'message': 'Credentials have been cleared.'}, 200)
@@ -165,7 +166,7 @@ def credentials_to_dict(credentials):
         'token_uri': credentials.token_uri,
         'client_id': credentials.client_id,
         'client_secret': credentials.client_secret,
-        'scopes': credentials.scopes
+        'scopes': credentials.scopes,
     }
 
 
@@ -181,7 +182,7 @@ def document_to_dict(document):
         'token_uri': document['token_uri'],
         'client_id': document['client_id'],
         'client_secret': document['client_secret'],
-        'scopes': document['scopes']
+        'scopes': document['scopes'],
     }
 
 
@@ -190,7 +191,9 @@ def get_credentials():
     Get the credentials from the mongodb.
     :return: Credentials from mongodb.
     """
-    document = authorization.find_one({'service': 'calendar-service', 'type': 'credentials'})
+    document = authorization.find_one(
+        {'service': 'calendar-service', 'type': 'credentials'}
+    )
     if document is None:
         return make_response({'error': 'You are not authenticated.'}, 401), False
     return document_to_dict(document), True

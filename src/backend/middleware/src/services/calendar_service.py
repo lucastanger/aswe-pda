@@ -12,7 +12,5 @@ class CalendarService:
 
     def get_events(self):
         date = self.parameters['date']
-        response = requests.get(
-            f'{self.base_url}/events/{date}'
-        )
+        response = requests.get(f'{self.base_url}/events/{date}')
         return response.json()
