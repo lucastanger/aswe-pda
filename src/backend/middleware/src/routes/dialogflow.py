@@ -4,7 +4,7 @@ from os.path import dirname, join
 
 from dotmap import DotMap
 from flask import request, jsonify, make_response
-from flask_restx import Resource, Namespace, reqparse
+from flask_restx import Resource, Namespace, reqparse, fields
 from google.api_core.exceptions import InvalidArgument
 from google.cloud import dialogflow_v2
 from google.protobuf.json_format import MessageToDict
@@ -21,10 +21,13 @@ parser.add_argument(
 with open('docs/dialogflow_response.json') as json_file:
     dialogflow_response = json.load(json_file)
 
+query_response_model = ns.model('Query response', {
+    'dialogflow': fields.Raw({}),
+    'response': fields.Raw({})
+})
+
 
 @ns.route('/query')
-@ns.response(400, 'Missing argument: message')
-@ns.expect(parser)
 class Dialogflow(Resource):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -38,7 +41,10 @@ class Dialogflow(Resource):
         self.LOCATION_ID = 'europe-west1'
         self.SESSION_ID = 'pda'
 
-    @ns.response(200, json.dumps(dialogflow_response, indent=2))
+    @ns.expect(parser)
+    @ns.response(200, 'OK', query_response_model)
+    @ns.response(400, 'Missing argument: message')
+    @ns.doc(description='Query a message and return the dialogflow and service response.')
     def post(self):
         parsed_request = DotMap(request.json)
         message = parsed_request.message

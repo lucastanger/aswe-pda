@@ -2,7 +2,7 @@ import os
 
 import requests
 from flask import request, make_response
-from flask_restx import Resource, Namespace
+from flask_restx import Resource, Namespace, fields
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
 from pymongo import MongoClient
@@ -24,7 +24,18 @@ authorization = db['authorization']
 
 @ns.route('/')
 class Authorize(Resource):
+    success_model = ns.model('Calendar service authorization response - success', {
+        'authorization_url': fields.String
+    })
+
+    error_model = ns.model('Calendar service authorization response - error', {
+        'error': fields.String
+    })
+
     @staticmethod
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Authorize with google.')
     def get():
         flow = Flow.from_client_secrets_file(
             '.secrets/credentials.json', SCOPES
@@ -53,7 +64,18 @@ class Authorize(Resource):
 
 @ns.route('/oauth2callback')
 class Callback(Resource):
+    success_model = ns.model('Callback response - success', {
+        'message': fields.String
+    })
+
+    error_model = ns.model('Callback response - error', {
+        'error': fields.String
+    })
+
     @staticmethod
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Callback to be called after authentication.')
     def get():
         # Specify the state when creating the flow in the callback so that it can
         # verified in the authorization server response.
@@ -79,7 +101,18 @@ class Callback(Resource):
 
 @ns.route('/revoke')
 class Revoke(Resource):
+    success_model = ns.model('Revoke response - success', {
+        'message': fields.String
+    })
+
+    error_model = ns.model('Revoke response - error', {
+        'error': fields.String
+    })
+
     @staticmethod
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Revoke the permissions.')
     def get():
         result = authorization.find_one({'service': 'calendar-service', 'type': 'credentials'})
         if result is None:
@@ -100,13 +133,30 @@ class Revoke(Resource):
 
 @ns.route('/clear')
 class Clear(Resource):
+    success_model = ns.model('Clear response - success', {
+        'message': fields.String
+    })
+
+    error_model = ns.model('Clear response - error', {
+        'error': fields.String
+    })
+
     @staticmethod
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Clear all authentication data, if you want to completely remove the '
+                        'permissions, call /authorization/revoke first.')
     def get():
         authorization.delete_many({'service': 'calendar-service'})
         return make_response({'message': 'Credentials have been cleared.'}, 200)
 
 
 def credentials_to_dict(credentials):
+    """
+    Convert credentials from google to dict.
+    :param credentials: Credentials from google_auth_oauthlib.flow.
+    :return: Credentials as dict.
+    """
     return {
         'service': 'calendar-service',
         'type': 'credentials',
@@ -120,6 +170,11 @@ def credentials_to_dict(credentials):
 
 
 def document_to_dict(document):
+    """
+    Convert document from mongodb to dict, so that it can be used with google.oauth2.credentials.
+    :param document: Document from mongodb.
+    :return: Document as dict.
+    """
     return {
         'token': document['token'],
         'refresh_token': document['refresh_token'],
@@ -131,6 +186,10 @@ def document_to_dict(document):
 
 
 def get_credentials():
+    """
+    Get the credentials from the mongodb.
+    :return: Credentials from mongodb.
+    """
     document = authorization.find_one({'service': 'calendar-service', 'type': 'credentials'})
     if document is None:
         return make_response({'error': 'You are not authenticated.'}, 401), False

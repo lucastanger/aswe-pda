@@ -1,32 +1,53 @@
 import requests
-from flask import redirect, url_for, request
-from flask_restx import Resource, Namespace
+from flask import url_for, request
+from flask_restx import Resource, Namespace, fields
 
 ns = Namespace('authorization', description='Authorization APIs')
 
 
 @ns.route('/calendar-service')
 class CalendarService(Resource):
+    success_model = ns.model('Calendar service authorization response - success', {
+        'authorization_url': fields.String
+    })
+
+    error_model = ns.model('Calendar service authorization response - error', {
+        'error': fields.String
+    })
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.base_url = 'http://calendar-service:5560/rest/api/v1'
 
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Authorize with google.')
     def get(self):
         authorization_callback = url_for('authorization_calendar_service_callback')
         redirect_uri = f'http://localhost:5600{authorization_callback}'
         response = requests.get(
             f'{self.base_url}/authorization', params={'redirect_uri': redirect_uri}
         )
-        authorization_url = response.json()['authorization_url']
-        return redirect(authorization_url)
+        return response.json()
 
 
 @ns.route('/calendar-service/oauth2callback')
 class CalendarServiceCallback(Resource):
+    success_model = ns.model('Calendar service callback response - success', {
+        'message': fields.String
+    })
+
+    error_model = ns.model('Calendar service callback response - error', {
+        'error': fields.String
+    })
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.base_url = 'http://calendar-service:5560/rest/api/v1'
 
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Callback to be called after authentication.')
     def get(self):
         authorization_callback = url_for('authorization_calendar_service_callback')
         redirect_uri = f'http://localhost:5600{authorization_callback}'
@@ -38,11 +59,22 @@ class CalendarServiceCallback(Resource):
 
 
 @ns.route('/calendar-service/revoke')
-class CalendarServiceCallback(Resource):
+class CalendarServiceRevoke(Resource):
+    success_model = ns.model('Calendar service revoke response - success', {
+        'message': fields.String
+    })
+
+    error_model = ns.model('Calendar service revoke response - error', {
+        'error': fields.String
+    })
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.base_url = 'http://calendar-service:5560/rest/api/v1'
 
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Revoke the permissions.')
     def get(self):
         response = requests.get(
             f'{self.base_url}/authorization/revoke'
@@ -51,13 +83,26 @@ class CalendarServiceCallback(Resource):
 
 
 @ns.route('/calendar-service/clear')
-class CalendarServiceCallback(Resource):
+class CalendarServiceClear(Resource):
+    success_model = ns.model('Calendar service clear response - success', {
+        'message': fields.String
+    })
+
+    error_model = ns.model('Calendar service clear response - error', {
+        'error': fields.String
+    })
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.base_url = 'http://calendar-service:5560/rest/api/v1'
 
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Clear all authentication data, if you want to completely remove the '
+                        'permissions, call /authorization/calendar-service/revoke first.')
     def get(self):
         response = requests.get(
             f'{self.base_url}/authorization/clear'
         )
         return response.json()
+

@@ -11,13 +11,17 @@ from src.routes.authorization import get_credentials
 ns = Namespace('events', description='Google calendar events APIs')
 
 
-@ns.route('/', endpoint="events_endpoint")
+@ns.route('/')
 @ns.route('/<date>')
 class Events(Resource):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.date_now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
 
+    @ns.response(200, 'OK')
+    @ns.response(400, 'Error')
+    @ns.doc(description='Get events with specified date, if no date is specified, the current '
+                        'date is used.')
     def get(self, date=None):
         if date is None:
             date = self.date_now

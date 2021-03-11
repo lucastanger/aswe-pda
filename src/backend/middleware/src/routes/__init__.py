@@ -6,7 +6,7 @@ from .authorization import ns as authorization_ns
 api = Api(
     title='REST-API for Middleware',
     version='1.0.0',
-    description='Middleware to connect frontend with backend',
+    description='Middleware to connect frontend with backend.',
     prefix='/rest/api/v1',
     doc='/rest/api/v1/docs',
 )
