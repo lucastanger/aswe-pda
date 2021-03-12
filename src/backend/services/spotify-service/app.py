@@ -11,14 +11,15 @@ def auth():
     return make_response({"authorization_url": flask_spotify_auth.AUTH_URL}, 200)
 
 
-@app.route('/rest/api/v1/spotify/callback/')
+@app.route('/rest/api/v1/spotify/callback')
 def callback():
 
     auth_token = request.args['code']
-    auth_header = flask_spotify_auth.authorize(auth_token)
-    session['auth_header'] = auth_header
+    result = flask_spotify_auth.authorize(auth_token)
 
-    return "Authentication successful"
+    if result:
+        return make_response({'message': 'Authorization successful'}, 201)
+    return make_response({'error': 'Authorization failed'}, 401)
 
 
 def valid_token(resp):
@@ -27,8 +28,10 @@ def valid_token(resp):
 
 @app.route('/rest/api/v1/spotify/profile/<search_type>')
 def profileInfos(search_type):
-    if 'auth_header' in session:
-        auth_header = session['auth_header']
+
+    auth_header = flask_spotify_auth.getAuthHeader()
+
+    if auth_header:
 
         if search_type == 'info':
             data = profile.getUserProfile(auth_header)
@@ -47,6 +50,8 @@ def profileInfos(search_type):
 
         if valid_token(data):
             return json.dumps(data, indent=4)
+    else:
+        return make_response({'error': 'Could not get the authorization header'})
 
 
 @app.route('/rest/api/v1/spotify/play')

@@ -104,3 +104,28 @@ class CalendarServiceClear(Resource):
     def get(self):
         response = requests.get(f'{self.base_url}/authorization/clear')
         return response.json()
+
+
+@ns.route('/spotify-service')
+class SpotifyService(Resource):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.base_url = 'http://spotify-service:5565/rest/api/v1'
+
+    def get(self):
+        response = requests.get(f'{self.base_url}/spotify/auth')
+        return response.json()
+
+
+@ns.route('/spotify-service/oauth2callback')
+class SpotifyServiceCallback(Resource):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.base_url = 'http://spotify-service:5565/rest/api/v1'
+
+    def get(self):
+        params = {**request.args.to_dict()}
+        response = requests.get(f'{self.base_url}/spotify/callback', params=params)
+        return response.json()
