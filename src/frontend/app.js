@@ -2,6 +2,9 @@
 var express = require('express');
 var app = express();
 
+const PORT = 8080;
+const HOST = '0.0.0.0';
+
 
 // Define internal routes
 app.use(express.static(__dirname + '/src'));
@@ -25,6 +28,6 @@ app.get('/setup', function (req, res) {
 });
 
 // Let node listen to port 8080
-app.listen(8080, function () {
-    console.log('Example app listening on port 8080!');
+app.listen(PORT, HOST, function () {
+    console.log(`Running on http://${HOST}:${PORT}`);
 });
