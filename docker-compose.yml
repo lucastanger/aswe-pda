@@ -58,12 +58,7 @@ services:
     container_name: frontend-container
     build: ./src/frontend
     ports:
-      - 8080:80
-    #volumes:
-    #  - type: bind
-    #    source: "./src/frontend/src"
-    #    target: "/var/www/html"
-    #  - webserver:/data
+      - "8080:8080"
 
   mongo:
     image: mongo
