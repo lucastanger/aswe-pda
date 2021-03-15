@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" id="darkSwitch" class="dark">
+<head>
+    <title>J.A.R.V.I.S</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <!-- css -->
+    <link href="style/tailwind.css" rel="stylesheet" type="text/css" />
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="icons//apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons//apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="icons//apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="icons//apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icons//apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons//apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons//apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons//apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <!--<link rel="manifest" href="manifest.json">-->
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<script>
+    // Define all available sidebar pages
+    let pages = ['home', 'profile', 'chat', 'history', 'settings'];
+
+    /*
+        Add some jQuery features to the page.
+        e.g. sidebar toggling and specific select effects
+     */
+    $(function () {
+        $('#nav').hover(function () {
+            $(this).toggleClass('expand');
+            $('.chat-expand').toggle('hidden');
+            $('#nav').not(this).toggleClass('shrink');
+        });
+        // Switch between different sides
+        $('.btn').click(function () {
+            $('.btn').each(function () {
+                this.classList.remove("dark:bg-green-600", "bg-green-400");
+            });
+            // Mark according button as selected
+            this.classList.add("dark:bg-green-600", "bg-green-400");
+            // Load selected page
+            loadPage(this.name);
+        });
+    });
+
+    function loadPage(pageName) {
+        // Hide all other pages
+        pages.forEach(page => document.getElementById(page).classList.add('hidden'));
+        // Show requested page
+        document.getElementById(pageName).classList.remove('hidden');
+    }
+
+    function load() {
+        $("#modal").load("modal.html");
+    }
+</script>
+<body class="dark:bg-gray-300 fixed h-screen w-screen flex flex-col bg-gradient-to-br dark:from-gray-600 dark:via-gray-700 dark:to-gray-600">
+<div id="modal"></div>
+<!-- header -->
+<header class="w-full">
+    <div class="px-5 py-5 flex justify-between items-center bg-white dark:bg-gray-900 border-b dark:border-gray-900">
+        <div class="font-semibold text-2xl dark:text-gray-300">J.A.R.V.I.S </div>
+        <div class="h-12 w-12 p-2 bg-green-500 rounded-full text-white font-semibold flex items-center justify-center dark:text-gray-300">LS</div>
+    </div>
+</header>
+<!-- end header -->
+<!-- content container -->
+<div class="flex h-full">
+    <!-- nav -->
+    <div class="group bg-gradient-to-b dark:from-green-900 dark:via-gray-800 dark:to-black bg-opacity-70 grow p-3.5 pt-10 border-r dark:border-gray-900 w-20 from-gray-50 to-gray-400" id="nav">
+        <!-- btn -->
+        <button class="btn active group-hover:w-full mb-4 dark:hover:bg-green-600 hover:bg-green-400 rounded-3xl dark:bg-green-600 bg-green-400" name="home">
+            <div class="rounded-md dark:text-gray-300 flex items-center transition transition-none m-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="float-left">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span class="chat-expand hidden text-xl">Home</span>
+            </div>
+        </button>
+        <!-- end btn -->
+        <!-- btn -->
+        <button class="btn active group-hover:w-full mb-4 dark:hover:bg-green-600 hover:bg-green-400 rounded-3xl" name="profile">
+            <div class="rounded-md dark:text-gray-300 flex items-center transition transition-none m-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="float-left">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="chat-expand hidden text-xl">Profile</span>
+            </div>
+        </button>
+        <!-- end btn -->
+        <!-- btn -->
+        <button class="btn active group-hover:w-full mb-4 dark:hover:bg-green-600 hover:bg-green-400 rounded-3xl" name="chat">
+            <div class="rounded-md dark:text-gray-300 flex items-center transition transition-none m-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="float-left">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span class="chat-expand hidden text-xl">Chat</span>
+            </div>
+        </button>
+        <!-- end btn -->
+        <!-- btn -->
+        <button class="btn active group-hover:w-full mb-4 dark:hover:bg-green-600 hover:bg-green-400 rounded-3xl" name="history">
+            <div class="rounded-md dark:text-gray-300 flex items-center transition transition-none m-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="float-left">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="chat-expand hidden text-xl">History</span>
+            </div>
+        </button>
+        <!-- end btn -->
+        <!-- btn -->
+        <button class="btn active group-hover:w-full mb-4 dark:hover:bg-green-600 hover:bg-green-400 rounded-3xl" name="settings">
+            <div class="rounded-md dark:text-gray-300 flex items-center transition transition-none m-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="float-left">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="chat-expand hidden text-xl">Settings</span>
+            </div>
+        </button>
+        <!-- end btn -->
+    </div>
+    <!-- end nav -->
+    <!-- home container -->
+    <div id="home" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-blue-100 to-green-200 w-full relative p-14 flex flex-col h-full overflow-auto">
+        <!-- title -->
+        <div class="flex items-center justify-center mb-20">
+            <h1 class="text-7xl dark:text-gray-300 font-thin">Good morning, Luca!</h1>
+        </div>
+        <!-- end title -->
+        <div class="h-full">
+            <!-- left -->
+            <div class="h-full float-left mr-20 w-full xl:w-4/6">
+                <!-- artists -->
+                <div class="h-56 w-full xl:mb-28 mb-56">
+                    <h1 class="text-3xl dark:text-gray-300 font-thin">Recent artists</h1>
+                    <!-- artists container -->
+                    <div class="h-full mt-5 grid xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-4">
+                        <!-- artists element -->
+                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
+                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
+                                <img class="rounded-md" src="https://newjams-images.scdn.co/v3/discover-weekly/ekq6M18aU6lwEFBw1qe4U4y-8cJiZ8qydnmYt6S83ay80rOiUL0yEUSn28Iyi4MdSeprlP_zGBVqSlXJmmHOz4AY2YBR9iJ7TS1N98oH4NowmStE3_osCatfpfNxTqo0oAjhAYWt_lDAA26X54lTbVylhruqOCTrosJM3ZOp4gz86Gy-G9IxdmPfcMw3d1QmrPAjaRpFopOwhpcnMm1eFQKGWoFqhnWSvvLA9G-_RzWQYHGRZ-GmMfle9Yofjl1N4YgMIfGfCHLDunRNkiNWk07n4HusRMR_wwHB-kiUiR7Df-tCHCSxBzyj0Kx3yLtRQlQNV0SVwVVpieCn5jXCwMVEOwN6ygv6ik0-t1u1AvI=/ODM6NjU6NDFUMzEtMzAtMQ==/default" alt="DeinMixDerWoche">
+                            </div>
+                            <p class="font-medium text-green-500">Dein Mix der Woche</p>
+                        </div>
+                        <!-- end artists element -->
+                        <!-- artists element -->
+                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
+                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
+                                <img class="rounded-md" src="https://pbs.twimg.com/media/ERFx2g7UcAEKy3C.jpg" alt="the weeknd">
+                            </div>
+                            <p class="font-medium text-green-500">The Weeknd</p>
+                        </div>
+                        <!-- end artists element -->
+                        <!-- artists element -->
+                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
+                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
+                                <img class="rounded-md" src="https://dailymix-images.scdn.co/v2/img/d539699706b9662a2636340830926ba2caaf192a/1/de/default" alt="YourMixtape1">
+                            </div>
+                            <p class="font-medium text-green-500">Your Mixtape 1</p>
+                        </div>
+                        <!-- end artists element -->
+                        <!-- artists element -->
+                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
+                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
+                                <img class="rounded-md" src="https://dailymix-images.scdn.co/v2/img/19f3fac006358960cd5ded1fcdb93847c5a8c7be/2/de/default" alt="YourMixtape2">
+                            </div>
+                            <p class="font-medium text-green-500">Your Mixtape 2</p>
+                        </div>
+                        <!-- end artists element -->
+                        <!-- artists element -->
+                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
+                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
+                                <img class="rounded-md" src="https://dailymix-images.scdn.co/v2/img/197f548899c94f33cdf198b2985e9d5e267bb47b/3/de/default" alt="YourMixtape3">
+                            </div>
+                            <p class="font-medium text-green-500">Your Mixtape 3</p>
+                        </div>
+                        <!-- end artists element -->
+                    </div>
+                    <!-- end artists container -->
+                </div>
+                <!-- end artists -->
+                <!-- news -->
+                <div class="h-full">
+                    <h1 class="text-3xl dark:text-gray-300 font-thin mb-2">News</h1>
+                    <!-- news container -->
+                    <div class="grid grid-rows-4 gap-4">
+                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
+                            <!-- news image -->
+                            <div class="w-40 mr-5">
+                                <img class="rounded-md max-h-24 w-40" src="https://s3.reutersmedia.net/resources/r/?m=02&d=20210223&t=2&i=1552505218&w=1100&fh=&fw=&ll=&pl=&sq=&r=LYNXMPEH1M01J" alt="">
+                            </div>
+                            <!-- end news image -->
+                            <!-- news text -->
+                            <div class="">
+                                <p class="text-gray-300 text-xl">Mars rover sends home movie of daredevil descent to landing on red planet - Reuters</p>
+                            </div>
+                            <!-- end news text -->
+                        </div>
+                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
+                            <!-- news image -->
+                            <div class="w-40 mr-5">
+                                <img class="rounded-md max-h-24 w-40" src="https://static.reuters.com/resources/r/?m=02&d=20210217&t=2&i=1551875870&r=LYNXMPEH1G1DA&w=640" alt="">
+                            </div>
+                            <!-- end news image -->
+                            <!-- news text -->
+                            <div class="">
+                                <p class="text-gray-300 text-xl">Teeth from Siberian mammoths yield oldest DNA ever recovered - Reuters</p>
+                            </div>
+                            <!-- end news text -->
+                        </div>
+                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
+                            <!-- news image -->
+                            <div class="w-40 mr-5">
+                                <img class="rounded-md max-h-24 w-40" src="https://www.metro.us/wp-content/uploads/Reuters_Direct_Media/USOnlineReportScienceNews/tagreuters.com2021binary_LYNXMPEH1M0Q1-BASEIMAGE.jpg" alt="">
+                            </div>
+                            <!-- end news image -->
+                            <!-- news text -->
+                            <div class="">
+                                <p class="text-gray-300 text-xl">Battered stones of Jerusalem's Western Wall get the full treatment - Yahoo News India</p>
+                            </div>
+                            <!-- end news text -->
+                        </div>
+                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
+                            <!-- news image -->
+                            <div class="w-40 mr-5">
+                                <img class="rounded-md max-h-24 w-40" src="https://www.arctictoday.com/wp-content/uploads/2021/02/2021-02-04T190123Z_1_LYNXMPEH131KO_RTROPTP_4_GLOBAL-OCEANS-NOISE-scaled.jpg" alt="">
+                            </div>
+                            <!-- end news image -->
+                            <!-- news text -->
+                            <div class="">
+                                <p class="text-gray-300 text-xl">Noise pollution is harming sea life, needs to be prioritized, scientists say - Arctic Today</p>
+                            </div>
+                            <!-- end news text -->
+                        </div>
+                    </div>
+                    <!-- end news container -->
+                </div>
+                <!-- end news -->
+            </div>
+            <!-- right -->
+            <div class="float-left w-1/4">
+                <!-- calendar schedule -->
+                <div class="h-full">
+                    <h1 class="text-8xl dark:text-gray-300 font-medium" id="time">07:10</h1>
+                    <h1 class="text-3xl dark:text-gray-300 font-thin">Monday, February 26, 2021</h1>
+                    <!-- calendar entry container -->
+                    <div class="grid grid-rows-4 gap-4 pt-6">
+                        <!-- calendar entry -->
+                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
+                            <h1 class="dark:text-gray-300 font-light pb-1">Meeting "Online Learning" Team</h1>
+                            <p class="dark:text-green-500 font-thin">14:00 - 16:00</p>
+                        </div>
+                        <!-- end calendar entry -->
+                        <!-- calendar entry -->
+                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
+                            <h1 class="dark:text-gray-300 font-light pb-1">Backlog Refinement</h1>
+                            <p class="dark:text-green-500 font-thin">16:00 - 17:00</p>
+                        </div>
+                        <!-- end calendar entry -->
+                        <!-- calendar entry -->
+                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
+                            <h1 class="dark:text-gray-300 font-light pb-1">Finish fact sheet</h1>
+                            <p class="dark:text-green-500 font-thin">19:00 - 20:00</p>
+                        </div>
+                        <!-- end calendar entry -->
+                        <!-- calendar entry -->
+                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
+                            <h1 class="dark:text-gray-300 font-light pb-1">Training</h1>
+                            <p class="dark:text-green-500 font-thin">20:30 - 21:30</p>
+                        </div>
+                        <!-- end calendar entry -->
+                    </div>
+                    <!-- end calendar entry container -->
+                </div>
+                <!-- end calendar -->
+                <!-- weather -->
+                <div class="h-3/5">
+                    <h1 class="text-3xl dark:text-gray-300 font-thin mb-4">Weather today</h1>
+                    <!-- weather container -->
+                    <div class="dark:bg-black dark:bg-opacity-25 w-full h-5/6 rounded-md shadow-2xl px-2 py-3">
+                        <h1 class="dark:text-gray-300 font-light">Stuttgart, DE</h1>
+                        <div class="h-1 dark:bg-gray-300 dark:bg-opacity-25 rounded my-1"></div>
+                        <div class="grid grid-rows-2 grid-cols-2">
+                            <div class="h-32 flex justify-center items-center">
+                                <img class="h-24" src="icons/regen.svg" alt="rain">
+                            </div>
+                            <div class="h-32 flex justify-center items-center">
+                                <p class="dark:text-gray-100 font-normal text-7xl">4°C</p>
+                            </div>
+                            <div class="col-span-full flex flex-col pt-5 items-center">
+                                <p class="dark:text-gray-100 font-normal text-xl">Light rain</p>
+                                <p class="dark:text-gray-500">Wind: 5.7 m/s Moderate breeze</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end weather container -->
+                </div>
+                <!-- end weather -->
+            </div>
+        </div>
+    </div>
+    <!-- end home container -->
+    <!-- profile container -->
+    <div id="profile" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 w-full relative p-14 hidden">
+    </div>
+    <!-- end profile container -->
+    <!-- chat container -->
+    <div id="chat" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 w-full relative p-14 hidden">
+        <!-- SINGLE MESSAGE -->
+        <div class="clearfix">
+            <div class="bg-gray-300 dark:bg-gray-900 dark:text-gray-300 w-3/6 mx-4 my-2 p-2 rounded-lg">Hello Sir! My name is J.A.R.V.I.S. How may I help you today?</div>
+        </div>
+        <!-- Input -->
+        <div class="justify-end flex-col w-full bg-gray-100 dark:bg-gray-800 absolute bottom-0 right-0 border-t dark:border-gray-900 border-gray-300">
+            <div class="flex flex-row">
+                <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 w-full dark:text-gray-300 group-focus:ring-black" type="text" placeholder="Write a message" id="chatInput"/>
+                <div class="m-auto justify-end w-12">
+                    <a href="#">
+                        <span>
+                            <!-- mic -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="text-gray-500 dark:text-gray-300">
+                                <path class="" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- end input -->
+    </div>
+    <!-- end chat container -->
+    <!-- history container -->
+    <div id="history" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 w-full relative p-14 hidden">
+    </div>
+    <!-- end profile container -->
+    <!-- settings container -->
+    <div id="settings" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 w-full relative p-14 hidden">
+    </div>
+    <!-- end profile container -->
+    <!-- end content container -->
+</div>
+</body>
+<script src="script/home.js"></script>
+</html>
+
+<!---->
