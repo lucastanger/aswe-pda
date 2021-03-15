@@ -7,6 +7,42 @@ input.addEventListener("keyup", function (event) {
     }
 });
 
+// Define all available sidebar pages
+let pages = ['home', 'profile', 'chat', 'history', 'settings'];
+
+/*
+    Add some jQuery features to the page.
+    e.g. sidebar toggling and specific select effects
+ */
+$(function () {
+    $('#nav').hover(function () {
+        $(this).toggleClass('expand');
+        $('.chat-expand').toggle('hidden');
+        $('#nav').not(this).toggleClass('shrink');
+    });
+    // Switch between different sides
+    $('.btn').click(function () {
+        $('.btn').each(function () {
+            this.classList.remove("dark:bg-green-600", "bg-green-400");
+        });
+        // Mark according button as selected
+        this.classList.add("dark:bg-green-600", "bg-green-400");
+        // Load selected page
+        loadPage(this.name);
+    });
+});
+
+function loadPage(pageName) {
+    // Hide all other pages
+    pages.forEach(page => document.getElementById(page).classList.add('hidden'));
+    // Show requested page
+    document.getElementById(pageName).classList.remove('hidden');
+}
+
+function load() {
+    $("#modal").load("modal.html");
+}
+
 $(document).ready(function () {
     // Dark Mode Toggle Function
     $('#darkMode').click(function () {

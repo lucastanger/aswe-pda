@@ -19,12 +19,49 @@ app.set('view engine', 'ejs');
 
 // Home route
 app.get('/', function (req, res) {
-    res.render('home.html')
+    res.render('home')
 });
 
 // Setup route
 app.get('/setup', function (req, res) {
-    res.render('setup.html')
+    const newsCategories = [
+        'Business',
+        'Entertainment',
+        'General',
+        'Health',
+        'Science',
+        'Sports',
+        'Technology'
+    ]
+
+    const newsSources = [
+        'ABC News',
+        'Al Jazeera English',
+        'Ars Technica',
+        'Associated Press',
+        'Australian Financial Review',
+        'Axios',
+        'BBC News',
+        'BBC Sport',
+        'Bleacher Report',
+        'Bloomberg',
+        'Breitbart News',
+        'Business Insider',
+        'Business Insider (UK)',
+        'Buzzfeed',
+        'CBS News',
+        'CNN',
+        'Crypto Coins News',
+        'Endgadget',
+        'Entertainment Weekly',
+        'ESPN',
+        'ESPN Cric Info'
+    ]
+
+    res.render('setup', {
+        newsCategories: newsCategories,
+        newsSources: newsSources
+    })
 });
 
 // Let node listen to port 8080
