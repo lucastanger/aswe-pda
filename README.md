@@ -31,6 +31,10 @@ Personal Digital Assistant (PDA) named J.A.R.V.I.S. This project emerged from th
 # Prerequisites 
 ## Frontend
 
+Compile Tailwind Stylesheet
+
+![Tailwind GIF](https://github.com/lucastanger/aswe-pda/blob/feature/aswe-123-beautify-readme/src/frontend/tailwind_install.gif?raw=true)
+
 ## Backend
 ### :rocket: Deploy
 
