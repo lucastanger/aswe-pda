@@ -7,7 +7,7 @@ app.secret_key = 'some key for session'
 
 @app.route('/rest/api/v1/spotify/auth')
 def auth():
-    return make_response({"authorization_url": flask_spotify_auth.AUTH_URL}, 200)
+    return make_response({'authorization_url': flask_spotify_auth.AUTH_URL}, 200)
 
 
 @app.route('/rest/api/v1/spotify/callback')
@@ -50,7 +50,10 @@ def profileInfos(search_type):
         if valid_token(data):
             return data
     else:
-        return make_response({'error': 'Could not get the authorization header'}, 402), False
+        return (
+            make_response({'error': 'Could not get the authorization header'}, 402),
+            False,
+        )
 
 
 @app.route('/rest/api/v1/spotify/play')
@@ -64,7 +67,10 @@ def play():
         if valid_token(play):
             return make_response({'message': 'Play!'}, 200), True
     else:
-        return make_response({'error': 'Could not get the authorization header'}, 402), False
+        return (
+            make_response({'error': 'Could not get the authorization header'}, 402),
+            False,
+        )
 
 
 @app.route('/rest/api/v1/spotify/pause')
@@ -78,7 +84,10 @@ def pause():
         if valid_token(pause):
             return make_response({'message': 'Pause!'}, 200), True
     else:
-        return make_response({'error': 'Could not get the authorization header'}, 402), False
+        return (
+            make_response({'error': 'Could not get the authorization header'}, 402),
+            False,
+        )
 
 
 if __name__ == '__main__':

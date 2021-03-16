@@ -108,7 +108,6 @@ class CalendarServiceClear(Resource):
 
 @ns.route('/spotify-service')
 class SpotifyService(Resource):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.base_url = 'http://spotify-service:5565/rest/api/v1'
@@ -120,7 +119,6 @@ class SpotifyService(Resource):
 
 @ns.route('/spotify-service/oauth2callback')
 class SpotifyServiceCallback(Resource):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.base_url = 'http://spotify-service:5565/rest/api/v1'

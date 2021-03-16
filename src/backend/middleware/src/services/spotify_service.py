@@ -62,12 +62,16 @@ class SpotifyService:
             info_url = response_json['external_urls']['spotify']
             info_image = response_json['images'][0]['url']
 
-            info = json.dumps({'info': {
-                'name': info_name,
-                'email': info_email,
-                'url': info_url,
-                'image': info_image
-            }})
+            info = json.dumps(
+                {
+                    'info': {
+                        'name': info_name,
+                        'email': info_email,
+                        'url': info_url,
+                        'image': info_image,
+                    }
+                }
+            )
 
             return info
         return False
@@ -85,7 +89,7 @@ class SpotifyService:
                 z['playlists'][index] = {
                     'name': item['name'],
                     'image': item['images'][0]['url'],
-                    'url': item['external_urls']['spotify']
+                    'url': item['external_urls']['spotify'],
                 }
                 index += 1
 
@@ -104,7 +108,7 @@ class SpotifyService:
             for item in response_json['items']:
                 z['artists'][index] = {
                     'name': item['name'],
-                    'image': item['images'][0]['url']
+                    'image': item['images'][0]['url'],
                 }
 
                 index += 1
@@ -125,7 +129,7 @@ class SpotifyService:
                 z['tracks'][index] = {
                     'name': item['name'],
                     'image': item['album']['images'][0]['url'],
-                    'artist': item['artists'][0]['name']
+                    'artist': item['artists'][0]['name'],
                 }
 
                 index += 1
@@ -145,7 +149,7 @@ class SpotifyService:
             for item in response_json['items']:
                 z['recent'][index] = {
                     'track': item['track']['name'],
-                    'artist': item['track']['artists'][0]['name']
+                    'artist': item['track']['artists'][0]['name'],
                 }
 
                 index += 1
@@ -166,10 +170,7 @@ class SpotifyService:
 
             for item in response_json['playlists']:
                 for i in item['items']:
-                    z['featured'] = {
-                        'name': i['name'],
-                        'image': i['images'][0]['url']
-                    }
+                    z['featured'] = {'name': i['name'], 'image': i['images'][0]['url']}
 
                     index += 1
 

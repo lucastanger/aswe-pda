@@ -20,7 +20,9 @@ CLIENT_SECRET = 'b5512349cd434a04858487754e11d1e6'
 PORT = '5600'
 CALLBACK_URL = 'http://localhost'
 
-REDIRECT_URI = '{}:{}/rest/api/v1/authorization/spotify-service/oauth2callback'.format(CALLBACK_URL, PORT)
+REDIRECT_URI = '{}:{}/rest/api/v1/authorization/spotify-service/oauth2callback'.format(
+    CALLBACK_URL, PORT
+)
 SCOPE = (
     'playlist-modify-public playlist-modify-private user-read-recently-played user-top-read '
     'user-modify-playback-state user-read-private'
@@ -42,6 +44,7 @@ client = MongoClient(host='mongo', port=27017)
 db = client['aswe-pda']
 db.authenticate('dev', 'dev')
 authorization = db['authorization']
+
 
 def getToken(code):
 
@@ -104,11 +107,7 @@ def credentials_to_dict(credentials):
     :param credentials: Credentials from google_auth_oauthlib.flow.
     :return: Credentials as dict.
     """
-    return {
-        'service': 'spotify-service',
-        'type': 'credentials',
-        'token': credentials
-    }
+    return {'service': 'spotify-service', 'type': 'credentials', 'token': credentials}
 
 
 def document_to_dict(document):
@@ -117,9 +116,7 @@ def document_to_dict(document):
     :param document: Document from mongodb.
     :return: Document as dict.
     """
-    return {
-        'token': document['token']
-    }
+    return {'token': document['token']}
 
 
 def getAuthHeader():
