@@ -42,8 +42,6 @@ services:
     image: weather-service:1.0
     ports:
       - "5570:5570"
-    env_file:
-      - ./src/backend/services/weather-service/weather-auth.env
     restart: always
     
   maps-service:
