@@ -1,4 +1,5 @@
 import requests
+from dotmap import DotMap
 
 
 class NewsService:
@@ -60,14 +61,12 @@ class NewsService:
                 return 'Please provide a valid type!'
 
         news_json = result.json()
+        news = DotMap(news_json)
+        response = []
+        for value in news.articles:
+            response.append({'title': value.title, 'url': value.urlToImage})
 
-        for article in news_json['articles']:
-            article_img.append(article['title'])
-            article_headline.append(article['urlToImage'])
-
-        news_info = [article_img, article_headline]
-
-        return news_info
+        return response
 
     def getTopNews(self, category=None):
         """
