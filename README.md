@@ -9,6 +9,9 @@
 
 ## About
 
+Personal Digital Assistant (PDA) named J.A.R.V.I.S. This project emerged from the requirements of a study project. The PDA is build with a Microservice Architecture.
+
+# Installation
 
 
 # Prerequisites 
