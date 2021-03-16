@@ -1,4 +1,12 @@
-# Personal Digital Agent
+<p align="center">
+  <img width="" height="" alt="JARVIS Logo" src="https://github.com/lucastanger/aswe-pda/blob/main/src/frontend/src/icons/android-icon-192x192.png">
+</p>
+<p align="center">
+  <strong>Your Personal Digital Agent</strong>
+</p>
+<p align="center">
+
+</p>
 
 [![GitHub](https://img.shields.io/github/license/lucastanger/aswe-pda)](https://github.com/lucastanger/aswe-pda/blob/master/LICENSE)
 ![GitHub issues](https://img.shields.io/github/issues/lucastanger/aswe-pda)
@@ -6,6 +14,8 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/70fc6e8580b84f6fb0f4671b40d0f867)](https://www.codacy.com/manual/lucastanger/aswe-pda?utm_source=github.com&utm_medium=referral&utm_content=lucastanger/aswe-pda&utm_campaign=Badge_Grade) <!-- TODO: FIX LINK -->
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat)](https://gitmoji.carloscuesta.me)
+
+---
 
 ## About
 
