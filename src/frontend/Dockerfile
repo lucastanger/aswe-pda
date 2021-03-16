@@ -1,22 +1,17 @@
-# Define base image
-FROM php:7.4.3-apache
+FROM node:14
+# Create app directory
+WORKDIR /usr/src/app
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
 
-# Update
-RUN apt-get update
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
+# Bundle app source
+COPY . .
 
-# Enable rewrite
-RUN a2enmod rewrite
-RUN service apache2 restart
+EXPOSE 8080
 
-# Enable debugging
-RUN pecl install xdebug-2.9.4 && docker-php-ext-enable xdebug
-RUN echo 'xdebug.remote_port=9000' >> /usr/local/etc/php/conf.d/xdebug.ini
-RUN echo 'xdebug.remote_enable=1' >> /usr/local/etc/php/conf.d/xdebug.ini
-RUN echo 'xdebug.remote_connect_back=1' >> /usr/local/etc/php/conf.d/xdebug.ini
-
-# Copy source code and optional additional configs
-COPY /src /var/www/html
-
-# Create upload directory
-RUN mkdir /data
-RUN chmod 777 /data
+CMD [ "node", "app.js" ]

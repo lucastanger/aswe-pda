@@ -1,4 +1,4 @@
-FROM python:3.8.7-alpine3.13
+FROM python:3.8.7-slim-buster
 
 WORKDIR /usr/src/app
 
@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 5560
 
-CMD ["python", "app.py"]
+CMD ["python", "-u", "app.py"]
