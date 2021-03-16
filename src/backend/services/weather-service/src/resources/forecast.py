@@ -7,28 +7,76 @@ import json
 
 
 class Forecast(Resource):
+    """
+    Includes GET Method for the a weather forecast.
+    GET can get information about the weather up to 17 days by city name or coordinates.
+    """
+
     def __init__(self):
+        """
+        Load api key and endpoint for openweatherapi.
+        """
+
         # Load environment variables.
-        load_dotenv('weather-auth.env')
+        load_dotenv('./.secrets/weather-service.env')
 
     def get(self):
+        """
+        GET Method for the weather forecast.
+        Receives city name or coordinates in query parameters.
+        Also requires a valid unit.
+        Also possible, days between 1 and 17 of how many you want to receive.
+        Returns a weather forecast for your city name or coordinates.
+        See swagger for more information.
+        """
+
         # Extract arguments from get request
         parser = reqparse.RequestParser()
-        parser.add_argument('city', required=True, location='args')
-        parser.add_argument('days', location='args')
+        parser.add_argument('city', location='args')
+        parser.add_argument('lat', type=float, location='args')
+        parser.add_argument('lon', type=float, location='args')
+        parser.add_argument('days', type=int, location='args')
+        parser.add_argument(
+            'unit',
+            required=True,
+            choices=('metric', 'imperial'),
+            location='args',
+            help='Invalid Unit: {error_msg}',
+        )
         args = parser.parse_args(strict=True)
 
-        # Create url for openweather api
-        url = (
-            getenv('WEATHER_ENDPOINT')
-            + '/forecast/daily?q='
-            + args['city']
-            + '&cnt='
-            + str(args['days'] if args['days'] else 8)
-            + '&appid='
-            + getenv('WEATHER_API_KEY')
-            + '&units=metric'
-        )
+        # Check if get current weather by city name or coordinates
+        if args['city'] and not (args['lat'] or args['lon']):
+            # Create url for openweather api
+            url = (
+                getenv('WEATHER_ENDPOINT')
+                + '/forecast/daily?q='
+                + args['city']
+                + '&cnt='
+                + str(args['days'] if args['days'] else 8)
+                + '&appid='
+                + getenv('WEATHER_API_KEY')
+                + '&units='
+                + args['unit']
+            )
+        elif args['lat'] and args['lon'] and not args['city']:
+            # Create url for openweather api
+            url = (
+                getenv('WEATHER_ENDPOINT')
+                + '/forecast/daily?lat='
+                + str(args['lat'])
+                + '&lon='
+                + str(args['lon'])
+                + '&cnt='
+                + str(args['days'] if args['days'] else 8)
+                + '&appid='
+                + getenv('WEATHER_API_KEY')
+                + '&units='
+                + args['unit']
+            )
+        else:
+            response_error = {'error': 'Either `city` or `lat` and `lon` are required.'}
+            return response_error, 400
 
         # Send request to openweather api
         try:
