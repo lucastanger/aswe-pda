@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" id="darkSwitch" class="dark">
+<head>
+    <%- include('partials/head'); %>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="636994391836-i2q6bfh7qtkmhid850msbtvel5nv3kbr.apps.googleusercontent.com">
+    <link href="style/setup.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="w-screen h-screen bg-gradient-to-b from-gray-300 to-gray-100 dark:from-gray-800 dark:to-gray-500">
+<img class="absolute h-screen w-auto overflow-hidden transform -translate-x-1/2 opacity-60" src="img/jaarvishead.png" alt="">
+<div class="snap-wrapper">
+    <!-- start section -->
+    <%- include('sections/start', {}); %>
+    <!-- name section -->
+    <%- include('sections/name', {}); %>
+    <!-- news section -->
+    <%- include('sections/google', {}); %>
+    <!-- news section -->
+    <%- include('sections/spotify', {}); %>
+    <!-- news section -->
+    <%- include('sections/weather', {}); %>
+    <!-- news section -->
+    <%- include('sections/news', {newsCategories:newsCategories, newsSources:newsSources}); %>
+    <!-- news section -->
+    <%- include('sections/dualis', {}); %>
+    <!-- stocks section -->
+    <%- include('sections/stocks', {}); %>
+    <!-- end section -->
+    <%- include('sections/complete', {}); %>
+</div>
+<script src="script/setup.js"></script>
+</body>
+</html>
