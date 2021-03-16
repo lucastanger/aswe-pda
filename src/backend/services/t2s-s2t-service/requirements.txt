@@ -1,3 +1,4 @@
+google-cloud-texttospeech==2.2.0
 flask-swagger-ui==3.36.0
 python-dotenv==0.15.0
 Flask-RESTful==0.3.8

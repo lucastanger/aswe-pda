@@ -1,41 +1,28 @@
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from ibm_watson import TextToSpeechV1, SpeechToTextV1
+from ibm_watson import SpeechToTextV1
 from dotenv import load_dotenv
 from os import getenv
 
 
 class Auth:
     """
-    Used to authenticate to IBM CLoud.
+    Used to authenticate to IBM CLoud and Google Cloud.
     """
 
-    def authenticate_t2s(self):
+    def loadEnv(self):
         """
-        Authenticate text to speech API.
+        Load environment variables
         """
 
-        # Load environment variables for t2s
-        load_dotenv('ibm-credentials-t2s.env')
-
-        # Authenticate to the API by using IBM Cloud Identity and Access Management (IAM)
-        authenticator = IAMAuthenticator(getenv('TEXT_TO_SPEECH_APIKEY'))
-        text_to_speech = TextToSpeechV1(authenticator=authenticator)
-
-        # Identify the base URL for the service instance
-        text_to_speech.set_service_url(getenv('TEXT_TO_SPEECH_URL'))
-
-        # Disable logging of requests and results
-        text_to_speech.set_default_headers({'x-watson-learning-opt-out': 'true'})
-
-        return text_to_speech
+        # Load environment variables
+        load_dotenv('./.secrets/t2s-s2t-service.env')
 
     def authenticate_s2t(self):
         """
-        Authenticate speech to text API.
+        Authenticate speech to text API and get google credentials.
         """
 
-        # Load environment variables for s2t
-        load_dotenv('ibm-credentials-s2t.env')
+        Auth.loadEnv(self)
 
         # Authenticate to the API by using IBM Cloud Identity and Access Management (IAM)
         authenticator = IAMAuthenticator(getenv('SPEECH_TO_TEXT_APIKEY'))

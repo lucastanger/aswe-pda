@@ -1,0 +1,155 @@
+@import "//fonts.googleapis.com/css?family=Allerta+Stencil"
+
+*
+  font-family: Allerta Stencil, serif
+  box-sizing: border-box
+
+*:before
+  box-sizing: border-box
+
+*:after
+  box-sizing: border-box
+
+.wrapper
+  display: flex
+  justify-content: center
+  align-items: center
+
+  h1.glitch
+    font-family: Allerta Stencil, serif
+    font-weight: 800
+    position: relative
+    font-size: 100px
+    padding: 30px
+
+  h1.glitch::before, h1.glitch::after
+    padding: 30px
+    content: "J.A.R.V.I.S"
+    position: absolute
+    width: 100%
+    height: 100%
+    background: transparent
+    overflow: hidden
+    top: 0
+
+  h1.glitch::before
+    left: 3px
+    text-shadow: -2px 0 turquoise
+    animation-name: glitch-animation-1
+    animation-duration: 2s
+    animation-timing-function: linear
+    animation-delay: 0s
+    animation-iteration-count: infinite
+    animation-direction: reverse-alternate
+
+  h1.glitch::after
+    left: -3px
+    text-shadow: -2px 0 darkturquoise
+    animation-name: glitch-animation-2
+    animation-duration: 2s
+    animation-timing-function: linear
+    animation-delay: 0s
+    animation-iteration-count: infinite
+    animation-direction: reverse-alternate
+
+@keyframes glitch-animation-1
+  $steps: 20
+  @for $i from 0 through $steps
+    #{percentage($i*(1/$steps))}
+      clip: rect(random(150)+px, 550px, random(150)+px, 30px)
+
+@keyframes glitch-animation-2
+  $steps: 10
+  @for $i from 0 through $steps
+    #{percentage($i*(1/$steps))}
+      clip: rect(random(150)+px, 550px, random(150)+px, 30px)
+
+
+.snap-wrapper
+  width: 100%
+  height: 100vh
+  overflow-y: scroll
+  scroll-snap-type: y mandatory
+
+  .snap-box
+    width: 100%
+    min-height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+    margin: 0 0 5px 0
+    scroll-snap-align: center
+
+    h3
+      color: white
+      text-align: center
+      font-size: 3rem
+
+section
+  opacity: 0
+
+section.is-visible
+  opacity: 1
+  transition: opacity 3000ms
+
+
+.radio
+  font-size: 2.25rem
+  color: whitesmoke
+
+  display: grid
+  grid-template-columns: min-content auto
+  grid-gap: 0.5em
+
+.radio__input
+  display: flex
+  input
+    opacity: 0
+    width: 0
+    height: 0
+
+    &:checked + .radio__control
+      background: radial-gradient(currentcolor 50%, rgba(255,0,0,0) 51%)
+
+.radio__control
+  display: block
+  width: 1em
+  height: 1em
+  border-radius: 50%
+  border: 0.1em solid currentColor
+
+.radio__label
+  transform: translateY(-0.05em)
+
+.radio__control
+  display: grid
+  place-items: center
+
+input + .radio__control::before
+  content: ""
+  width: .5em
+  height: .5em
+  box-shadow: inset .5em .5em currentColor
+  border-radius: 50%
+  transition: 180ms transform ease-in-out
+  transform: scale(0)
+
+input:checked + .radio__control::before
+  transform: scale(1)
+
+.wave
+  position: absolute
+  top: 50%
+  right: 50%
+  left: 50%
+  bottom: 50%
+  border-radius: 100%
+  width: 2px
+  height: 2px
+  display: block
+  box-shadow: 0 0 0 0 #222222
+  transition: box-shadow .9s cubic-bezier(0.4, 0.0, 0.2, 1)
+
+.wave.active
+  background: #222222
+  box-shadow: 0 0 0 9999px #222222

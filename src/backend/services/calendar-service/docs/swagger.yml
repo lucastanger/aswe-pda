@@ -1,0 +1,172 @@
+basePath: /rest/api/v1
+consumes:
+- application/json
+definitions:
+  Calendar service authorization response - error:
+    properties:
+      error:
+        type: string
+    type: object
+  Calendar service authorization response - success:
+    properties:
+      authorization_url:
+        type: string
+    type: object
+  Callback response - error:
+    properties:
+      error:
+        type: string
+    type: object
+  Callback response - success:
+    properties:
+      message:
+        type: string
+    type: object
+  Clear response - error:
+    properties:
+      error:
+        type: string
+    type: object
+  Clear response - success:
+    properties:
+      message:
+        type: string
+    type: object
+  Revoke response - error:
+    properties:
+      error:
+        type: string
+    type: object
+  Revoke response - success:
+    properties:
+      message:
+        type: string
+    type: object
+info:
+  description: Service to receive appointments from google calendar
+  title: REST-API for Calendar-Service
+  version: 1.0.0
+paths:
+  /authorization/:
+    get:
+      description: Authorize with google.
+      operationId: get_authorize
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Calendar%20service%20authorization%20response%20-%20success'
+        '400':
+          description: Error
+          schema:
+            $ref: '#/definitions/Calendar%20service%20authorization%20response%20-%20error'
+      tags:
+      - authorization
+  /authorization/clear:
+    get:
+      description: Clear all authentication data, if you want to completely remove
+        the permissions, call /authorization/revoke first.
+      operationId: get_clear
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Clear%20response%20-%20success'
+        '400':
+          description: Error
+          schema:
+            $ref: '#/definitions/Clear%20response%20-%20error'
+      tags:
+      - authorization
+  /authorization/oauth2callback:
+    get:
+      description: Callback to be called after authentication.
+      operationId: get_callback
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Callback%20response%20-%20success'
+        '400':
+          description: Error
+          schema:
+            $ref: '#/definitions/Callback%20response%20-%20error'
+      tags:
+      - authorization
+  /authorization/revoke:
+    get:
+      description: Revoke the permissions.
+      operationId: get_revoke
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Revoke%20response%20-%20success'
+        '400':
+          description: Error
+          schema:
+            $ref: '#/definitions/Revoke%20response%20-%20error'
+      tags:
+      - authorization
+  /events/:
+    get:
+      description: Get events with specified date, if no date is specified, the current
+        date is used.
+      operationId: get_events
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Error
+      tags:
+      - events
+  /events/{date}:
+    get:
+      description: Get events with specified date, if no date is specified, the current
+        date is used.
+      operationId: get_events
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Error
+      tags:
+      - events
+    parameters:
+    - in: path
+      name: date
+      required: true
+      type: string
+  /swagger/swagger.json:
+    get:
+      description: Generate a swagger.json file.
+      operationId: get_swagger
+      responses:
+        '200':
+          description: OK
+      tags:
+      - swagger
+  /swagger/swagger.yml:
+    get:
+      description: Generate a swagger.yml file.
+      operationId: get_swagger
+      responses:
+        '200':
+          description: OK
+      tags:
+      - swagger
+produces:
+- application/json
+responses:
+  MaskError:
+    description: When any error occurs on mask
+  ParseError:
+    description: When a mask can't be parsed
+swagger: '2.0'
+tags:
+- description: Swagger APIs
+  name: swagger
+- description: Google calendar events APIs
+  name: events
+- description: Google authentication APIs
+  name: authorization
