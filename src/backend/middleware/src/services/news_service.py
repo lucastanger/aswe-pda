@@ -24,29 +24,40 @@ class NewsService:
         article_img = []
         article_headline = []
 
-        if self.parameters['type'] == 'top':
-            result = self.getTopNews(self.parameters['category'])
-        elif self.parameters['type'] == 'everything':
-            result = self.getNewsSearch(
-                self.parameters['search'], self.parameters['exclude']
-            )
-        elif self.parameters['type'] == 'sources':
-            result = self.getNewsSources()
+        if 'type' in self.parameters:
+            if self.parameters['type'] == 'top':
+                if 'category' in self.parameters:
+                    result = self.getTopNews(self.parameters['category'])
+                else:
+                    result = self.getTopNews()
+            elif self.parameters['type'] == 'everything':
+                if 'search' in self.parameters and 'exclude' in self.parameters:
+                    result = self.getNewsSearch(
+                        self.parameters['search'], self.parameters['exclude']
+                    )
+                elif 'search' in self.parameters:
+                    result = self.getNewsSearch(self.parameters['search'])
+                elif 'exclude' in self.parameters:
+                    result = self.getNewsSearch(self.parameters['exclude'])
+                else:
+                    result = self.getNewsSearch()
+            elif self.parameters['type'] == 'sources':
+                result = self.getNewsSources()
 
-            sources_json = result.json()
+                sources_json = result.json()
 
-            sources_name = []
-            sources_url = []
+                sources_name = []
+                sources_url = []
 
-            for source in sources_json['sources']:
-                sources_name.append(source['name'])
-                sources_url.append(source['url'])
+                for source in sources_json['sources']:
+                    sources_name.append(source['name'])
+                    sources_url.append(source['url'])
 
-            sources = [sources_name, sources_url]
+                sources = [sources_name, sources_url]
 
-            return sources
-        else:
-            return 'Please provide a valid type!'
+                return sources
+            else:
+                return 'Please provide a valid type!'
 
         news_json = result.json()
 
