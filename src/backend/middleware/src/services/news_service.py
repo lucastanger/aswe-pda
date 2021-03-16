@@ -27,7 +27,9 @@ class NewsService:
         if self.parameters['type'] == 'top':
             result = self.getTopNews(self.parameters['category'])
         elif self.parameters['type'] == 'everything':
-            result = self.getNewsSearch(self.parameters['search'], self.parameters['exclude'])
+            result = self.getNewsSearch(
+                self.parameters['search'], self.parameters['exclude']
+            )
         elif self.parameters['type'] == 'sources':
             result = self.getNewsSources()
 
@@ -63,7 +65,9 @@ class NewsService:
         """
 
         if category is not None:
-            news = requests.get(f'{self.base_url}/news/top/category?category={category}')
+            news = requests.get(
+                f'{self.base_url}/news/top/category?category={category}'
+            )
 
         else:
             news = requests.get(f'{self.base_url}/news/top')
@@ -78,7 +82,9 @@ class NewsService:
         """
 
         if search is not None:
-            news = requests.get(f'{self.base_url}/news/everything/search?keyWord={search}')
+            news = requests.get(
+                f'{self.base_url}/news/everything/search?keyWord={search}'
+            )
         elif exclude is not None:
             news = requests.get(f'{self.base_url}/news/everything?exclude={exclude}')
         else:
@@ -94,4 +100,3 @@ class NewsService:
         news = requests.get(f'{self.base_url}/news/sources')
 
         return news
-
