@@ -6,10 +6,6 @@ class NewsService:
     """
     Der News Service liefert einen Array mit entweder einer Liste an zur Verfügung stehenden Sources oder ein
     Array mit zwei Listen bestehend aus den Headlines und den jeweiligen Bild URL's.
-
-    Er kann wie folgt beispielhaft angesprochen werden:
-    news = NewsService()
-    result = news.query('top', 'sports', None, None)
     """
 
     def __init__(self, parameters: dict = None):
