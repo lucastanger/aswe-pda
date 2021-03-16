@@ -1,6 +1,5 @@
-from flask import Flask, redirect, request, session, make_response
+from flask import Flask, request, session, make_response
 from src import flask_spotify_auth, profile
-import json
 
 app = Flask(__name__)
 app.secret_key = 'some key for session'
@@ -46,34 +45,40 @@ def profileInfos(search_type):
         elif search_type == 'featured':
             data = profile.getFeaturedPlaylists(auth_header)
         else:
-            return 'Invalid Input'
+            return 'Invalid Input', False
 
         if valid_token(data):
-            return json.dumps(data, indent=4)
+            return data
     else:
-        return make_response({'error': 'Could not get the authorization header'})
+        return make_response({'error': 'Could not get the authorization header'}, 402), False
 
 
 @app.route('/rest/api/v1/spotify/play')
 def play():
-    if 'auth_header' in session:
-        auth_header = session['auth_header']
 
+    auth_header = flask_spotify_auth.getAuthHeader()
+
+    if auth_header:
         play = profile.startMusic(auth_header)
 
         if valid_token(play):
-            return 'Play'
+            return make_response({'message': 'Play!'}, 200), True
+    else:
+        return make_response({'error': 'Could not get the authorization header'}, 402), False
 
 
 @app.route('/rest/api/v1/spotify/pause')
 def pause():
-    if 'auth_header' in session:
-        auth_header = session['auth_header']
 
-        play = profile.pauseMusic(auth_header)
+    auth_header = flask_spotify_auth.getAuthHeader()
 
-        if valid_token(play):
-            return 'Pause'
+    if auth_header:
+        pause = profile.pauseMusic(auth_header)
+
+        if valid_token(pause):
+            return make_response({'message': 'Pause!'}, 200), True
+    else:
+        return make_response({'error': 'Could not get the authorization header'}, 402), False
 
 
 if __name__ == '__main__':

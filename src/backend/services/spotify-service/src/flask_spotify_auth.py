@@ -131,5 +131,5 @@ def getAuthHeader():
     auth_header = {'Authorization': 'Bearer {}'.format(document_to_dict(document))}
 
     if document is None:
-        return make_response({'error': 'You are not authenticated.'}, 401), False
+        return make_response({'error': 'You are not authorized.'}, 401), False
     return auth_header, True
