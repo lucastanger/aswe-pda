@@ -116,7 +116,7 @@ def document_to_dict(document):
     :param document: Document from mongodb.
     :return: Document as dict.
     """
-    return {'token': document['token']}
+    return document['token']
 
 
 def getAuthHeader():

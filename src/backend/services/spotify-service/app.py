@@ -28,9 +28,9 @@ def valid_token(resp):
 @app.route('/rest/api/v1/spotify/profile/<search_type>')
 def profileInfos(search_type):
 
-    auth_header = flask_spotify_auth.getAuthHeader()
+    auth_header, success = flask_spotify_auth.getAuthHeader()
 
-    if auth_header:
+    if success:
 
         if search_type == 'info':
             data = profile.getUserProfile(auth_header)
@@ -59,35 +59,29 @@ def profileInfos(search_type):
 @app.route('/rest/api/v1/spotify/play')
 def play():
 
-    auth_header = flask_spotify_auth.getAuthHeader()
+    auth_header, success = flask_spotify_auth.getAuthHeader()
 
-    if auth_header:
+    if success:
         play = profile.startMusic(auth_header)
 
         if valid_token(play):
-            return make_response({'message': 'Play!'}, 200), True
+            return {'message': 'Play'}
     else:
-        return (
-            make_response({'error': 'Could not get the authorization header'}, 402),
-            False,
-        )
+        return False
 
 
 @app.route('/rest/api/v1/spotify/pause')
 def pause():
 
-    auth_header = flask_spotify_auth.getAuthHeader()
+    auth_header, success = flask_spotify_auth.getAuthHeader()
 
-    if auth_header:
+    if success:
         pause = profile.pauseMusic(auth_header)
 
         if valid_token(pause):
-            return make_response({'message': 'Pause!'}, 200), True
+            return {'message': 'Pause'}
     else:
-        return (
-            make_response({'error': 'Could not get the authorization header'}, 402),
-            False,
-        )
+        return False
 
 
 if __name__ == '__main__':
