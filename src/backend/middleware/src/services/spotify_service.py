@@ -63,7 +63,11 @@ class SpotifyService:
 
         if response:
             result.append(
-                {'name': info.display_name, 'url': info.external_urls.spotify, 'image': info.images[0].url}
+                {
+                    'name': info.display_name,
+                    'url': info.external_urls.spotify,
+                    'image': info.images[0].url,
+                }
             )
             return result
         return False
@@ -79,7 +83,11 @@ class SpotifyService:
         if response:
             for value in playlist['items']:
                 result.append(
-                    {'name': value.name, 'image': value.images[0].url, 'url': value.external_urls.spotify}
+                    {
+                        'name': value.name,
+                        'image': value.images[0].url,
+                        'url': value.external_urls.spotify,
+                    }
                 )
             return result
         return False
@@ -94,9 +102,7 @@ class SpotifyService:
 
         if response:
             for value in artists['items']:
-                result.append(
-                    {'name': value.name, 'image': value.images[0].url}
-                )
+                result.append({'name': value.name, 'image': value.images[0].url})
             return result
         return False
 
@@ -111,7 +117,11 @@ class SpotifyService:
         if response:
             for value in tracks['items']:
                 result.append(
-                    {'name': value.name, 'image': value.album.images[0].url, 'artist': value.artists[0].name}
+                    {
+                        'name': value.name,
+                        'image': value.album.images[0].url,
+                        'artist': value.artists[0].name,
+                    }
                 )
             return result
         return False
@@ -144,9 +154,7 @@ class SpotifyService:
 
         if response:
             for value in featured.playlists['items']:
-                result.append(
-                    {'name': value.name, 'image': value.images[0].url}
-                )
+                result.append({'name': value.name, 'image': value.images[0].url})
             return result
         return False
 
