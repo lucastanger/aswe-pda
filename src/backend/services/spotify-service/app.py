@@ -84,5 +84,21 @@ def pause():
         return False
 
 
+@app.route('/rest/api/v1/spotify/image')
+def image():
+
+    a_id = request.args['id']
+
+    auth_header, success = flask_spotify_auth.getAuthHeader()
+
+    if success:
+        image = profile.getImageUrl(auth_header, a_id)
+
+        if valid_token(image):
+            return image
+    else:
+        return False
+
+
 if __name__ == '__main__':
     app.run(port=5565, host='0.0.0.0')

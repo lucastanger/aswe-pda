@@ -62,13 +62,14 @@ class SpotifyService:
         result = []
 
         if response:
-            result.append(
-                {
-                    'name': info.display_name,
-                    'url': info.external_urls.spotify,
-                    'image': info.images[0].url,
-                }
-            )
+            if info.images[0].url:
+                result.append(
+                    {'name': info.display_name, 'url': info.external_urls.spotify, 'image': info.images[0].url}
+                )
+            else:
+                result.append(
+                    {'name': info.display_name, 'url': info.external_urls.spotify}
+                )
             return result
         return False
 
@@ -82,13 +83,14 @@ class SpotifyService:
 
         if response:
             for value in playlist['items']:
-                result.append(
-                    {
-                        'name': value.name,
-                        'image': value.images[0].url,
-                        'url': value.external_urls.spotify,
-                    }
-                )
+                if value.images[0].url:
+                    result.append(
+                        {'name': value.name, 'image': value.images[0].url, 'url': value.external_urls.spotify}
+                    )
+                else:
+                    result.append(
+                        {'name': value.name, 'url': value.external_urls.spotify}
+                    )
             return result
         return False
 
@@ -102,7 +104,14 @@ class SpotifyService:
 
         if response:
             for value in artists['items']:
-                result.append({'name': value.name, 'image': value.images[0].url})
+                if value.images[0].url:
+                    result.append(
+                        {'name': value.name, 'image': value.images[0].url, 'url': value.external_urls.spotify}
+                    )
+                else:
+                    result.append(
+                        {'name': value.name, 'url': value.external_urls.spotify}
+                    )
             return result
         return False
 
@@ -116,13 +125,14 @@ class SpotifyService:
 
         if response:
             for value in tracks['items']:
-                result.append(
-                    {
-                        'name': value.name,
-                        'image': value.album.images[0].url,
-                        'artist': value.artists[0].name,
-                    }
-                )
+                if value.album.images[0].url:
+                    result.append(
+                        {'name': value.name, 'image': value.album.images[0].url, 'artist': value.artists[0].name, 'url': value.album.external_urls.spotify}
+                    )
+                else:
+                    result.append(
+                        {'name': value.name, 'artist': value.artists[0].name, 'url': value.album.external_urls.spotify}
+                    )
             return result
         return False
 
@@ -136,8 +146,16 @@ class SpotifyService:
 
         if response:
             for value in recent['items']:
+                param = {
+                    'id': value.track.artists[0].id
+                }
+                response_a = requests.get(f'{self.base_url}/spotify/image', params=param)
+                new_json_a = response_a.json()
+
+                artist = DotMap(new_json_a)
+
                 result.append(
-                    {'tracks': value.track.name, 'artist': value.track.artists[0].name}
+                    {'tracks': value.track.name, 'artist': value.track.artists[0].name, 'image': artist.images[0].url, 'url': value.track.external_urls.spotify}
                 )
             return result
         return False
@@ -154,7 +172,9 @@ class SpotifyService:
 
         if response:
             for value in featured.playlists['items']:
-                result.append({'name': value.name, 'image': value.images[0].url})
+                result.append(
+                    {'name': value.name, 'image': value.images[0].url, 'url': value.external_urls.spotify}
+                )
             return result
         return False
 

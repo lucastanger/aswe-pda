@@ -17,6 +17,8 @@ BROWSE_FEATURED_PLAYLISTS = '{}/{}/{}'.format(
 )
 START_STOP_MUSIC_ENDPOINT = '{}/{}'.format(USER_PROFILE_ENDPOINT, 'player')
 
+ARTIST_IMAGE_URL = '{}/{}'.format(SPOTIFY_API_URL, 'artists')
+
 
 def getUserProfile(auth_header):
     url = USER_PROFILE_ENDPOINT
@@ -62,4 +64,10 @@ def startMusic(auth_header):
 def pauseMusic(auth_header):
     url = '{}/{}'.format(START_STOP_MUSIC_ENDPOINT, 'pause')
     resp = requests.put(url, headers=auth_header)
+    return resp.json()
+
+
+def getImageUrl(auth_header, a_id):
+    url = '{}/{}'.format(ARTIST_IMAGE_URL, a_id)
+    resp = requests.get(url, headers=auth_header)
     return resp.json()
