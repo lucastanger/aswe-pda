@@ -1,6 +1,6 @@
 module.exports = {
   purge: {
-    enabled: true,
+    enabled: false,
     content: ['./src/views/*.{js,jsx,ts,tsx,vue,html,ejs}']
   },
   darkMode: 'class', // or 'media' or 'class'
