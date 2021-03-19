@@ -114,11 +114,11 @@ def getAuthHeader():
         {'service': 'spotify-service', 'type': 'credentials'}
     )
 
-    auth_header = {'Authorization': 'Bearer {}'.format(document_to_dict(document))}
-
     if document is None:
         return make_response({'error': 'You are not authorized.'}, 401), False
-    return auth_header, True
+    else:
+        auth_header = {'Authorization': 'Bearer {}'.format(document_to_dict(document))}
+        return auth_header, True
 
 
 def set_tokens(data):

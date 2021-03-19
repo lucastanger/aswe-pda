@@ -53,10 +53,7 @@ def profileInfos(search_type):
             flask_spotify_auth.refresh()
             profileInfos(search_type)
     else:
-        return (
-            make_response({'error': 'Could not get the authorization header'}, 402),
-            False,
-        )
+        return {'error': 'Could not get the authorization header'}
 
 
 @app.route('/rest/api/v1/spotify/play')
