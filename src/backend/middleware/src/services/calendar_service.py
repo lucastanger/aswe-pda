@@ -23,9 +23,9 @@ class CalendarService:
 
     def get_next_event(self):
         date_tomorrow = (
-                (datetime.datetime.utcnow().astimezone(pytz.timezone('Europe/Berlin')) +
-                 datetime.timedelta(days=1)).isoformat()
-        )
+            datetime.datetime.utcnow().astimezone(pytz.timezone('Europe/Berlin'))
+            + datetime.timedelta(days=1)
+        ).isoformat()
         response = requests.get(f'{self.base_url}/events/{date_tomorrow}')
         if 'message' in response.json():
             return response.json()

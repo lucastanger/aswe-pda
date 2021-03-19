@@ -17,7 +17,9 @@ class Events(Resource):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.date_now = (
-            datetime.datetime.utcnow().astimezone(pytz.timezone('Europe/Berlin')).isoformat()
+            datetime.datetime.utcnow()
+            .astimezone(pytz.timezone('Europe/Berlin'))
+            .isoformat()
         )
 
     @ns.response(200, 'OK')
@@ -31,8 +33,9 @@ class Events(Resource):
             date = self.date_now
 
         max_date = datetime.datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%f%z')
-        max_date = max_date.replace(hour=23, minute=59, second=59, microsecond=0)\
-            .astimezone(pytz.timezone('Europe/Berlin'))
+        max_date = max_date.replace(
+            hour=23, minute=59, second=59, microsecond=0
+        ).astimezone(pytz.timezone('Europe/Berlin'))
         max_date = max_date.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
 
         # Load credentials from the session.
