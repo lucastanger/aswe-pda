@@ -42,14 +42,10 @@ class SpotifyService:
             return {'error': 'Could not receive a response'}
         elif self.parameters['spotify-request'] == 'play':
             play = self.play_music()
-            if play:
-                return {'message': 'Music is playing'}
-            return {'error': 'Could not start the music'}
+            return play
         elif self.parameters['spotify-request'] == 'pause':
             pause = self.pause_music()
-            if pause:
-                return {'message': 'Music is paused'}
-            return {'error': 'Could not pause music'}
+            return pause
 
         return {'error': 'Invalid type'}
 
@@ -180,8 +176,8 @@ class SpotifyService:
 
     def play_music(self):
         response = requests.get(f'{self.base_url}/spotify/play')
-        return response
+        return response.json()
 
     def pause_music(self):
         response = requests.get(f'{self.base_url}/spotify/pause')
-        return response
+        return response.json()

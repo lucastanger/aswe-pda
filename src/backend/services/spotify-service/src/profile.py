@@ -58,13 +58,13 @@ def getFeaturedPlaylists(auth_header):
 def startMusic(auth_header):
     url = '{}/{}'.format(START_STOP_MUSIC_ENDPOINT, 'play')
     resp = requests.put(url, headers=auth_header)
-    return resp.json()
+    return resp.ok
 
 
 def pauseMusic(auth_header):
     url = '{}/{}'.format(START_STOP_MUSIC_ENDPOINT, 'pause')
     resp = requests.put(url, headers=auth_header)
-    return resp.json()
+    return resp.ok
 
 
 def getImageUrl(auth_header, a_id):
