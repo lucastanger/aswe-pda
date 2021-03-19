@@ -49,6 +49,9 @@ def profileInfos(search_type):
 
         if valid_token(data):
             return data
+        else:
+            flask_spotify_auth.refresh()
+            profileInfos(search_type)
     else:
         return (
             make_response({'error': 'Could not get the authorization header'}, 402),
