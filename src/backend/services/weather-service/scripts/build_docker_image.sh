@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t weather-service:1.0 .
+docker build -t stock-service:1.0 .

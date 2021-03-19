@@ -57,6 +57,14 @@ services:
       - "5580:5580"
     restart: always
 
+  stock-service:
+    container_name: stock-container
+    build: ./src/backend/services/stock-service
+    image: stock-service:1.0
+    ports:
+      - "5585:5585"
+    restart: always
+
   node-webserver:
     container_name: frontend-container
     build: ./src/frontend
