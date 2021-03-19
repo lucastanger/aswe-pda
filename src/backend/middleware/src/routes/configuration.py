@@ -11,7 +11,7 @@ configuration = db['configuration']
 
 
 @ns.route('/')
-class CalendarService(Resource):
+class ConfigurationService(Resource):
     get_success_model = ns.model(
         'Configuration get response - success',
         {
