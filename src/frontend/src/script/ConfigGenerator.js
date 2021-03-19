@@ -1,6 +1,32 @@
 function generateConfig() {
     let conf = new ConfigGenerator();
     console.log(JSON.stringify(conf));
+    sendConfiguration(conf)
+}
+
+
+function sendConfiguration(configuration) {
+    $.ajax({
+        url: 'http://localhost:5600/rest/api/v1/configuration/',
+        type: 'POST',
+        data: JSON.stringify(configuration),
+        crossDomain: true,
+        contentType: 'application/json',
+        beforeSend: setHeader,
+        success: function (response) {
+            console.log(response)
+        },
+        error: function (error) {
+            console.log(error)
+        }
+
+    })
+}
+
+function setHeader(xhr) {
+    xhr.setRequestHeader('Access-Control-Allow-Headers', 'access-control-allow-methods, access-control-allow-origin');
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+    xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
 }
 
 
@@ -8,7 +34,6 @@ class ConfigGenerator {
 
     // Ctor
     constructor() {
-        this.id = uuidv4();
         this.general = new General(
             document.getElementById('name').value
         );
@@ -203,11 +228,4 @@ class StocksServiceConfiguration {
     set stock(value) {
         this._stock = value;
     }
-}
-
-function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
 }

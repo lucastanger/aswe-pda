@@ -1,3 +1,7 @@
+// Post the configuration
+POST http://localhost:5600/rest/api/v1/configuration
+Content-Type: application/json
+
 {
   "general": {
     "username": "Luca",
@@ -27,3 +31,6 @@
     "stocks": "AAPL"
   }
 }
+###
+// Get the configuration as a JSON
+GET http://localhost:5600/rest/api/v1/configuration

@@ -1,13 +1,9 @@
 // app.js
 let express = require('express');
-let {ConfigGenerator} = require('./src/script/ConfigGenerator')
 let app = express();
 
 const PORT = 8080;
 const HOST = '0.0.0.0';
-const config = new ConfigGenerator();
-
-console.log(JSON.stringify(config));
 
 // Define internal routes
 app.use(express.static(__dirname + '/src'));
