@@ -15,9 +15,6 @@ services:
     image: t2s-s2t-service:1.0
     ports:
       - "5555:5555"
-    env_file:
-      - ./src/backend/services/t2s-s2t-service/ibm-credentials-t2s.env
-      - ./src/backend/services/t2s-s2t-service/ibm-credentials-s2t.env
     restart: always
 
   calendar-service:
@@ -35,15 +32,21 @@ services:
     ports:
       - "5565:5565"
     restart: always
-    
+
   weather-service:
     container_name: weather-container
     build: ./src/backend/services/weather-service
     image: weather-service:1.0
     ports:
       - "5570:5570"
-    env_file:
-      - ./src/backend/services/weather-service/weather-auth.env
+    restart: always
+
+  news-service:
+    container_name: news-container
+    build: ./src/backend/services/news-service
+    image: news-service:1.0
+    ports:
+      - "5575:5575"
     restart: always
     
   maps-service:
