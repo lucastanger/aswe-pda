@@ -1,11 +1,25 @@
-# Personal Digital Agent
+<p align="center">
+  <img width="" height="" alt="JARVIS Logo" src="https://github.com/lucastanger/aswe-pda/blob/main/src/frontend/src/icons/android-icon-192x192.png">
+</p>
+<p align="center">
+  <strong>Your Personal Digital Agent</strong>
+</p>
+<p align="center">
+  <a href="https://travis-ci.com/lucastanger/aswe-pda">
+    <img alt="Travis (.com)" src="https://travis-ci.com/lucastanger/aswe-pda.svg?token=NpSo3QkoAPuqvyxKepVV&branch=main">
+  </a>
+  <a href="#">
+    <img alt="Codacy Badge" src="https://api.codacy.com/project/badge/Grade/70fc6e8580b84f6fb0f4671b40d0f867">
+  </a>
+  <a href="https://conventionalcommits.org">
+    <img alt="Conventiona Commits" src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg">
+  </a>
+  <a href="https://gitmoji.carloscuesta.me">
+    <img alt="Gitmoji" src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat">
+  </a>
+</p>
 
-[![GitHub](https://img.shields.io/github/license/lucastanger/aswe-pda)](https://github.com/lucastanger/aswe-pda/blob/master/LICENSE)
-![GitHub issues](https://img.shields.io/github/issues/lucastanger/aswe-pda)
-[![Build Status](https://travis-ci.com/lucastanger/aswe-pda.svg?token=NpSo3QkoAPuqvyxKepVV&branch=main)](https://travis-ci.com/lucastanger/aswe-pda)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/70fc6e8580b84f6fb0f4671b40d0f867)](https://www.codacy.com/manual/lucastanger/aswe-pda?utm_source=github.com&utm_medium=referral&utm_content=lucastanger/aswe-pda&utm_campaign=Badge_Grade) <!-- TODO: FIX LINK -->
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat)](https://gitmoji.carloscuesta.me)
+---
 
 ## About
 
@@ -16,6 +30,10 @@ Personal Digital Assistant (PDA) named J.A.R.V.I.S. This project emerged from th
 
 # Prerequisites 
 ## Frontend
+
+Compile Tailwind Stylesheet
+
+![Tailwind GIF](https://github.com/lucastanger/aswe-pda/blob/feature/aswe-123-beautify-readme/src/frontend/tailwind_install.gif?raw=true)
 
 ## Backend
 ### :rocket: Deploy
