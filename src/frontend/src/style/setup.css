@@ -1,0 +1,258 @@
+@import "//fonts.googleapis.com/css?family=Allerta+Stencil";
+* {
+  font-family: Allerta Stencil, serif;
+  box-sizing: border-box;
+}
+
+*:before {
+  box-sizing: border-box;
+}
+
+*:after {
+  box-sizing: border-box;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper h1.glitch {
+  font-family: Allerta Stencil, serif;
+  font-weight: 800;
+  position: relative;
+  font-size: 100px;
+  padding: 30px;
+}
+.wrapper h1.glitch::before, .wrapper h1.glitch::after {
+  padding: 30px;
+  content: "J.A.R.V.I.S";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  top: 0;
+}
+.wrapper h1.glitch::before {
+  left: 3px;
+  text-shadow: -2px 0 turquoise;
+  animation-name: glitch-animation-1;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: reverse-alternate;
+}
+.wrapper h1.glitch::after {
+  left: -3px;
+  text-shadow: -2px 0 darkturquoise;
+  animation-name: glitch-animation-2;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: reverse-alternate;
+}
+
+@keyframes glitch-animation-1 {
+  0% {
+    clip: rect(33px, 550px, 102px, 30px);
+  }
+  5% {
+    clip: rect(128px, 550px, 105px, 30px);
+  }
+  10% {
+    clip: rect(100px, 550px, 43px, 30px);
+  }
+  15% {
+    clip: rect(128px, 550px, 110px, 30px);
+  }
+  20% {
+    clip: rect(103px, 550px, 150px, 30px);
+  }
+  25% {
+    clip: rect(91px, 550px, 74px, 30px);
+  }
+  30% {
+    clip: rect(33px, 550px, 2px, 30px);
+  }
+  35% {
+    clip: rect(87px, 550px, 2px, 30px);
+  }
+  40% {
+    clip: rect(90px, 550px, 133px, 30px);
+  }
+  45% {
+    clip: rect(131px, 550px, 37px, 30px);
+  }
+  50% {
+    clip: rect(120px, 550px, 129px, 30px);
+  }
+  55% {
+    clip: rect(2px, 550px, 90px, 30px);
+  }
+  60% {
+    clip: rect(98px, 550px, 100px, 30px);
+  }
+  65% {
+    clip: rect(1px, 550px, 41px, 30px);
+  }
+  70% {
+    clip: rect(44px, 550px, 103px, 30px);
+  }
+  75% {
+    clip: rect(29px, 550px, 43px, 30px);
+  }
+  80% {
+    clip: rect(98px, 550px, 76px, 30px);
+  }
+  85% {
+    clip: rect(122px, 550px, 128px, 30px);
+  }
+  90% {
+    clip: rect(30px, 550px, 7px, 30px);
+  }
+  95% {
+    clip: rect(122px, 550px, 91px, 30px);
+  }
+  100% {
+    clip: rect(48px, 550px, 16px, 30px);
+  }
+}
+@keyframes glitch-animation-2 {
+  0% {
+    clip: rect(86px, 550px, 105px, 30px);
+  }
+  10% {
+    clip: rect(19px, 550px, 102px, 30px);
+  }
+  20% {
+    clip: rect(122px, 550px, 128px, 30px);
+  }
+  30% {
+    clip: rect(53px, 550px, 73px, 30px);
+  }
+  40% {
+    clip: rect(14px, 550px, 91px, 30px);
+  }
+  50% {
+    clip: rect(87px, 550px, 20px, 30px);
+  }
+  60% {
+    clip: rect(120px, 550px, 41px, 30px);
+  }
+  70% {
+    clip: rect(11px, 550px, 82px, 30px);
+  }
+  80% {
+    clip: rect(149px, 550px, 131px, 30px);
+  }
+  90% {
+    clip: rect(118px, 550px, 122px, 30px);
+  }
+  100% {
+    clip: rect(5px, 550px, 4px, 30px);
+  }
+}
+.snap-wrapper {
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+.snap-wrapper .snap-box {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 5px 0;
+  scroll-snap-align: center;
+}
+.snap-wrapper .snap-box h3 {
+  color: white;
+  text-align: center;
+  font-size: 3rem;
+}
+
+section {
+  opacity: 0;
+}
+
+section.is-visible {
+  opacity: 1;
+  transition: opacity 3000ms;
+}
+
+.radio {
+  font-size: 2.25rem;
+  color: whitesmoke;
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-gap: 0.5em;
+}
+
+.radio__input {
+  display: flex;
+}
+.radio__input input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.radio__input input:checked + .radio__control {
+  background: radial-gradient(currentcolor 50%, rgba(255, 0, 0, 0) 51%);
+}
+
+.radio__control {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  border: 0.1em solid currentColor;
+}
+
+.radio__label {
+  transform: translateY(-0.05em);
+}
+
+.radio__control {
+  display: grid;
+  place-items: center;
+}
+
+input + .radio__control::before {
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  box-shadow: inset 0.5em 0.5em currentColor;
+  border-radius: 50%;
+  transition: 180ms transform ease-in-out;
+  transform: scale(0);
+}
+
+input:checked + .radio__control::before {
+  transform: scale(1);
+}
+
+.wave {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  left: 50%;
+  bottom: 50%;
+  border-radius: 100%;
+  width: 2px;
+  height: 2px;
+  display: block;
+  box-shadow: 0 0 0 0 #222222;
+  transition: box-shadow 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wave.active {
+  background: #222222;
+  box-shadow: 0 0 0 9999px #222222;
+}
+
+/*# sourceMappingURL=setup.css.map */

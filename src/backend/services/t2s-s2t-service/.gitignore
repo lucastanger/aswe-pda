@@ -230,3 +230,4 @@ pom.xml.releaseBackup
 pom.xml.tag
 
 static/audio
+.secrets

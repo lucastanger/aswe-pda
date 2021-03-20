@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "0b21a3fb-e00f-4efa-8e8b-71dcf62671a0",
+		"name": "Stock-Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET symbol",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/{{baseurl}}/symbol?keyword=tesla",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{baseurl}}",
+						"symbol"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "tesla"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET daily",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/{{baseurl}}/daily?symbol=TSLA",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{baseurl}}",
+						"daily"
+					],
+					"query": [
+						{
+							"key": "symbol",
+							"value": "TSLA"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET today",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/{{baseurl}}/today?symbol=TSLA",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{baseurl}}",
+						"today"
+					],
+					"query": [
+						{
+							"key": "symbol",
+							"value": "TSLA"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

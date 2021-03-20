@@ -1,0 +1,32 @@
+<section class="snap-box box-6" data-index="6">
+    <div class="h-full flex flex-col justify-center items-center rounded-2xl">
+        <div class="w-auto py-7 px-5 flex flex-col justify-center items-center">
+            <h1 class="text-5xl text-gray-300 mb-8">
+                Choose your paper and news categories
+            </h1>
+            <label class="block w-full">
+                <select id="newspaper" class="form-select block w-full mt-1 bg-transparent border-b border-gray-300 text-gray-100">
+                    <% newsSources.forEach(function (source) { %>
+                        <option><%=source%></option>
+                    <% }); %>
+                </select>
+            </label>
+            <div class="block mt-20">
+                <span class="text-gray-300">News categories</span>
+                <div class="mt-2 grid grid-cols-3 gap-4">
+                    <form id="newsCategories">
+                        <% newsCategories.forEach(function (news) { %>
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded text-turquoise-400" name="newsCategory" id="<%=news%>" checked>
+                                <span class="ml-2 text-gray-300"><%=news%></span>
+                            </label>
+                        </div>
+                        <% }); %>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
