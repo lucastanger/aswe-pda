@@ -1,0 +1,391 @@
+openapi: 3.0.0
+info:
+  title: REST-API for Stock-Service
+  description: Use this Service to get information about a stock.
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: flo.drinkler@gmail.com
+    url: https://floriandrinkler.com
+  license:
+   name: MIT License
+   url: https://github.com/lucastanger/aswe-pda/blob/main/LICENSE
+  
+servers:
+  - url: http://localhost:5585/rest/api/v1
+    description: Development server (using locally)
+  - url: http://0.0.0.0:5585/rest/api/v1
+    description: Production server (inside Docker)
+
+paths:
+  '/symbol':
+    get:
+      summary: Get a stock symbol by keyword.
+      description: Returns a list of possible symbols as well as information about the stock like region, timezone, etc. by keyword.
+      parameters:
+        - name: keyword
+          in: query
+          schema:
+            type: string
+          description: >
+            Keyword to search for.
+          required: true
+      tags:
+        - Stock
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bestMatches:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        1. symbol:
+                          type: string
+                          description: Stock symbol of a match.
+                        2. name:
+                          type: string
+                          description: Name of a match.
+                        3. type:
+                          type: string
+                          description: Type of a match.
+                        4. region:
+                          type: string
+                          description: Region of a match.
+                        5. marketOpen:
+                          type: string
+                          description: market open of a match.
+                        6. marketClose:
+                          type: string
+                          description: market close of a match.
+                        7. timezone:
+                          type: string
+                          description: timezone of a match.
+                        8. currency:
+                          type: string
+                          description: Currency of a match.
+                        9. matchScore:
+                          type: string
+                          description: match score of a match.
+                      required:
+                        - 1. symbol
+                        - 2. name
+                        - 3. type
+                        - 4. region
+                        - 5. marketOpen
+                        - 6. marketClose
+                        - 7. timezone
+                        - 8. currency
+                        - 9. matchScore
+                required:
+                  - bestMatches
+                example:
+                  bestMatches:
+                    - 1. symbol: TL0.DEX,
+                      2. name: Tesla
+                      3. type: Equity
+                      4. region: XETRA
+                      5. marketOpen: "08:00"
+                      6. marketClose: "20:00"
+                      7. timezone: "UTC+02"
+                      8. currency: EUR
+                      9. matchScore: "1.0000"
+                    - 1. symbol: TL0.FRK,
+                      2. name: Tesla
+                      3. type: Equity
+                      4. region: Frankfurt
+                      5. marketOpen: "08:00"
+                      6. marketClose: "20:00"
+                      7. timezone: "UTC+02"
+                      8. currency: EUR
+                      9. matchScore: "1.0000"
+                    - 1. symbol: TSLA34.SAO,
+                      2. name: Tesla
+                      3. type: Equity
+                      4. region: Brazil/Sao Paolo
+                      5. marketOpen: "10:00"
+                      6. marketClose: "17:30"
+                      7. timezone: "UTC-03"
+                      8. currency: BRL
+                      9. matchScore: "1.0000"
+                    - 1. symbol: TSLA,
+                      2. name: Tesla
+                      3. type: Equity
+                      4. region: United States
+                      5. marketOpen: "09:30"
+                      6. marketClose: "16:00"
+                      7. timezone: "UTC-04"
+                      8. currency: USD
+                      9. matchScore: "0.8889"
+                    - 1. symbol: TXLZF,
+                      2. name: Tesla Exploration Ltd
+                      3. type: Equity
+                      4. region: United States
+                      5. marketOpen: "09:30"
+                      6. marketClose: "16:00"
+                      7. timezone: "UTC-04"
+                      8. currency: USD
+                      9. matchScore: "0.4000"
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                example:
+                  error: No matches found.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    type: string
+                    description: General information about error.
+                  error:
+                    type: string
+                    description: Error by third party api.
+                required:
+                  - info
+                  - error
+                example:
+                  info: Internal server error caused by third party api.
+                  error: Invalid API call. Please retry or visit the documentation (https://www.alphavantage.co/documentation/) for SYMBOL_SEARCH.
+
+  /today:
+    get:
+      summary: Returns price and volume information from today.
+      description: Returns price and volume information like volume, open, high, etc. by single symbol.
+      parameters:
+        - name: symbol
+          in: query
+          schema:
+            type: string
+          description: >
+            Stock symbol to get price and volume information.
+          required: true
+      tags:
+        - Stock
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  symbol:
+                    type: object
+                    properties:
+                      01. symbol:
+                        type: string
+                        description: Symbol of returning stock
+                      02. open:
+                        type: string
+                        description: open price of symbol.
+                      03. high:
+                        type: string
+                        description: high price of symbol.
+                      04. low:
+                        type: string
+                        description: low price of symbol.
+                      05. price:
+                        type: string
+                        description: current price of symbol.
+                      06. volume:
+                        type: string
+                        description: volume of symbol.
+                      07. latest trading day:
+                        type: string
+                        description: latest trading day of symbol.
+                      08. previous close:
+                        type: string
+                        description: previous close price of symbol.
+                      09. change:
+                        type: string
+                        description: change of symbol.
+                      10. change percent:
+                        type: string
+                        description: change in percent of symbol.
+                    required:
+                     - 01. symbol
+                     - 02. open
+                     - 03. high
+                     - 04. low
+                     - 05. price
+                     - 06. volume
+                     - 07. latest trading day
+                     - 08. previous close
+                     - 09. change
+                     - 10. change percent
+                required:
+                  - symbol
+                example:
+                  symbol:
+                    01. symbol: TL0.DEX
+                    02. open: "573.9000"
+                    03. high: "580.0000"
+                    04. low: "562.2000"
+                    05. price: "562.2000"
+                    06. volume: "28458"
+                    07. latest trading day: "2021-03-18"
+                    08. previous close: "561.5000"
+                    09. change: "0.7000"
+                    10. change percent: "0.1247%"
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                example:
+                  error: No symbol found.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    type: string
+                    description: General information about error.
+                  error:
+                    type: string
+                    description: Error by third party api.
+                required:
+                  - info
+                  - error
+                example:
+                  info: Internal server error caused by third party api.
+                  error: Invalid API call. Please retry or visit the documentation (https://www.alphavantage.co/documentation/) for GLOBAL_QUOTE.
+
+  /daily:
+    get:
+      summary: Returns price and volume information from the last 100 days.
+      description: Returns price and volume information like volume, open, high, etc. by single symbol for the last 100 days.
+      parameters:
+        - name: symbol
+          in: query
+          schema:
+            type: string
+          description: >
+            Stock symbol to get price and volume information.
+          required: true
+      tags:
+        - Stock
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta Data:
+                    type: object
+                    properties:
+                      1. Information:
+                        type: string
+                        description: Information about the return values.
+                      2. Symbol:
+                        type: string
+                        description: The symbol of the stock.
+                      3. Last Refreshed:
+                        type: string
+                        description: Last time the information got refreshed.
+                      4. Output Size:
+                        type: string
+                        description: Returns only 100 days.
+                      5. Time Zone:
+                        type: string
+                        description: Time Zone of symbol.
+                    required:
+                     - 1. Information
+                     - 2. Symbol
+                     - 3. Last Refreshed
+                     - 4. Output Size
+                     - 5. Time Zone
+                  Time Series (Daily):
+                    type: object
+                    properties:
+                      year-month-day:
+                        type: object
+                        properties:
+                          1. open:
+                            type: string
+                            description: open price.
+                          2. high:
+                            type: string
+                            description: highest price of the day
+                          3. low:
+                            type: string
+                            description: lowest price of the day
+                          4. close:
+                            type: string
+                            description: closing price
+                          5. volume:
+                            type: string
+                            description: volume of the day.
+                        required:
+                          - 1. open
+                          - 2. high
+                          - 3. low
+                          - 4. close
+                          - 5. volume
+                    required:
+                      - year-month-day
+                required:
+                  - Meta Data
+                  - Time Series (Daily)
+                example:
+                  Meta Data:
+                    1. Information: Daily Prices (open, high, low, close) and Volumes
+                    2. Symbol: TL0.DEX
+                    3. Last Refreshed: "2021-03-19"
+                    4. Output Size: Compact
+                    5. Time Zone: US/Eastern
+                  Time Series (Daily):
+                    "2021-03-19":
+                      1. open: "553.8000"
+                      2. high: "561.0000"
+                      3. low: "525.9000"
+                      4. close: "542.4000"
+                      5. volume: "53856"
+                    ...: ...
+        '400':
+          description: Bad request.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    type: string
+                    description: General information about error.
+                  error:
+                    type: string
+                    description: Error by third party api.
+                required:
+                  - info
+                  - error
+                example:
+                  info: Internal server error caused by third party api.
+                  error: Invalid API call. Please retry or visit the documentation (https://www.alphavantage.co/documentation/) for TIME_SERIES_DAILY.
