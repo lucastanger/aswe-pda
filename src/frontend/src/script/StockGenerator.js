@@ -2,8 +2,6 @@ const stockInput = document.getElementById('stock');
 
 // Enter Press Event Listener
 stockInput.addEventListener('keypress', function (key) {
-    console.log(key);
-
     if (key.code === 'Enter') {
         requestStockList(stockInput.value)
     }
@@ -22,6 +20,10 @@ function requestStockList(searchIndex) {
             console.log(error)
         }
     })
+}
+
+function setSelected(stock) {
+    document.getElementById('selectedStock').innerText = stock;
 }
 
 function setHeader(xhr) {
@@ -46,8 +48,15 @@ function createStockTiles(stocks) {
         let desc = document.createElement('p');
 
         stockElement.classList.add('flex', 'flex-row', 'items-center');
-        innerStockElement.classList.add('rounded', 'border', 'border-gray-300', 'h-20', 'w-20', 'flex', 'items-center', 'justify-center', 'mr-8', 'bg-gray-50', 'bg-opacity-20');
+        innerStockElement.classList.add('rounded', 'border', 'border-gray-300', 'h-20', 'w-20', 'flex', 'items-center', 'justify-center', 'mr-8', 'bg-gray-50', 'bg-opacity-20', 'cursor-pointer');
+        innerStockElement.id = element['2. name'];
         desc.classList.add('uppercase');
+
+        stockElement.addEventListener('click', function () {
+
+            setSelected(this.firstChild.innerText);
+
+        });
 
         innerStockElement.innerText = element['1. symbol'];
         desc.innerText = element['2. name'];

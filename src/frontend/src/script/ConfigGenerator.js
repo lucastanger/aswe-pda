@@ -53,8 +53,7 @@ class ConfigGenerator {
             getWeatherUnit()
         );
         this.stocks = new StocksServiceConfiguration(
-            //document.getElementById()
-            "TSLA"
+            document.getElementById('selectedStock').innerText
         );
     }
 
