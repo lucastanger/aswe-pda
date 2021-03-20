@@ -1,0 +1,29 @@
+{
+  "general": {
+    "username": "Luca",
+    "welcomeTime": "09:00:00",
+    "goodbyeTime": "21:00:00"
+  },
+  "dualisService": {
+    "username": "inf18244@lehre.dhbw-stuttgart.de",
+    "password": "test"
+  },
+  "newsService": {
+    "papers": [
+      "ABC News"
+    ],
+    "categories": [
+      "Sports"
+    ]
+  },
+  "weatherService": {
+    "location": {
+      "lat": 18.452452,
+      "lon": 34.123219
+    },
+    "unit": "metric"
+  },
+  "stocksService": {
+    "stocks": "AAPL"
+  }
+}

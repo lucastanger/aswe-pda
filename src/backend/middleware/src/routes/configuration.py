@@ -1,6 +1,8 @@
 from flask import request, make_response, jsonify
 from flask_restx import Resource, Namespace, fields
 from pymongo import MongoClient
+import requests
+import json
 
 ns = Namespace('configuration', description='Configuration APIs')
 
@@ -11,7 +13,7 @@ configuration = db['configuration']
 
 
 @ns.route('/')
-class CalendarService(Resource):
+class ConfigurationService(Resource):
     get_success_model = ns.model(
         'Configuration get response - success',
         {
@@ -69,3 +71,17 @@ class CalendarService(Resource):
         return make_response(
             {'message': 'Configuration successfully added or updated'}, 200
         )
+
+
+@ns.route('/stock-service/symbol')
+class StockService(Resource):
+    @ns.doc(description='Get stock symbol by keyword.')
+    def get(self):
+        print(request.args)
+        print(json.dumps(request.args))
+        response = requests.get(
+            'http://stock-service:5585/rest/api/v1/symbol',
+            params={'keyword': request.args['keyword']},
+        )
+
+        return make_response(response.json(), 200)

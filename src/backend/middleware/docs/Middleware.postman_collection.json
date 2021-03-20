@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a5009efe-eede-4cd2-a9e9-8cc7d078be70",
+		"_postman_id": "b9a28f9f-1df7-4840-bf8f-8cc7150409ce",
 		"name": "Middleware",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -364,6 +364,24 @@
 						"swagger.yml"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post conf data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Get conf data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
 			},
 			"response": []
 		}
