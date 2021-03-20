@@ -1,6 +1,6 @@
 import datetime
-import json
 
+import pytz
 from flask import make_response, jsonify
 from flask_restx import Namespace, Resource
 from google.oauth2.credentials import Credentials
@@ -17,8 +17,10 @@ class Events(Resource):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.date_now = (
-            datetime.datetime.utcnow().isoformat() + 'Z'
-        )  # 'Z' indicates UTC time
+            datetime.datetime.utcnow()
+            .astimezone(pytz.timezone('Europe/Berlin'))
+            .isoformat()
+        )
 
     @ns.response(200, 'OK')
     @ns.response(400, 'Error')
@@ -29,6 +31,12 @@ class Events(Resource):
     def get(self, date=None):
         if date is None:
             date = self.date_now
+
+        max_date = datetime.datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%f%z')
+        max_date = max_date.replace(
+            hour=23, minute=59, second=59, microsecond=0
+        ).astimezone(pytz.timezone('Europe/Berlin'))
+        max_date = max_date.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
 
         # Load credentials from the session.
         result, success = get_credentials()
@@ -44,6 +52,7 @@ class Events(Resource):
             .list(
                 calendarId='primary',
                 timeMin=date,
+                timeMax=max_date,
                 maxResults=10,
                 singleEvents=True,
                 orderBy='startTime',
@@ -53,7 +62,6 @@ class Events(Resource):
         events = events_result.get('items', [])
 
         if not events:
-            print('No upcoming events found.')
-        print(json.dumps(events, indent=4))
+            return make_response({'message': 'No upcoming events found.'}, 200)
 
         return make_response(jsonify(events), 200)
