@@ -24,7 +24,7 @@ class WeatherService:
                 'weatherService': {'$exists': True},
                 'stocksService': {'$exists': True},
             }
-            )
+        )
         del config['_id']
 
         lat = config['weatherService']['location']['lat']
@@ -32,8 +32,12 @@ class WeatherService:
         unit = config['weatherService']['unit']
 
         if self.parameters['date-period']:
-            startDate = datetime.strptime(self.parameters['date-period']['startDate'], '%Y-%m-%dT%H:%M:%S%z')
-            endDate = datetime.strptime(self.parameters['date-period']['endDate'], '%Y-%m-%dT%H:%M:%S%z')
+            startDate = datetime.strptime(
+                self.parameters['date-period']['startDate'], '%Y-%m-%dT%H:%M:%S%z'
+            )
+            endDate = datetime.strptime(
+                self.parameters['date-period']['endDate'], '%Y-%m-%dT%H:%M:%S%z'
+            )
             delta = endDate - startDate
             days = delta.days + 1
 
@@ -46,21 +50,37 @@ class WeatherService:
     def get_forecast(self, city, lat, lon, days, unit):
         if days:
             if city:
-                response = requests.get(f'{self.base_url}/forecast', params={'city': city, 'days': days, 'unit': unit})
+                response = requests.get(
+                    f'{self.base_url}/forecast',
+                    params={'city': city, 'days': days, 'unit': unit},
+                )
             else:
-                response = requests.get(f'{self.base_url}/forecast', params={'lat': lat, 'lon': lon, 'days': days, 'unit': unit})
+                response = requests.get(
+                    f'{self.base_url}/forecast',
+                    params={'lat': lat, 'lon': lon, 'days': days, 'unit': unit},
+                )
         else:
             if city:
-                response = requests.get(f'{self.base_url}/forecast', params={'city': city, 'unit': unit})
+                response = requests.get(
+                    f'{self.base_url}/forecast', params={'city': city, 'unit': unit}
+                )
             else:
-                response = requests.get(f'{self.base_url}/forecast', params={'lat': lat, 'lon': lon, 'unit': unit})
+                response = requests.get(
+                    f'{self.base_url}/forecast',
+                    params={'lat': lat, 'lon': lon, 'unit': unit},
+                )
 
         return response
 
     def get_current_weather(self, city, lat, lon, unit):
         if city:
-            response = requests.get(f'{self.base_url}/current-weather', params={'city': city, 'unit': unit})
+            response = requests.get(
+                f'{self.base_url}/current-weather', params={'city': city, 'unit': unit}
+            )
         else:
-            response = requests.get(f'{self.base_url}/current-weather', params={'lat': lat, 'lon': lon, 'unit': unit})
-        
+            response = requests.get(
+                f'{self.base_url}/current-weather',
+                params={'lat': lat, 'lon': lon, 'unit': unit},
+            )
+
         return response
