@@ -24,13 +24,18 @@
 <br>
  
 ## Table of contents
+- [Table of contents](#table-of-contents)
 - [Description](#description)
 - [Architecture](#architecture)
-- [How to Use](#howtouse)
-- [Documentation](#documentation)
-- [Authors](#authors)
-- [Copyright](#copyright)
-- [License](#license)
+- [How to use](#how-to-use)
+  - [Docker :whale:](#docker-whale)
+  - [Local](#local)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
+- [Built with :hammer_and_wrench:](#built-with-hammer_and_wrench)
+- [Authors :busts_in_silhouette:](#authors-busts_in_silhouette)
+- [Copyright :copyright:](#copyright-copyright)
+- [License :page_facing_up:](#license-page_facing_up)
 
 ## Description
 
@@ -44,13 +49,18 @@ Personal Digital Assistant (PDA) named J.A.R.V.I.S. This project emerged from th
 
 ## How to use
 
-### Docker
+### Docker :whale:
 
-#### Prerequisites
+**Prerequisites:**
+- Docker Engine 19.03.0+
+- Compose 1.27.0+
+
+```bash
+docker-compose up
+```
 
 ### Local
 
-#### Prerequisites 
 #### Frontend
 
 Compile Tailwind Stylesheet
