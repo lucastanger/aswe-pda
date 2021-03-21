@@ -8,7 +8,6 @@ let options = {
 const callback = (entries) => {
     entries.forEach((entry) => {
         const { target } = entry;
-        //console.log(entry, target)
         if (entry.intersectionRatio >= 0.25) {
             target.classList.add('is-visible');
         } else {
@@ -23,6 +22,7 @@ sections.forEach((section, index) => {
     observer.observe(section)
 })
 
+let latitude, longitude;
 
 function geoFindMe() {
 
@@ -33,8 +33,8 @@ function geoFindMe() {
     mapLink.textContent = '';
 
     function success(position) {
-        const latitude  = position.coords.latitude;
-        const longitude = position.coords.longitude;
+        latitude  = position.coords.latitude;
+        longitude = position.coords.longitude;
 
         status.textContent = '';
         mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
@@ -59,7 +59,7 @@ document.querySelector('#location').addEventListener('click', geoFindMe);
 
 document.getElementsByClassName('box-9')[0].addEventListener('click', function (){
     document.querySelector('.wave').classList.toggle('active');
-
+    generateConfig();
     setTimeout(() => location.replace('/'), 2000);
 });
 

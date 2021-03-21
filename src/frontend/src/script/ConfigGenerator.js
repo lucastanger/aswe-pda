@@ -47,8 +47,8 @@ class ConfigGenerator {
         );
         this.weather = new WeatherServiceConfiguration(
             new Location(
-                12.4,
-                14.6
+                latitude,
+                longitude
             ),
             getWeatherUnit()
         );
