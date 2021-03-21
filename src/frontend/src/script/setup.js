@@ -8,7 +8,6 @@ let options = {
 const callback = (entries) => {
     entries.forEach((entry) => {
         const { target } = entry;
-        //console.log(entry, target)
         if (entry.intersectionRatio >= 0.25) {
             target.classList.add('is-visible');
         } else {
@@ -59,7 +58,7 @@ document.querySelector('#location').addEventListener('click', geoFindMe);
 
 document.getElementsByClassName('box-9')[0].addEventListener('click', function (){
     document.querySelector('.wave').classList.toggle('active');
-
+    generateConfig();
     setTimeout(() => location.replace('/'), 2000);
 });
 
