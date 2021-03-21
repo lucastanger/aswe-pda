@@ -22,6 +22,7 @@ sections.forEach((section, index) => {
     observer.observe(section)
 })
 
+let latitude, longitude;
 
 function geoFindMe() {
 
@@ -32,8 +33,8 @@ function geoFindMe() {
     mapLink.textContent = '';
 
     function success(position) {
-        const latitude  = position.coords.latitude;
-        const longitude = position.coords.longitude;
+        latitude  = position.coords.latitude;
+        longitude = position.coords.longitude;
 
         status.textContent = '';
         mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
