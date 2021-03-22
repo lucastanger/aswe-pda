@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="" height="" alt="JARVIS Logo" src="https://github.com/lucastanger/aswe-pda/blob/main/src/frontend/src/icons/android-icon-192x192.png">
+  <img width="" height="250" alt="JARVIS Logo" src="https://github.com/lucastanger/aswe-pda/blob/main/src/frontend/src/img/jarvis.png">
   <h2 align="center">🤖 Personal Digital Agent</h2>
   <p align="center">Personal Digital Assistant constructed within a Microservice Environment</p>
 </p>
