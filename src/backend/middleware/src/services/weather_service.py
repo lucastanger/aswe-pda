@@ -16,20 +16,11 @@ class WeatherService:
     def query(self):
         print(self.parameters)
         # load config
-        config = configuration.find_one(
-            {
-                'general': {'$exists': True},
-                'dualisService': {'$exists': True},
-                'newsService': {'$exists': True},
-                'weatherService': {'$exists': True},
-                'stocksService': {'$exists': True},
-            }
-        )
-        del config['_id']
+        config = configuration.find_one({'weather': {'$exists': True},})
 
-        lat = config['weatherService']['location']['lat']
-        lon = config['weatherService']['location']['lon']
-        unit = config['weatherService']['unit']
+        lat = config['weather']['_location']['_lat']
+        lon = config['weather']['_location']['_lon']
+        unit = config['weather']['_unit']
 
         if self.parameters['date-period']:
             startDate = datetime.strptime(
