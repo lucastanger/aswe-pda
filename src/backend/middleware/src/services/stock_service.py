@@ -18,18 +18,9 @@ class StockService:
         # No stock is given. Take stock from config
         if not self.parameters['stock']:
             # Load config
-            config = configuration.find_one(
-                {
-                    'general': {'$exists': True},
-                    'dualisService': {'$exists': True},
-                    'newsService': {'$exists': True},
-                    'weatherService': {'$exists': True},
-                    'stocksService': {'$exists': True},
-                }
-            )
-            del config['_id']
+            config = configuration.find_one({'stocks': {'$exists': True},})
 
-            stock = config['stocksService']['stocks']
+            stock = config['stocks']['_stock']
         else:
             stock = self.parameters['stock']
 

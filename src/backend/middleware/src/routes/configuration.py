@@ -77,8 +77,6 @@ class ConfigurationService(Resource):
 class StockService(Resource):
     @ns.doc(description='Get stock symbol by keyword.')
     def get(self):
-        print(request.args)
-        print(json.dumps(request.args))
         response = requests.get(
             'http://stock-service:5585/rest/api/v1/symbol',
             params={'keyword': request.args['keyword']},
