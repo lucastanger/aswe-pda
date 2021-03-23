@@ -1,7 +1,5 @@
 import requests
 from dotmap import DotMap
-from flask import make_response
-import json
 
 
 class SpotifyService:
