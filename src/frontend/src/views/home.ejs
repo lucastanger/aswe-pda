@@ -228,18 +228,18 @@
                     <h1 class="text-3xl dark:text-gray-300 font-thin mb-4">Weather today</h1>
                     <!-- weather container -->
                     <div class="dark:bg-black dark:bg-opacity-25 w-full h-5/6 rounded-md shadow-2xl px-2 py-3">
-                        <h1 class="dark:text-gray-300 font-light">Stuttgart, DE</h1>
+                        <h1 class="dark:text-gray-300 font-light" id="weather-location">Stuttgart, DE</h1>
                         <div class="h-1 dark:bg-gray-300 dark:bg-opacity-25 rounded my-1"></div>
                         <div class="grid grid-rows-2 grid-cols-2">
                             <div class="h-32 flex justify-center items-center">
-                                <img class="h-24" src="icons/regen.svg" alt="rain">
+                                <img class="h-24" src="icons/regen.svg" alt="rain" id="weather-image">
                             </div>
                             <div class="h-32 flex justify-center items-center">
-                                <p class="dark:text-gray-100 font-normal text-7xl">4°C</p>
+                                <p class="dark:text-gray-100 font-normal text-7xl" id="temperature">4°C</p>
                             </div>
                             <div class="col-span-full flex flex-col pt-5 items-center">
-                                <p class="dark:text-gray-100 font-normal text-xl">Light rain</p>
-                                <p class="dark:text-gray-500">Wind: 5.7 m/s Moderate breeze</p>
+                                <p class="dark:text-gray-100 font-normal text-xl" id="weather-type">Light rain</p>
+                                <p class="dark:text-gray-500" id="wind-type">Wind: 5.7 m/s Moderate breeze</p>
                             </div>
                         </div>
                     </div>
@@ -292,6 +292,7 @@
 </body>
 <script src="script/home.js"></script>
 <script src="script/Time.js"></script>
+<script defer src="script/Weather.js"></script>
 </html>
 
 <!---->
