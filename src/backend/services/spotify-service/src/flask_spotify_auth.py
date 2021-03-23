@@ -137,7 +137,6 @@ def set_tokens(data):
     # tokens are returned to the app
     response_data = json.loads(post_request.text)
     access_token = response_data['access_token']
-    refresh_token = response_data['refresh_token']
 
     if access_token:
         authorization.replace_one(
@@ -145,12 +144,13 @@ def set_tokens(data):
             credentials_to_dict(access_token),
             upsert=True
         )
-        authorization.replace_one(
-            {'service': 'spotify-service', 'type': 'refresh'},
-            {'service': 'spotify-service', 'type': 'refresh', 'token': refresh_token},
-            upsert=True
-        )
+        if 'refresh_token' in response_data:
+            refresh_token = response_data['refresh_token']
+            authorization.replace_one(
+                {'service': 'spotify-service', 'type': 'refresh'},
+                {'service': 'spotify-service', 'type': 'refresh', 'token': refresh_token},
+                upsert=True
+            )
         return True
     else:
         return False
-
