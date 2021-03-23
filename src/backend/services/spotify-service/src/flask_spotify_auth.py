@@ -78,13 +78,11 @@ def authorize(auth_token):
 
 
 def refresh():
-    document = authorization.find_one(
-        {'service': 'spotify-service', 'type': 'refresh'}
-    )
+    document = authorization.find_one({'service': 'spotify-service', 'type': 'refresh'})
 
     code_payload = {
         'grant_type': 'refresh_token',
-        'refresh_token': document_to_dict(document)
+        'refresh_token': document_to_dict(document),
     }
 
     return set_tokens(code_payload)
@@ -142,14 +140,18 @@ def set_tokens(data):
         authorization.replace_one(
             {'service': 'spotify-service', 'type': 'credentials'},
             credentials_to_dict(access_token),
-            upsert=True
+            upsert=True,
         )
         if 'refresh_token' in response_data:
             refresh_token = response_data['refresh_token']
             authorization.replace_one(
                 {'service': 'spotify-service', 'type': 'refresh'},
-                {'service': 'spotify-service', 'type': 'refresh', 'token': refresh_token},
-                upsert=True
+                {
+                    'service': 'spotify-service',
+                    'type': 'refresh',
+                    'token': refresh_token,
+                },
+                upsert=True,
             )
         return True
     else:

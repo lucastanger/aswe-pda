@@ -109,7 +109,8 @@ class CalendarServiceClear(Resource):
 @ns.route('/spotify-service')
 class SpotifyService(Resource):
     success_model = ns.model(
-        'Spotify service authorization response - success', {'authorization_url': fields.String}
+        'Spotify service authorization response - success',
+        {'authorization_url': fields.String},
     )
 
     error_model = ns.model(
