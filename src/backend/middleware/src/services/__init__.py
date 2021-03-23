@@ -4,6 +4,7 @@ from .maps_service import MapsService
 from .news_service import NewsService
 from .spotify_service import SpotifyService
 from .weather_service import WeatherService
+from .stock_service import StockService
 
 calendar_service = CalendarService()
 dualis_service = DualisService()
@@ -11,6 +12,7 @@ maps_service = MapsService()
 news_service = NewsService()
 spotify_service = SpotifyService()
 weather_service = WeatherService()
+stock_service = StockService()
 
 
 def query(intent, parameters):
@@ -21,6 +23,7 @@ def query(intent, parameters):
         'news-intent': news_service,
         'spotify-intent': spotify_service,
         'weather-intent': weather_service,
+        'stock-intent': stock_service,
     }
     service = switch.get(intent, lambda: 'Unknown intent.')
     service.__init__(parameters)

@@ -1,0 +1,389 @@
+{
+	"info": {
+		"_postman_id": "b9a28f9f-1df7-4840-bf8f-8cc7150409ce",
+		"name": "Middleware",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "spotify-service",
+			"item": [
+				{
+					"name": "Spotify Authorization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/authorization/spotify-service",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"authorization",
+								"spotify-service"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Info",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Profile Info\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Playlist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Profile playlist\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Artists",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Profile artist\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Tracks",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Profile track\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Recent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Profile recent\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Featured",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Profile featured\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Play",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Play\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pause",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Pause\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post Query",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"Pause\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5600",
+					"path": [
+						"rest",
+						"api",
+						"v1",
+						"dialogflow",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger.json",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5600/rest/api/v1/authorization/spotify-service",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5600",
+					"path": [
+						"rest",
+						"api",
+						"v1",
+						"authorization",
+						"spotify-service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger.yml",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/rest/api/v1/swagger/swagger.yml",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"rest",
+						"api",
+						"v1",
+						"swagger",
+						"swagger.yml"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post conf data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Get conf data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}
