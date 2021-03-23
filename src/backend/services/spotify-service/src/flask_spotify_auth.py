@@ -74,31 +74,18 @@ def authorize(auth_token):
         'redirect_uri': REDIRECT_URI,
     }
 
-    # python 3 or above
-    if sys.version_info[0] >= 3:
-        base64encoded = base64.b64encode(
-            ('{}:{}'.format(CLIENT_ID, CLIENT_SECRET)).encode()
-        )
-        headers = {'Authorization': 'Basic {}'.format(base64encoded.decode())}
-    else:
-        base64encoded = base64.b64encode('{}:{}'.format(CLIENT_ID, CLIENT_SECRET))
-        headers = {'Authorization': 'Basic {}'.format(base64encoded)}
+    return set_tokens(code_payload)
 
-    post_request = requests.post(SPOTIFY_URL_TOKEN, data=code_payload, headers=headers)
 
-    # tokens are returned to the app
-    response_data = json.loads(post_request.text)
-    access_token = response_data['access_token']
+def refresh():
+    document = authorization.find_one({'service': 'spotify-service', 'type': 'refresh'})
 
-    if access_token:
-        authorization.replace_one(
-            {'service': 'spotify-service', 'type': 'credentials'},
-            credentials_to_dict(access_token),
-            upsert=True,
-        )
-        return True
-    else:
-        return False
+    code_payload = {
+        'grant_type': 'refresh_token',
+        'refresh_token': document_to_dict(document),
+    }
+
+    return set_tokens(code_payload)
 
 
 def credentials_to_dict(credentials):
@@ -125,8 +112,47 @@ def getAuthHeader():
         {'service': 'spotify-service', 'type': 'credentials'}
     )
 
-    auth_header = {'Authorization': 'Bearer {}'.format(document_to_dict(document))}
-
     if document is None:
         return make_response({'error': 'You are not authorized.'}, 401), False
-    return auth_header, True
+    else:
+        auth_header = {'Authorization': 'Bearer {}'.format(document_to_dict(document))}
+        return auth_header, True
+
+
+def set_tokens(data):
+    # python 3 or above
+    if sys.version_info[0] >= 3:
+        base64encoded = base64.b64encode(
+            ('{}:{}'.format(CLIENT_ID, CLIENT_SECRET)).encode()
+        )
+        headers = {'Authorization': 'Basic {}'.format(base64encoded.decode())}
+    else:
+        base64encoded = base64.b64encode('{}:{}'.format(CLIENT_ID, CLIENT_SECRET))
+        headers = {'Authorization': 'Basic {}'.format(base64encoded)}
+
+    post_request = requests.post(SPOTIFY_URL_TOKEN, data=data, headers=headers)
+
+    # tokens are returned to the app
+    response_data = json.loads(post_request.text)
+    access_token = response_data['access_token']
+
+    if access_token:
+        authorization.replace_one(
+            {'service': 'spotify-service', 'type': 'credentials'},
+            credentials_to_dict(access_token),
+            upsert=True,
+        )
+        if 'refresh_token' in response_data:
+            refresh_token = response_data['refresh_token']
+            authorization.replace_one(
+                {'service': 'spotify-service', 'type': 'refresh'},
+                {
+                    'service': 'spotify-service',
+                    'type': 'refresh',
+                    'token': refresh_token,
+                },
+                upsert=True,
+            )
+        return True
+    else:
+        return False

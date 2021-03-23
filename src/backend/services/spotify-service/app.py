@@ -49,11 +49,11 @@ def profileInfos(search_type):
 
         if valid_token(data):
             return data
+        else:
+            flask_spotify_auth.refresh()
+            profileInfos(search_type)
     else:
-        return (
-            make_response({'error': 'Could not get the authorization header'}, 402),
-            False,
-        )
+        return {'error': 'Could not get the authorization header'}
 
 
 @app.route('/rest/api/v1/spotify/play')
@@ -62,12 +62,11 @@ def play():
     auth_header, success = flask_spotify_auth.getAuthHeader()
 
     if success:
-        play = profile.startMusic(auth_header)
-
-        if valid_token(play):
+        if profile.startMusic(auth_header):
             return {'message': 'Play'}
+        return {'error': 'Something went wrong or music already playing'}
     else:
-        return False
+        return {'error': 'Could not authenticate'}
 
 
 @app.route('/rest/api/v1/spotify/pause')
@@ -76,10 +75,25 @@ def pause():
     auth_header, success = flask_spotify_auth.getAuthHeader()
 
     if success:
-        pause = profile.pauseMusic(auth_header)
-
-        if valid_token(pause):
+        if profile.pauseMusic(auth_header):
             return {'message': 'Pause'}
+        return {'error': 'Something went wrong or music already paused'}
+    else:
+        return {'error': 'Could not authenticate'}
+
+
+@app.route('/rest/api/v1/spotify/image')
+def image():
+
+    a_id = request.args['id']
+
+    auth_header, success = flask_spotify_auth.getAuthHeader()
+
+    if success:
+        image = profile.getImageUrl(auth_header, a_id)
+
+        if valid_token(image):
+            return image
     else:
         return False
 
