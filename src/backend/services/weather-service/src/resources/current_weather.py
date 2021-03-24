@@ -96,6 +96,7 @@ class CurrentWeather(Resource):
             'weather': {
                 'main': json_openweather['weather'][0]['main'],
                 'description': json_openweather['weather'][0]['description'],
+                'icon': json_openweather['weather'][0]['icon'],
                 'cloudiness': json_openweather['clouds']['all'],
                 'wind': {
                     'speed': json_openweather['wind']['speed'],
