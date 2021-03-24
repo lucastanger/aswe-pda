@@ -117,6 +117,7 @@ class Forecast(Resource):
                 {
                     'main': day['weather'][0]['main'],
                     'description': day['weather'][0]['description'],
+                    'icon': day['weather'][0]['icon'],
                     'cloudiness': day['clouds'],
                     'wind': {'speed': day['speed'], 'deg': day['deg']},
                     'rain': {
