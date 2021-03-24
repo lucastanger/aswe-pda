@@ -9,7 +9,6 @@ configuration = db['configuration']
 
 
 class NewsService:
-
     def __init__(self, parameters: dict = None):
         self.parameters = parameters
         self.base_url = 'http://news-service:5575/rest/api/v1'
@@ -45,11 +44,7 @@ class NewsService:
                 if response:
                     for source in sources.sources:
                         result.append(
-                            {
-                                'name': source.name,
-                                'url': source.url,
-                                'id': source.id
-                            }
+                            {'name': source.name, 'url': source.url, 'id': source.id}
                         )
             else:
                 return 'Please provide a valid type!'
@@ -112,7 +107,7 @@ class NewsService:
                         {
                             'title': article.title,
                             'img': article.urlToImage,
-                            'url': article.url
+                            'url': article.url,
                         }
                     )
                 else:
@@ -120,8 +115,8 @@ class NewsService:
                         {
                             'title': article.title,
                             'img': 'https://www.bag.admin.ch/bag/de/home/das-bag/aktuell/news/news-02-09-2020'
-                                   '/_jcr_content/image.imagespooler.png/1603898250046/588.1000/Icons-18.png',
-                            'url': article.url
+                            '/_jcr_content/image.imagespooler.png/1603898250046/588.1000/Icons-18.png',
+                            'url': article.url,
                         }
                     )
 

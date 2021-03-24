@@ -1,5 +1,10 @@
 from flask import Flask, request
-from src.news import key_word_search, find_sources, top_headlines_category, everything_news
+from src.news import (
+    key_word_search,
+    find_sources,
+    top_headlines_category,
+    everything_news,
+)
 
 app = Flask(__name__)
 app.secret_key = 'some key for session'
