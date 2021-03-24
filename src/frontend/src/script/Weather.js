@@ -26,7 +26,7 @@ function retrieveWeatherInformationForTheDay() {
         beforeSend: setHeader,
         success: function (response) {
 
-            console.log(response.response);
+            //console.log(response.response);
             // TODO: implement imperial
             weatherLocation.innerText = response.response['city_name'];
             temperature.innerText = `${Math.round(response.response.weather.temp['current'])} °C`;

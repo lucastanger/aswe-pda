@@ -61,8 +61,6 @@ $(document).ready(function () {
 
 function onButtonClick(btn) {
     btn.classList.add('active');
-
-
 }
 
 function sendMessage() {
@@ -74,7 +72,7 @@ function sendMessage() {
     console.log(chatMessage);
     // Display Chat Message
     let chatElement = createChatElement(chatMessage);
-    document.getElementById('chatArea').appendChild(chatElement);
+    document.getElementById('chat').appendChild(chatElement);
 
 }
 
