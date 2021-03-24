@@ -34,7 +34,7 @@ function retrieveWeatherInformationForTheDay() {
             windType.innerText = `Wind: ${response.response.weather.wind.speed} m/s Moderate breeze`;
 
             // TODO: implement dynamic image
-            weatherImage.src = 'icons/regen.svg';
+            weatherImage.src = `http://openweathermap.org/img/wn/${response.response.weather.icon}@2x.png`;
         },
         error: function (error) {
             console.log(error)
