@@ -149,6 +149,7 @@ paths:
                   weather:
                     main: Clouds
                     description: scattered clouds
+                    icon: 10d
                     cloudiness: 40
                     wind:
                       speed: 5.66
@@ -391,6 +392,7 @@ paths:
                   weather:
                     - main: Rain
                       description: light rain
+                      icon: 10d
                       cloudiness: 40
                       wind:
                         speed: 2.22
