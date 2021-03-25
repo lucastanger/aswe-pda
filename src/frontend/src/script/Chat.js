@@ -49,7 +49,7 @@ async function sendMessage() {
         chatArea.appendChild(answerElement);
 
         // Play Sound
-        new Audio("data:audio/wav;base64," + sound).play()
+        new Audio("data:audio/wav;base64," + res.dialogflow.output_audio).play()
     });
 
 }
@@ -105,8 +105,6 @@ function handleMultipleWeatherData(weather) {
 
 }
 
-let sound = "";
-
 /**
  *
  * @param value
@@ -118,8 +116,6 @@ function handleWeatherIntent(value) {
     if (value.hasOwnProperty('response')) {
 
         let response = value.response;
-
-        sound = value.dialogflow.output_audio;
 
         // Check if it is a forecast request
         if (response.weather.constructor === Array) {
@@ -250,17 +246,6 @@ function createChatElement(messagePayload) {
     div.appendChild(message);
     return div;
 }
-
-let Sound = (function () {
-    let df = document.createDocumentFragment();
-    return function Sound(src) {
-        let snd = new Audio(src);
-        df.appendChild(snd); // keep in fragment until finished playing
-        snd.addEventListener('ended', function () {df.removeChild(snd);});
-        snd.play();
-        return snd;
-    }
-}());
 
 function setHeader(xhr) {
     xhr.setRequestHeader('Access-Control-Allow-Headers', 'access-control-allow-methods, access-control-allow-origin');
