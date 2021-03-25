@@ -16,8 +16,20 @@ class NewsService:
     def query(self):
         config = configuration.find_one({'news': {'$exists': True}})
 
-        paper = config['news']['_papers']
+        paper_id = config['news']['_papers']
         category = config['news']['_categories']
+
+        papers = self.get_news_source()
+
+        papers_json = papers.json()
+        paper_sources = DotMap(papers_json)
+
+        if papers:
+            for paper in paper_sources.sources:
+                if paper.name == paper_id:
+                    paper_id = paper.id
+
+        print(paper_id)
 
         if 'type' in self.parameters:
             if self.parameters['type'] == 'top':
@@ -26,10 +38,10 @@ class NewsService:
                 else:
                     result = self.get_top_news()
             elif self.parameters['type'] == 'everything':
-                if 'search' in self.parameters and paper:
-                    result = self.get_news_search(self.parameters['search'], paper)
-                elif paper:
-                    result = self.get_news_search(None, paper)
+                if 'search' in self.parameters and paper_id:
+                    result = self.get_news_search(self.parameters['search'], paper_id)
+                elif paper_id:
+                    result = self.get_news_search(None, paper_id)
                 elif 'search' in self.parameters:
                     result = self.get_news_search(self.parameters['search'], None)
                 else:
@@ -102,7 +114,7 @@ class NewsService:
 
         if response:
             for article in news.articles:
-                if 'urlToImage' in article and article.urlToImage is not None:
+                if article.urlToImage and article.urlToImage != 'null':
                     result.append(
                         {
                             'title': article.title,
