@@ -27,11 +27,12 @@
 - [Table of contents](#table-of-contents)
 - [Description](#description)
 - [Architecture](#architecture)
-- [How to use](#how-to-use)
+- [How to Use](#how-to-use)
   - [Docker :whale:](#docker-whale)
   - [Local](#local)
     - [Frontend](#frontend)
     - [Backend](#backend)
+- [Documentation :memo:](#documentation)
 - [Built with :hammer_and_wrench:](#built-with-hammer_and_wrench)
 - [Authors :busts_in_silhouette:](#authors-busts_in_silhouette)
 - [Copyright :copyright:](#copyright-copyright)
@@ -47,7 +48,7 @@ Personal Digital Assistant (PDA) named J.A.R.V.I.S. This project emerged from th
   <img width="" height="" alt="architecture" src="https://github.com/lucastanger/aswe-pda/blob/main/src/frontend/src/icons/architecture.png">
 </p>
 
-## How to use
+## How to Use
 
 ### Docker :whale:
 
@@ -68,6 +69,26 @@ Compile Tailwind Stylesheet
 ![Tailwind GIF](https://github.com/lucastanger/aswe-pda/blob/feature/aswe-123-beautify-readme/src/frontend/tailwind_install.gif?raw=true)
 
 #### Backend
+
+#### Services
+
+Following installation example is for a single service. Replace \<service-of-your-choice\> to a specific service folder. All services can be found [here](https://github.com/lucastanger/aswe-pda/tree/main/src/backend/services).
+
+**Requirements:**
+Python >= 3.8
+
+This example uses a virtual environment to install all neccessary python packages.
+
+```bash
+cd src/backend/services/<service-of-your-choice>
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+python3 app.py # some services use server.py
+```
+## Documentation :memo:
+
+Every Service is hosting a Swagger API Documentation. If a service is running you can call the endpoint /rest/api/v1/docs to access the swagger documentation. In the swagger documentation all endpoints of the service are specified and can be executed.
 
 ## Built with :hammer_and_wrench:
 
