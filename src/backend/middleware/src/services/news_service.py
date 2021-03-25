@@ -102,7 +102,7 @@ class NewsService:
 
         if response:
             for article in news.articles:
-                if 'urlToImage' in article and article.urlToImage != 'null':
+                if 'urlToImage' in article and article.urlToImage is not None:
                     result.append(
                         {
                             'title': article.title,
