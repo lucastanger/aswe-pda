@@ -25,6 +25,10 @@ $(document).ready(function () {
 
 let i = "";
 
+/**
+ *
+ * @returns {Promise<void>}
+ */
 async function sendMessage() {
     // Retrieve user message
     let chatMessage = input.value;
@@ -44,11 +48,18 @@ async function sendMessage() {
 
         chatArea.appendChild(answerElement);
 
+        // Play Sound
+        new Audio("data:audio/wav;base64," + sound).play()
     });
 
 }
 
 // Returns the proper function according to intent type
+/**
+ *
+ * @param intent
+ * @returns {(function(*): (boolean|HTMLDivElement))|(function(): string)|(function(*): HTMLDivElement)}
+ */
 function identifyIntent(intent) {
 
     switch (intent.dialogflow.query_result.intent.display_name) {
@@ -67,6 +78,8 @@ function identifyIntent(intent) {
  * @param {Array} weather
  */
 function handleMultipleWeatherData(weather) {
+
+    let ret = "";
 
     weather.forEach(element => {
 
@@ -92,6 +105,13 @@ function handleMultipleWeatherData(weather) {
 
 }
 
+let sound = "";
+
+/**
+ *
+ * @param value
+ * @returns {boolean|HTMLDivElement}
+ */
 function handleWeatherIntent(value) {
 
     // Check what weather intent got submitted
@@ -99,7 +119,7 @@ function handleWeatherIntent(value) {
 
         let response = value.response;
 
-        t = response;
+        sound = value.dialogflow.output_audio;
 
         // Check if it is a forecast request
         if (response.weather.constructor === Array) {
@@ -148,12 +168,22 @@ function handleWeatherIntent(value) {
 
 }
 
+/**
+ *
+ * @param value
+ * @returns {HTMLDivElement}
+ */
 function handleSpotifyIntent(value) {
 
     return createAnswerElement(value.response);
 
 }
 
+/**
+ *
+ * @param message
+ * @returns {*}
+ */
 function sendMessageToMiddleware(message) {
     return $.ajax({
         url: 'http://localhost:5600/rest/api/v1/dialogflow/query',
@@ -177,19 +207,27 @@ function createAnswerElement(messagePayload) {
     // Create divs
     let div = document.createElement('div');
     let message = document.createElement('div');
+    let header = document.createElement('div');
 
     div.classList.add("clearfix");
-    message.classList.add('bg-gray-300', 'dark:bg-gray-900', 'dark:text-gray-300', 'left-0', 'float-left', 'mx-4', 'my-2', 'p-2', 'rounded-lg');
+    message.classList.add('bg-gray-300', 'dark:bg-gray-900', 'dark:text-gray-300', 'left-0', 'float-left', 'mx-4', 'p-2', 'rounded-lg');
+    header.classList.add('bg-gray-900', 'mx-6', 'rounded-t-2xl', 'w-40', 'flex', 'justify-center', 'text-green-400', 'border-b', 'border-gray-800');
+
+    header.innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();
 
     message.innerHTML = messagePayload;
 
-    //message.appendChild(messagePayload)
-
     // Compose divs and return
+    div.appendChild(header);
     div.appendChild(message);
     return div;
 }
 
+/**
+ *
+ * @param messagePayload
+ * @returns {HTMLDivElement}
+ */
 function createChatElement(messagePayload) {
     // Create divs
     let div = document.createElement('div');
@@ -212,6 +250,17 @@ function createChatElement(messagePayload) {
     div.appendChild(message);
     return div;
 }
+
+let Sound = (function () {
+    let df = document.createDocumentFragment();
+    return function Sound(src) {
+        let snd = new Audio(src);
+        df.appendChild(snd); // keep in fragment until finished playing
+        snd.addEventListener('ended', function () {df.removeChild(snd);});
+        snd.play();
+        return snd;
+    }
+}());
 
 function setHeader(xhr) {
     xhr.setRequestHeader('Access-Control-Allow-Headers', 'access-control-allow-methods, access-control-allow-origin');
