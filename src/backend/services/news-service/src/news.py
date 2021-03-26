@@ -43,7 +43,7 @@ def everything_news(source=None):
             NEWS_EVERYTHING_URL, LANGUAGE, source, API_KEY
         )
     else:
-        url = '{}?language={}&apiKey={}'.format(NEWS_EVERYTHING_URL, COUNTRY, API_KEY)
+        url = '{}?language={}&apiKey={}'.format(NEWS_EVERYTHING_URL, LANGUAGE, API_KEY)
     result = requests.get(url).json()
     return json.dumps(result, sort_keys=True, indent=4)
 
