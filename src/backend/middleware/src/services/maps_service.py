@@ -14,6 +14,8 @@ class MapsService:
         origin = self.parameters['origin']
         destination = self.parameters['destination']
         arrival_time = self.parameters['arrival_time']
-        response = requests.get(f'{self.base_url}/maps/route?origin={origin}&'
-                                f'destination={destination}&arrival_time={arrival_time}')
+        response = requests.get(
+            f'{self.base_url}/maps/route?origin={origin}&'
+            f'destination={destination}&arrival_time={arrival_time}'
+        )
         return response.json()

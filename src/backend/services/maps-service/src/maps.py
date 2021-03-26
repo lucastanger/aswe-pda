@@ -35,18 +35,21 @@ parser.add_argument('arrival_time', type=str, help='Desired arrival time')
 class GetMapsRoute(Resource):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.date_now = (
-            datetime.datetime.utcnow()
-            .astimezone(pytz.timezone('Europe/Berlin'))
+        self.date_now = datetime.datetime.utcnow().astimezone(
+            pytz.timezone('Europe/Berlin')
         )
 
     def get(self):
-        if (
-            'origin' not in request.args
-            or 'destination' not in request.args
-        ) or (not request.args.get('origin') or not request.args.get('destination')):
-            return make_response({'error': 'Not all required arguments specified (origin, '
-                                           'destination, arrival_time)'}, 400)
+        if ('origin' not in request.args or 'destination' not in request.args) or (
+            not request.args.get('origin') or not request.args.get('destination')
+        ):
+            return make_response(
+                {
+                    'error': 'Not all required arguments specified (origin, '
+                    'destination, arrival_time)'
+                },
+                400,
+            )
 
         origin = request.args.get('origin')
         destination = request.args.get('destination')
