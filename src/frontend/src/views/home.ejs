@@ -7,8 +7,9 @@
 <div id="modal"></div>
 <!-- header -->
 <header class="w-full">
-    <div class="px-5 py-5 flex justify-between items-center bg-white dark:bg-gray-900 border-b dark:border-gray-900">
+    <div class="px-5 py-3 flex justify-between items-center bg-white dark:bg-gray-900 border-b dark:border-gray-900">
         <div class="font-semibold text-2xl dark:text-gray-300">J.A.R.V.I.S </div>
+            <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 dark:text-gray-300 group-focus:ring-black w-1/2 h-10 rounded-xl" type="text" placeholder="Write a message" id="headerChatInput"/>
         <div class="h-12 w-12 p-2 bg-green-500 rounded-full text-white font-semibold flex items-center justify-center dark:text-gray-300">LS</div>
     </div>
 </header>
@@ -84,48 +85,7 @@
                 <div class="h-56 w-full xl:mb-28 mb-56">
                     <h1 class="text-3xl dark:text-gray-300 font-thin">Recent artists</h1>
                     <!-- artists container -->
-                    <div class="h-full mt-5 grid grid-rows-1 xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-4" id="recent-artists">
-                        <!-- artists element -->
-                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
-                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
-                                <img class="rounded-md" src="https://newjams-images.scdn.co/v3/discover-weekly/ekq6M18aU6lwEFBw1qe4U4y-8cJiZ8qydnmYt6S83ay80rOiUL0yEUSn28Iyi4MdSeprlP_zGBVqSlXJmmHOz4AY2YBR9iJ7TS1N98oH4NowmStE3_osCatfpfNxTqo0oAjhAYWt_lDAA26X54lTbVylhruqOCTrosJM3ZOp4gz86Gy-G9IxdmPfcMw3d1QmrPAjaRpFopOwhpcnMm1eFQKGWoFqhnWSvvLA9G-_RzWQYHGRZ-GmMfle9Yofjl1N4YgMIfGfCHLDunRNkiNWk07n4HusRMR_wwHB-kiUiR7Df-tCHCSxBzyj0Kx3yLtRQlQNV0SVwVVpieCn5jXCwMVEOwN6ygv6ik0-t1u1AvI=/ODM6NjU6NDFUMzEtMzAtMQ==/default" alt="DeinMixDerWoche">
-                            </div>
-                            <p class="font-medium text-green-500">Dein Mix der Woche</p>
-                        </div>
-                        <!-- end artists element -->
-                        <!-- artists element -->
-                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
-                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
-                                <img class="rounded-md" src="https://pbs.twimg.com/media/ERFx2g7UcAEKy3C.jpg" alt="the weeknd">
-                            </div>
-                            <p class="font-medium text-green-500">The Weeknd</p>
-                        </div>
-                        <!-- end artists element -->
-                        <!-- artists element -->
-                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
-                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
-                                <img class="rounded-md" src="https://dailymix-images.scdn.co/v2/img/d539699706b9662a2636340830926ba2caaf192a/1/de/default" alt="YourMixtape1">
-                            </div>
-                            <p class="font-medium text-green-500">Your Mixtape 1</p>
-                        </div>
-                        <!-- end artists element -->
-                        <!-- artists element -->
-                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
-                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
-                                <img class="rounded-md" src="https://dailymix-images.scdn.co/v2/img/19f3fac006358960cd5ded1fcdb93847c5a8c7be/2/de/default" alt="YourMixtape2">
-                            </div>
-                            <p class="font-medium text-green-500">Your Mixtape 2</p>
-                        </div>
-                        <!-- end artists element -->
-                        <!-- artists element -->
-                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
-                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
-                                <img class="rounded-md" src="https://dailymix-images.scdn.co/v2/img/197f548899c94f33cdf198b2985e9d5e267bb47b/3/de/default" alt="YourMixtape3">
-                            </div>
-                            <p class="font-medium text-green-500">Your Mixtape 3</p>
-                        </div>
-                        <!-- end artists element -->
-                    </div>
+                    <div class="h-full mt-5 grid grid-rows-1 xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-4" id="recent-artists"></div>
                     <!-- end artists container -->
                 </div>
                 <!-- end artists -->
@@ -261,7 +221,7 @@
                 <!-- SINGLE MESSAGE -->
                 <div class="clearfix">
                     <div>
-                        <div class="bg-gray-900 mx-6 rounded-t-2xl w-40 flex justify-center text-green-400 border-b border-gray-800" id="jarvistime"><script>document.getElementById('jarvistime').innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();</script></div>
+                        <div class="bg-gray-900 mx-6 rounded-t-xl w-40 flex justify-center text-green-400 border-b border-gray-800" id="jarvistime"><script>document.getElementById('jarvistime').innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();</script></div>
                         <div class="bg-gray-300 dark:bg-gray-900 dark:text-gray-300 mx-4 p-2 rounded-lg float-left left-0">Hello Sir! My name is J.A.R.V.I.S. How may I help you today?</div>
                     </div>
                 </div>

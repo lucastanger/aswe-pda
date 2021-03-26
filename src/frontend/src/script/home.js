@@ -14,17 +14,29 @@ $(function () {
     });
     // Switch between different sides
     $('.btn').click(function () {
-        $('.btn').each(function () {
-            this.classList.remove("dark:bg-green-600", "bg-green-400");
-        });
-        // Mark according button as selected
-        this.classList.add("dark:bg-green-600", "bg-green-400");
+        toggleButton(this);
         // Load selected page
         loadPage(this.name);
     });
 });
 
+function toggleButton(button) {
+    $('.btn').each(function () {
+        this.classList.remove("dark:bg-green-600", "bg-green-400");
+    });
+    // Mark according button as selected
+    button.classList.add("dark:bg-green-600", "bg-green-400");
+}
+
 function loadPage(pageName) {
+
+    // If page is chat, hide top input
+    if (pageName === 'chat') {
+        headerInput.classList.add('hidden');
+    } else {
+        headerInput.classList.remove('hidden');
+    }
+
     // Hide all other pages
     pages.forEach(page => document.getElementById(page).classList.add('hidden'));
     // Show requested page

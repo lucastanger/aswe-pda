@@ -1,6 +1,7 @@
 // Chat.js
 const input = document.getElementById('chatInput');
 const chatArea = document.getElementById('chatArea');
+const headerInput = document.getElementById('headerChatInput');
 
 let weekday = new Array(7);
 weekday[0] = "Sun";
@@ -13,14 +14,31 @@ weekday[6] = "Sat";
 
 
 $(document).ready(function () {
+    // Add Event listener for Bottom input bar
     input.addEventListener("keyup", function (event) {
         if (event.code === 'Enter') {
             event.preventDefault()
-            sendMessage().then(function (r) {
+            // Send the message
+            sendMessage(input).then(function (r) {
                 console.log(r)
             });
         }
     });
+    // Add Event listener for Top input bar
+    headerInput.addEventListener("keyup", function (event) {
+        if (event.code === 'Enter') {
+            event.preventDefault()
+            // Load chat page
+            loadPage('chat');
+            // Toggle chat button
+            toggleButton(document.getElementsByName('chat')[0]);
+            // Send the message
+            sendMessage(headerInput).then(function (r) {
+                console.log(r)
+            });
+
+        }
+    })
 });
 
 let i = "";
@@ -29,11 +47,11 @@ let i = "";
  *
  * @returns {Promise<void>}
  */
-async function sendMessage() {
+async function sendMessage(from) {
     // Retrieve user message
-    let chatMessage = input.value;
+    let chatMessage = from.value;
     // Delete user input
-    input.value = "";
+    from.value = "";
     // Log user input for debug purposes
     //console.log(chatMessage);
     // Display Chat Message
@@ -256,7 +274,7 @@ function createAnswerElement(messagePayload) {
 
     div.classList.add("clearfix");
     message.classList.add('bg-gray-300', 'dark:bg-gray-900', 'dark:text-gray-300', 'left-0', 'float-left', 'mx-4', 'p-2', 'rounded-lg');
-    header.classList.add('bg-gray-900', 'mx-6', 'rounded-t-2xl', 'w-40', 'flex', 'justify-center', 'text-green-400', 'border-b', 'border-gray-800');
+    header.classList.add('bg-gray-900', 'mx-6', 'rounded-t-xl', 'w-40', 'flex', 'justify-center', 'text-green-400', 'border-b', 'border-gray-800');
 
     header.innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();
 
