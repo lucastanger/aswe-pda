@@ -56,7 +56,7 @@ class SpotifyService:
         result = []
 
         if response:
-            if info.images[0].url:
+            if len(info.images) > 0:
                 result.append(
                     {
                         'name': info.display_name,
@@ -66,7 +66,12 @@ class SpotifyService:
                 )
             else:
                 result.append(
-                    {'name': info.display_name, 'url': info.external_urls.spotify}
+                    {
+                        'name': info.display_name,
+                        'url': info.external_urls.spotify,
+                        'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
+                        '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1 ',
+                    }
                 )
             return result
         return False
@@ -81,7 +86,7 @@ class SpotifyService:
 
         if response:
             for value in playlist['items']:
-                if value.images[0].url:
+                if len(value.images) > 0:
                     result.append(
                         {
                             'name': value.name,
@@ -91,7 +96,12 @@ class SpotifyService:
                     )
                 else:
                     result.append(
-                        {'name': value.name, 'url': value.external_urls.spotify}
+                        {
+                            'name': value.name,
+                            'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            'url': value.external_urls.spotify,
+                        }
                     )
             return result
         return False
@@ -106,7 +116,7 @@ class SpotifyService:
 
         if response:
             for value in artists['items']:
-                if value.images[0].url:
+                if len(value.images) > 0:
                     result.append(
                         {
                             'name': value.name,
@@ -116,7 +126,12 @@ class SpotifyService:
                     )
                 else:
                     result.append(
-                        {'name': value.name, 'url': value.external_urls.spotify}
+                        {
+                            'name': value.name,
+                            'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            'url': value.external_urls.spotify,
+                        }
                     )
             return result
         return False
@@ -131,7 +146,7 @@ class SpotifyService:
 
         if response:
             for value in tracks['items']:
-                if value.album.images[0].url:
+                if len(value.images) > 0:
                     result.append(
                         {
                             'name': value.name,
@@ -144,6 +159,8 @@ class SpotifyService:
                     result.append(
                         {
                             'name': value.name,
+                            'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
                             'artist': value.artists[0].name,
                             'url': value.album.external_urls.spotify,
                         }
@@ -169,14 +186,25 @@ class SpotifyService:
 
                 artist = DotMap(new_json_a)
 
-                result.append(
-                    {
-                        'tracks': value.track.name,
-                        'artist': value.track.artists[0].name,
-                        'image': artist.images[0].url,
-                        'url': value.track.external_urls.spotify,
-                    }
-                )
+                if len(artist.images) > 0:
+                    result.append(
+                        {
+                            'tracks': value.track.name,
+                            'artist': value.track.artists[0].name,
+                            'image': artist.images[0].url,
+                            'url': value.track.external_urls.spotify,
+                        }
+                    )
+                else:
+                    result.append(
+                        {
+                            'tracks': value.track.name,
+                            'artist': value.track.artists[0].name,
+                            'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            'url': value.track.external_urls.spotify,
+                        }
+                    )
             return result
         return False
 
