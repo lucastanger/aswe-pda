@@ -24,9 +24,7 @@ $(document).ready(function () {
         });
 
         recentArtists.innerHTML = html;
-
     });
-
 });
 
 function sendMessageToMiddleware(message) {
@@ -39,9 +37,13 @@ function sendMessageToMiddleware(message) {
         }),
         crossDomain: true,
         contentType: 'application/json',
-        beforeSend: setHeader
+        beforeSend: setHeader,
+        complete: stopLoader()
     });
+}
 
+function stopLoader() {
+    document.getElementById('artistsloader').remove()
 }
 
 function setHeader(xhr) {

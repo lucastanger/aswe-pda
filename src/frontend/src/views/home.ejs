@@ -85,7 +85,11 @@
                 <div class="h-56 w-full xl:mb-28 mb-56">
                     <h1 class="text-3xl dark:text-gray-300 font-thin">Recent artists</h1>
                     <!-- artists container -->
-                    <div class="h-full mt-5 grid grid-rows-1 xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-4" id="recent-artists"></div>
+                    <div class="h-full mt-5 grid grid-rows-1 xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-4" id="recent-artists">
+
+                        <div class="lds-default" id="artistsloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+                    </div>
                     <!-- end artists container -->
                 </div>
                 <!-- end artists -->
@@ -93,55 +97,10 @@
                 <div class="h-full">
                     <h1 class="text-3xl dark:text-gray-300 font-thin mb-2">News</h1>
                     <!-- news container -->
-                    <div class="grid grid-rows-4 gap-4">
-                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <!-- news image -->
-                            <div class="w-40 mr-5">
-                                <img class="rounded-md max-h-24 w-40" src="https://s3.reutersmedia.net/resources/r/?m=02&d=20210223&t=2&i=1552505218&w=1100&fh=&fw=&ll=&pl=&sq=&r=LYNXMPEH1M01J" alt="">
-                            </div>
-                            <!-- end news image -->
-                            <!-- news text -->
-                            <div class="">
-                                <p class="text-gray-300 text-xl">Mars rover sends home movie of daredevil descent to landing on red planet - Reuters</p>
-                            </div>
-                            <!-- end news text -->
-                        </div>
-                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <!-- news image -->
-                            <div class="w-40 mr-5">
-                                <img class="rounded-md max-h-24 w-40" src="https://static.reuters.com/resources/r/?m=02&d=20210217&t=2&i=1551875870&r=LYNXMPEH1G1DA&w=640" alt="">
-                            </div>
-                            <!-- end news image -->
-                            <!-- news text -->
-                            <div class="">
-                                <p class="text-gray-300 text-xl">Teeth from Siberian mammoths yield oldest DNA ever recovered - Reuters</p>
-                            </div>
-                            <!-- end news text -->
-                        </div>
-                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <!-- news image -->
-                            <div class="w-40 mr-5">
-                                <img class="rounded-md max-h-24 w-40" src="https://www.metro.us/wp-content/uploads/Reuters_Direct_Media/USOnlineReportScienceNews/tagreuters.com2021binary_LYNXMPEH1M0Q1-BASEIMAGE.jpg" alt="">
-                            </div>
-                            <!-- end news image -->
-                            <!-- news text -->
-                            <div class="">
-                                <p class="text-gray-300 text-xl">Battered stones of Jerusalem's Western Wall get the full treatment - Yahoo News India</p>
-                            </div>
-                            <!-- end news text -->
-                        </div>
-                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <!-- news image -->
-                            <div class="w-40 mr-5">
-                                <img class="rounded-md max-h-24 w-40" src="https://www.arctictoday.com/wp-content/uploads/2021/02/2021-02-04T190123Z_1_LYNXMPEH131KO_RTROPTP_4_GLOBAL-OCEANS-NOISE-scaled.jpg" alt="">
-                            </div>
-                            <!-- end news image -->
-                            <!-- news text -->
-                            <div class="">
-                                <p class="text-gray-300 text-xl">Noise pollution is harming sea life, needs to be prioritized, scientists say - Arctic Today</p>
-                            </div>
-                            <!-- end news text -->
-                        </div>
+                    <div class="grid grid-rows-4 gap-4" id="newsContainer">
+
+                        <div class="lds-default" id="newsloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
                     </div>
                     <!-- end news container -->
                 </div>
@@ -263,6 +222,7 @@
 <script src="script/Weather.js"></script>
 <script src="script/Chat.js" async></script>
 <script src="script/Spotify.js"></script>
+<script src="script/News.js"></script>
 </html>
 
 <!---->
