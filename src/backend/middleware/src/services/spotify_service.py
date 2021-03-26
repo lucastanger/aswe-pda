@@ -70,7 +70,7 @@ class SpotifyService:
                         'name': info.display_name,
                         'url': info.external_urls.spotify,
                         'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
-                                 '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1 '
+                        '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1 ',
                     }
                 )
             return result
@@ -99,8 +99,9 @@ class SpotifyService:
                         {
                             'name': value.name,
                             'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
-                                     '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
-                            'url': value.external_urls.spotify}
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            'url': value.external_urls.spotify,
+                        }
                     )
             return result
         return False
@@ -128,8 +129,8 @@ class SpotifyService:
                         {
                             'name': value.name,
                             'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
-                                     '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
-                            'url': value.external_urls.spotify
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            'url': value.external_urls.spotify,
                         }
                     )
             return result
@@ -159,7 +160,7 @@ class SpotifyService:
                         {
                             'name': value.name,
                             'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
-                                     '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
                             'artist': value.artists[0].name,
                             'url': value.album.external_urls.spotify,
                         }
@@ -191,7 +192,7 @@ class SpotifyService:
                             'tracks': value.track.name,
                             'artist': value.track.artists[0].name,
                             'image': artist.images[0].url,
-                            'url': value.track.external_urls.spotify
+                            'url': value.track.external_urls.spotify,
                         }
                     )
                 else:
@@ -200,8 +201,8 @@ class SpotifyService:
                             'tracks': value.track.name,
                             'artist': value.track.artists[0].name,
                             'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
-                                     '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
-                            'url': value.track.external_urls.spotify
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            'url': value.track.external_urls.spotify,
                         }
                     )
             return result
