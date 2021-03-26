@@ -1,7 +1,5 @@
 import requests
 from dotmap import DotMap
-from flask import make_response
-import json
 
 
 class SpotifyService:
@@ -42,14 +40,10 @@ class SpotifyService:
             return {'error': 'Could not receive a response'}
         elif self.parameters['spotify-request'] == 'play':
             play = self.play_music()
-            if play:
-                return {'message': 'Music is playing'}
-            return {'error': 'Could not start the music'}
+            return play
         elif self.parameters['spotify-request'] == 'pause':
             pause = self.pause_music()
-            if pause:
-                return {'message': 'Music is paused'}
-            return {'error': 'Could not pause music'}
+            return pause
 
         return {'error': 'Invalid type'}
 
@@ -62,13 +56,23 @@ class SpotifyService:
         result = []
 
         if response:
-            result.append(
-                {
-                    'name': info.display_name,
-                    'url': info.external_urls.spotify,
-                    'image': info.images[0].url,
-                }
-            )
+            if len(info.images) > 0:
+                result.append(
+                    {
+                        'name': info.display_name,
+                        'url': info.external_urls.spotify,
+                        'image': info.images[0].url,
+                    }
+                )
+            else:
+                result.append(
+                    {
+                        'name': info.display_name,
+                        'url': info.external_urls.spotify,
+                        'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
+                        '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1 ',
+                    }
+                )
             return result
         return False
 
@@ -82,13 +86,23 @@ class SpotifyService:
 
         if response:
             for value in playlist['items']:
-                result.append(
-                    {
-                        'name': value.name,
-                        'image': value.images[0].url,
-                        'url': value.external_urls.spotify,
-                    }
-                )
+                if len(value.images) > 0:
+                    result.append(
+                        {
+                            'name': value.name,
+                            'image': value.images[0].url,
+                            'url': value.external_urls.spotify,
+                        }
+                    )
+                else:
+                    result.append(
+                        {
+                            'name': value.name,
+                            'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            'url': value.external_urls.spotify,
+                        }
+                    )
             return result
         return False
 
@@ -102,7 +116,23 @@ class SpotifyService:
 
         if response:
             for value in artists['items']:
-                result.append({'name': value.name, 'image': value.images[0].url})
+                if len(value.images) > 0:
+                    result.append(
+                        {
+                            'name': value.name,
+                            'image': value.images[0].url,
+                            'url': value.external_urls.spotify,
+                        }
+                    )
+                else:
+                    result.append(
+                        {
+                            'name': value.name,
+                            'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            'url': value.external_urls.spotify,
+                        }
+                    )
             return result
         return False
 
@@ -116,13 +146,25 @@ class SpotifyService:
 
         if response:
             for value in tracks['items']:
-                result.append(
-                    {
-                        'name': value.name,
-                        'image': value.album.images[0].url,
-                        'artist': value.artists[0].name,
-                    }
-                )
+                if len(value.images) > 0:
+                    result.append(
+                        {
+                            'name': value.name,
+                            'image': value.album.images[0].url,
+                            'artist': value.artists[0].name,
+                            'url': value.album.external_urls.spotify,
+                        }
+                    )
+                else:
+                    result.append(
+                        {
+                            'name': value.name,
+                            'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            'artist': value.artists[0].name,
+                            'url': value.album.external_urls.spotify,
+                        }
+                    )
             return result
         return False
 
@@ -136,9 +178,33 @@ class SpotifyService:
 
         if response:
             for value in recent['items']:
-                result.append(
-                    {'tracks': value.track.name, 'artist': value.track.artists[0].name}
+                param = {'id': value.track.artists[0].id}
+                response_a = requests.get(
+                    f'{self.base_url}/spotify/image', params=param
                 )
+                new_json_a = response_a.json()
+
+                artist = DotMap(new_json_a)
+
+                if len(artist.images) > 0:
+                    result.append(
+                        {
+                            'tracks': value.track.name,
+                            'artist': value.track.artists[0].name,
+                            'image': artist.images[0].url,
+                            'url': value.track.external_urls.spotify,
+                        }
+                    )
+                else:
+                    result.append(
+                        {
+                            'tracks': value.track.name,
+                            'artist': value.track.artists[0].name,
+                            'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
+                            '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
+                            'url': value.track.external_urls.spotify,
+                        }
+                    )
             return result
         return False
 
@@ -154,14 +220,20 @@ class SpotifyService:
 
         if response:
             for value in featured.playlists['items']:
-                result.append({'name': value.name, 'image': value.images[0].url})
+                result.append(
+                    {
+                        'name': value.name,
+                        'image': value.images[0].url,
+                        'url': value.external_urls.spotify,
+                    }
+                )
             return result
         return False
 
     def play_music(self):
         response = requests.get(f'{self.base_url}/spotify/play')
-        return response
+        return response.json()
 
     def pause_music(self):
         response = requests.get(f'{self.base_url}/spotify/pause')
-        return response
+        return response.json()

@@ -8,9 +8,9 @@ info:
     email: flo.drinkler@gmail.com
     url: https://floriandrinkler.com
   license:
-   name: MIT License
-   url: https://github.com/lucastanger/aswe-pda/blob/main/LICENSE
-  
+    name: MIT License
+    url: https://github.com/lucastanger/aswe-pda/blob/main/LICENSE
+
 servers:
   - url: http://localhost:5570/rest/api/v1
     description: Development server (using locally)
@@ -18,7 +18,7 @@ servers:
     description: Production server (inside Docker)
 
 paths:
-  '/current-weather':
+  "/current-weather":
     get:
       summary: Get the current weather information for your city or coordinates.
       description: Return the current weather information like temperature, cloudiness and more for your city or coordinates as well the corresponding widget.
@@ -48,13 +48,13 @@ paths:
           in: query
           schema:
             type: string
-            enum: [ "metric", "imperial"]
+            enum: ["metric", "imperial"]
           required: true
           description: Units of measurement.
       tags:
         - Weather
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -73,13 +73,16 @@ paths:
                       description:
                         type: string
                         description: Weather condition within the group.
+                      icon:
+                        type: string
+                        description: Icon ID.
                       cloudiness:
                         type: number
                         description: The cloudiness in %.
                       wind:
                         type: object
                         properties:
-                          speed: 
+                          speed:
                             type: number
                             description: Wind speed.
                           deg:
@@ -112,6 +115,7 @@ paths:
                       - cloudiness
                       - main
                       - description
+                      - icon
                   time:
                     type: object
                     properties:
@@ -145,6 +149,7 @@ paths:
                   weather:
                     main: Clouds
                     description: scattered clouds
+                    icon: 10d
                     cloudiness: 40
                     wind:
                       speed: 5.66
@@ -160,9 +165,9 @@ paths:
                     sunrise: 1614319871
                     sunset: 1614358891
                   widget: '<div id=''openweathermap-widget-21''></div><script src=''//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js''></script\>\<script\>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({id: 21,cityid: ''2825297'',appid: ''b6813f52b32285369417e4defa12c6db'',units: ''metric'',containerid: ''openweathermap-widget-21'',  });  (function() {var script = document.createElement(''script'');script.async = true;script.charset = ''utf-8'';script.src = ''//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js'';var s = document.getElementsByTagName(''script'')[0];s.parentNode.insertBefore(script, s);  })();\</script\>'
-        '400':
+        "400":
           description: Either `city` or `lat` and `lon` are required.
-        '500':
+        "500":
           description: Internal server error.
           content:
             application/json:
@@ -197,7 +202,7 @@ paths:
                     code: 400
                     message: Bad Request
                     full_error: "400 Client Error: Bad Request for url: http://api.openweathermap.org/data/2.5/weather?q=&appid=b6813f52b32285369417e4defa12c6db&units=metric"
-          
+
   /forecast:
     get:
       summary: Daily Forecast 1-17 days for your city or coordinates.
@@ -235,13 +240,13 @@ paths:
           in: query
           schema:
             type: string
-            enum: [ "metric", "imperial"]
+            enum: ["metric", "imperial"]
           required: true
           description: Units of measurement.
       tags:
         - Weather
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -265,6 +270,9 @@ paths:
                         description:
                           type: string
                           description: Weather condition within the group.
+                        icon:
+                          type: string
+                          description: Icon ID.
                         cloudiness:
                           type: number
                           description: Cloudiness in %.
@@ -363,6 +371,7 @@ paths:
                       required:
                         - main
                         - description
+                        - icon
                         - cloudiness
                         - wind
                         - rain
@@ -373,16 +382,17 @@ paths:
                     type: string
                     description: Html-snippet for forecast widget.
                 required:
-                - city_name
-                - timezone
-                - weather
-                - widget
+                  - city_name
+                  - timezone
+                  - weather
+                  - widget
                 example:
                   city_name: Stuttgart
                   timezone: 3600
                   weather:
                     - main: Rain
                       description: light rain
+                      icon: 10d
                       cloudiness: 40
                       wind:
                         speed: 2.22
@@ -408,9 +418,9 @@ paths:
                         sunrise: 1614319871
                         sunset: 1614358891
                   widget: '<div id=''openweathermap-widget-21''></div><script src=''//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js''></script\>\<script\>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({id: 21,cityid: ''2825297'',appid: ''b6813f52b32285369417e4defa12c6db'',units: ''metric'',containerid: ''openweathermap-widget-21'',  });  (function() {var script = document.createElement(''script'');script.async = true;script.charset = ''utf-8'';script.src = ''//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js'';var s = document.getElementsByTagName(''script'')[0];s.parentNode.insertBefore(script, s);  })();\</script\>'
-        '400':
+        "400":
           description: Either `city` or `lat` and `lon` are required.
-        '500':
+        "500":
           description: Internal server error.
           content:
             application/json:

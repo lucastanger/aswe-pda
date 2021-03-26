@@ -108,10 +108,22 @@ class CalendarServiceClear(Resource):
 
 @ns.route('/spotify-service')
 class SpotifyService(Resource):
+    success_model = ns.model(
+        'Spotify service authorization response - success',
+        {'authorization_url': fields.String},
+    )
+
+    error_model = ns.model(
+        'Spotify service authorization response - error', {'error': fields.String}
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.base_url = 'http://spotify-service:5565/rest/api/v1'
 
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Authorize with Spotify.')
     def get(self):
         response = requests.get(f'{self.base_url}/spotify/auth')
         return response.json()
@@ -119,10 +131,21 @@ class SpotifyService(Resource):
 
 @ns.route('/spotify-service/oauth2callback')
 class SpotifyServiceCallback(Resource):
+    success_model = ns.model(
+        'Calendar service callback response - success', {'message': fields.String}
+    )
+
+    error_model = ns.model(
+        'Calendar service callback response - error', {'error': fields.String}
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.base_url = 'http://spotify-service:5565/rest/api/v1'
 
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Callback to be called after authentication with Spotify.')
     def get(self):
         params = {**request.args.to_dict()}
         response = requests.get(f'{self.base_url}/spotify/callback', params=params)

@@ -18,10 +18,10 @@ class ConfigurationService(Resource):
         'Configuration get response - success',
         {
             'general': fields.Raw({}),
-            'dualisService': fields.Raw({}),
-            'newsService': fields.Raw({}),
-            'weatherService': fields.Raw({}),
-            'stocksService': fields.Raw({}),
+            'dualis': fields.Raw({}),
+            'news': fields.Raw({}),
+            'weather': fields.Raw({}),
+            'stocks': fields.Raw({}),
         },
     )
 
@@ -44,10 +44,10 @@ class ConfigurationService(Resource):
         response = configuration.find_one(
             {
                 'general': {'$exists': True},
-                'dualisService': {'$exists': True},
-                'newsService': {'$exists': True},
-                'weatherService': {'$exists': True},
-                'stocksService': {'$exists': True},
+                'dualis': {'$exists': True},
+                'news': {'$exists': True},
+                'weather': {'$exists': True},
+                'stocks': {'$exists': True},
             }
         )
         del response['_id']
@@ -60,10 +60,10 @@ class ConfigurationService(Resource):
         configuration.replace_one(
             {
                 'general': {'$exists': True},
-                'dualisService': {'$exists': True},
-                'newsService': {'$exists': True},
-                'weatherService': {'$exists': True},
-                'stocksService': {'$exists': True},
+                'dualis': {'$exists': True},
+                'news': {'$exists': True},
+                'weather': {'$exists': True},
+                'stocks': {'$exists': True},
             },
             request.json,
             upsert=True,
@@ -77,8 +77,6 @@ class ConfigurationService(Resource):
 class StockService(Resource):
     @ns.doc(description='Get stock symbol by keyword.')
     def get(self):
-        print(request.args)
-        print(json.dumps(request.args))
         response = requests.get(
             'http://stock-service:5585/rest/api/v1/symbol',
             params={'keyword': request.args['keyword']},

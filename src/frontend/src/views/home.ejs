@@ -7,8 +7,9 @@
 <div id="modal"></div>
 <!-- header -->
 <header class="w-full">
-    <div class="px-5 py-5 flex justify-between items-center bg-white dark:bg-gray-900 border-b dark:border-gray-900">
+    <div class="px-5 py-3 flex justify-between items-center bg-white dark:bg-gray-900 border-b dark:border-gray-900">
         <div class="font-semibold text-2xl dark:text-gray-300">J.A.R.V.I.S </div>
+            <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 dark:text-gray-300 group-focus:ring-black w-1/2 h-10 rounded-xl" type="text" placeholder="Write a message" id="headerChatInput"/>
         <div class="h-12 w-12 p-2 bg-green-500 rounded-full text-white font-semibold flex items-center justify-center dark:text-gray-300">LS</div>
     </div>
 </header>
@@ -84,48 +85,7 @@
                 <div class="h-56 w-full xl:mb-28 mb-56">
                     <h1 class="text-3xl dark:text-gray-300 font-thin">Recent artists</h1>
                     <!-- artists container -->
-                    <div class="h-full mt-5 grid xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-4">
-                        <!-- artists element -->
-                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
-                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
-                                <img class="rounded-md" src="https://newjams-images.scdn.co/v3/discover-weekly/ekq6M18aU6lwEFBw1qe4U4y-8cJiZ8qydnmYt6S83ay80rOiUL0yEUSn28Iyi4MdSeprlP_zGBVqSlXJmmHOz4AY2YBR9iJ7TS1N98oH4NowmStE3_osCatfpfNxTqo0oAjhAYWt_lDAA26X54lTbVylhruqOCTrosJM3ZOp4gz86Gy-G9IxdmPfcMw3d1QmrPAjaRpFopOwhpcnMm1eFQKGWoFqhnWSvvLA9G-_RzWQYHGRZ-GmMfle9Yofjl1N4YgMIfGfCHLDunRNkiNWk07n4HusRMR_wwHB-kiUiR7Df-tCHCSxBzyj0Kx3yLtRQlQNV0SVwVVpieCn5jXCwMVEOwN6ygv6ik0-t1u1AvI=/ODM6NjU6NDFUMzEtMzAtMQ==/default" alt="DeinMixDerWoche">
-                            </div>
-                            <p class="font-medium text-green-500">Dein Mix der Woche</p>
-                        </div>
-                        <!-- end artists element -->
-                        <!-- artists element -->
-                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
-                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
-                                <img class="rounded-md" src="https://pbs.twimg.com/media/ERFx2g7UcAEKy3C.jpg" alt="the weeknd">
-                            </div>
-                            <p class="font-medium text-green-500">The Weeknd</p>
-                        </div>
-                        <!-- end artists element -->
-                        <!-- artists element -->
-                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
-                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
-                                <img class="rounded-md" src="https://dailymix-images.scdn.co/v2/img/d539699706b9662a2636340830926ba2caaf192a/1/de/default" alt="YourMixtape1">
-                            </div>
-                            <p class="font-medium text-green-500">Your Mixtape 1</p>
-                        </div>
-                        <!-- end artists element -->
-                        <!-- artists element -->
-                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
-                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
-                                <img class="rounded-md" src="https://dailymix-images.scdn.co/v2/img/19f3fac006358960cd5ded1fcdb93847c5a8c7be/2/de/default" alt="YourMixtape2">
-                            </div>
-                            <p class="font-medium text-green-500">Your Mixtape 2</p>
-                        </div>
-                        <!-- end artists element -->
-                        <!-- artists element -->
-                        <div class="items-center w-40 flex flex-col transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-110 cursor-pointer">
-                            <div class="bg-gray-400 mb-2 h-40 w-40 rounded-md border shadow-2xl">
-                                <img class="rounded-md" src="https://dailymix-images.scdn.co/v2/img/197f548899c94f33cdf198b2985e9d5e267bb47b/3/de/default" alt="YourMixtape3">
-                            </div>
-                            <p class="font-medium text-green-500">Your Mixtape 3</p>
-                        </div>
-                        <!-- end artists element -->
-                    </div>
+                    <div class="h-full mt-5 grid grid-rows-1 xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-4" id="recent-artists"></div>
                     <!-- end artists container -->
                 </div>
                 <!-- end artists -->
@@ -191,8 +151,8 @@
             <div class="float-left w-1/4">
                 <!-- calendar schedule -->
                 <div class="h-full">
-                    <h1 class="text-8xl dark:text-gray-300 font-medium" id="time">07:10</h1>
-                    <h1 class="text-3xl dark:text-gray-300 font-thin">Monday, February 26, 2021</h1>
+                    <h1 class="text-8xl dark:text-gray-300 font-medium" id="time"></h1>
+                    <h1 class="text-3xl dark:text-gray-300 font-thin" id="date">Monday, February 26, 2021</h1>
                     <!-- calendar entry container -->
                     <div class="grid grid-rows-4 gap-4 pt-6">
                         <!-- calendar entry -->
@@ -228,18 +188,18 @@
                     <h1 class="text-3xl dark:text-gray-300 font-thin mb-4">Weather today</h1>
                     <!-- weather container -->
                     <div class="dark:bg-black dark:bg-opacity-25 w-full h-5/6 rounded-md shadow-2xl px-2 py-3">
-                        <h1 class="dark:text-gray-300 font-light">Stuttgart, DE</h1>
+                        <h1 class="dark:text-gray-300 font-light" id="weather-location">Stuttgart, DE</h1>
                         <div class="h-1 dark:bg-gray-300 dark:bg-opacity-25 rounded my-1"></div>
                         <div class="grid grid-rows-2 grid-cols-2">
                             <div class="h-32 flex justify-center items-center">
-                                <img class="h-24" src="icons/regen.svg" alt="rain">
+                                <img class="h-24" src="icons/regen.svg" alt="rain" id="weather-image">
                             </div>
                             <div class="h-32 flex justify-center items-center">
-                                <p class="dark:text-gray-100 font-normal text-7xl">4°C</p>
+                                <p class="dark:text-gray-100 font-normal text-7xl" id="temperature">4°C</p>
                             </div>
                             <div class="col-span-full flex flex-col pt-5 items-center">
-                                <p class="dark:text-gray-100 font-normal text-xl">Light rain</p>
-                                <p class="dark:text-gray-500">Wind: 5.7 m/s Moderate breeze</p>
+                                <p class="dark:text-gray-100 font-normal text-xl" id="weather-type">Light rain</p>
+                                <p class="dark:text-gray-500" id="wind-type">Wind: 5.7 m/s Moderate breeze</p>
                             </div>
                         </div>
                     </div>
@@ -255,28 +215,36 @@
     </div>
     <!-- end profile container -->
     <!-- chat container -->
-    <div id="chat" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 w-full relative p-14 hidden">
-        <!-- SINGLE MESSAGE -->
-        <div class="clearfix">
-            <div class="bg-gray-300 dark:bg-gray-900 dark:text-gray-300 w-3/6 mx-4 my-2 p-2 rounded-lg">Hello Sir! My name is J.A.R.V.I.S. How may I help you today?</div>
-        </div>
-        <!-- Input -->
-        <div class="justify-end flex-col w-full bg-gray-100 dark:bg-gray-800 absolute bottom-0 right-0 border-t dark:border-gray-900 border-gray-300">
-            <div class="flex flex-row">
-                <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 w-full dark:text-gray-300 group-focus:ring-black" type="text" placeholder="Write a message" id="chatInput"/>
-                <div class="m-auto justify-end w-12">
-                    <a href="#">
+    <div id="chat" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 relative hidden w-full max-h-full overflow-y-auto">
+        <div class="static p-14 overflow-y-auto w-full">
+            <div id="chatArea" class="w-full h-auto grid">
+                <!-- SINGLE MESSAGE -->
+                <div class="clearfix">
+                    <div>
+                        <div class="bg-gray-900 mx-6 rounded-t-xl w-40 flex justify-center text-green-400 border-b border-gray-800" id="jarvistime"><script>document.getElementById('jarvistime').innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();</script></div>
+                        <div class="bg-gray-300 dark:bg-gray-900 dark:text-gray-300 mx-4 p-2 rounded-lg float-left left-0">Hello Sir! My name is J.A.R.V.I.S. How may I help you today?</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Input -->
+            <div class="flex-col w-full bg-gray-100 dark:bg-gray-800 absolute bottom-0 right-0 border-t dark:border-gray-900 border-gray-300">
+                <div class="flex flex-row">
+                    <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 w-full dark:text-gray-300 group-focus:ring-black" type="text" placeholder="Write a message" id="chatInput"/>
+                    <div class="m-auto justify-end w-12">
+                        <a href="#">
                         <span>
                             <!-- mic -->
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="text-gray-500 dark:text-gray-300">
                                 <path class="" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                             </svg>
                         </span>
-                    </a>
+                        </a>
+                    </div>
                 </div>
             </div>
+            <!-- end input -->
         </div>
-        <!-- end input -->
+
     </div>
     <!-- end chat container -->
     <!-- history container -->
@@ -291,6 +259,10 @@
 </div>
 </body>
 <script src="script/home.js"></script>
+<script src="script/Time.js"></script>
+<script src="script/Weather.js"></script>
+<script src="script/Chat.js" async></script>
+<script src="script/Spotify.js"></script>
 </html>
 
 <!---->

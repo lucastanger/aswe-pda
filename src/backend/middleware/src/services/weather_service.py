@@ -1,4 +1,11 @@
 import requests
+from pymongo import MongoClient
+from datetime import datetime
+
+client = MongoClient(host='mongo', port=27017)
+db = client['aswe-pda']
+db.authenticate('dev', 'dev')
+configuration = db['configuration']
 
 
 class WeatherService:
@@ -7,49 +14,64 @@ class WeatherService:
         self.base_url = 'http://weather-service:5570/rest/api/v1'
 
     def query(self):
-        response = self.current_weather()
-        return
+        print(self.parameters)
+        # load config
+        config = configuration.find_one({'weather': {'$exists': True},})
 
-    def current_weather(self):
-        if parameters['unit']:
-            # use parameter['unit'] as unit
-            pass
+        lat = config['weather']['_location']['_lat']
+        lon = config['weather']['_location']['_lon']
+        unit = config['weather']['_unit']
+
+        if self.parameters['date-period']:
+            startDate = datetime.strptime(
+                self.parameters['date-period']['startDate'], '%Y-%m-%dT%H:%M:%S%z'
+            )
+            endDate = datetime.strptime(
+                self.parameters['date-period']['endDate'], '%Y-%m-%dT%H:%M:%S%z'
+            )
+            delta = endDate - startDate
+            days = delta.days + 1
+
+            response = self.get_forecast(self.parameters['city'], lat, lon, days, unit)
         else:
-            # load unit from config
-            pass
+            response = self.get_current_weather(self.parameters['city'], lat, lon, unit)
 
-        if parameters['city'] and not (parameters['lat'] or parameters['lon']):
-            # make request with city and unit
-            pass
-        elif parameters['lat'] and parameters['lon'] and not parameters['city']:
-            # make request with lat and lon and unit
-            pass
+        return response.json()
+
+    def get_forecast(self, city, lat, lon, days, unit):
+        if days:
+            if city:
+                response = requests.get(
+                    f'{self.base_url}/forecast',
+                    params={'city': city, 'days': days, 'unit': unit},
+                )
+            else:
+                response = requests.get(
+                    f'{self.base_url}/forecast',
+                    params={'lat': lat, 'lon': lon, 'days': days, 'unit': unit},
+                )
         else:
-            # load city from config
-            pass
+            if city:
+                response = requests.get(
+                    f'{self.base_url}/forecast', params={'city': city, 'unit': unit}
+                )
+            else:
+                response = requests.get(
+                    f'{self.base_url}/forecast',
+                    params={'lat': lat, 'lon': lon, 'unit': unit},
+                )
 
-        pass
+        return response
 
-    def forecast(self):
-        if parameters['unit']:
-            # use parameter['unit'] as unit
-            pass
+    def get_current_weather(self, city, lat, lon, unit):
+        if city:
+            response = requests.get(
+                f'{self.base_url}/current-weather', params={'city': city, 'unit': unit}
+            )
         else:
-            # load unit from config
-            pass
+            response = requests.get(
+                f'{self.base_url}/current-weather',
+                params={'lat': lat, 'lon': lon, 'unit': unit},
+            )
 
-        if parameters['days']:
-            # use days from parameters
-            pass
-
-        if parameters['city'] and not (parameters['lat'] or parameters['lon']):
-            # make request with city and unit
-            pass
-        elif parameters['lat'] and parameters['lon'] and not parameters['city']:
-            # make request with lat and lon and unit
-            pass
-        else:
-            # load city from config
-            pass
-
-        pass
+        return response

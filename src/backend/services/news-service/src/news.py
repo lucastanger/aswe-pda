@@ -11,7 +11,7 @@ NEWS_TOP_HEADLINES_URL = '{}{}'.format(NEWS_BASE_URL, 'top-headlines')
 NEWS_SOURCES_URL = '{}{}'.format(NEWS_BASE_URL, 'sources')
 
 
-def topHeadlinesCategory(category=None):
+def top_headlines_category(category=None):
     if category is not None:
         url = '{}?country={}&category={}&apiKey={}'.format(
             NEWS_TOP_HEADLINES_URL, COUNTRY, category, API_KEY
@@ -22,26 +22,33 @@ def topHeadlinesCategory(category=None):
     return json.dumps(result, sort_keys=True, indent=4)
 
 
-def keyWordSearch(keyWord):
-    url = '{}?language={}&q={}&apiKey={}'.format(
-        NEWS_EVERYTHING_URL, LANGUAGE, keyWord, API_KEY
-    )
-    result = requests.get(url).json()
-    return json.dumps(result, sort_keys=True, indent=4)
-
-
-def everythingNews(excludes=None):
-    if excludes is not None:
-        url = '{}?language={}&excludeDomains={}&apiKey={}'.format(
-            NEWS_EVERYTHING_URL, LANGUAGE, excludes, API_KEY
+def key_word_search(key=None, source=None):
+    if key is not None and source is not None:
+        url = '{}?language={}&q={}&sources={}&apiKey={}'.format(
+            NEWS_EVERYTHING_URL, LANGUAGE, key, source, API_KEY
+        )
+    elif key is not None:
+        url = '{}?language={}&q={}&apiKey={}'.format(
+            NEWS_EVERYTHING_URL, LANGUAGE, key, API_KEY
         )
     else:
-        url = '{}?language={}&apiKey={}'.format(NEWS_EVERYTHING_URL, COUNTRY, API_KEY)
+        return {'error': 'Key word invalid!'}
     result = requests.get(url).json()
     return json.dumps(result, sort_keys=True, indent=4)
 
 
-def findSources():
+def everything_news(source=None):
+    if source is not None:
+        url = '{}?language={}&sources={}&apiKey={}'.format(
+            NEWS_EVERYTHING_URL, LANGUAGE, source, API_KEY
+        )
+    else:
+        url = '{}?language={}&apiKey={}'.format(NEWS_EVERYTHING_URL, LANGUAGE, API_KEY)
+    result = requests.get(url).json()
+    return json.dumps(result, sort_keys=True, indent=4)
+
+
+def find_sources():
     url = '{}?language={}&apiKey={}'.format(NEWS_SOURCES_URL, LANGUAGE, API_KEY)
     result = requests.get(url).json()
     return json.dumps(result, sort_keys=True, indent=4)

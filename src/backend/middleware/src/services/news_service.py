@@ -1,112 +1,135 @@
 import requests
+from pymongo import MongoClient
 from dotmap import DotMap
+
+client = MongoClient(host='mongo', port=27017)
+db = client['aswe-pda']
+db.authenticate('dev', 'dev')
+configuration = db['configuration']
 
 
 class NewsService:
-
-    """
-    Der News Service liefert einen Array mit entweder einer Liste an zur Verfügung stehenden Sources oder ein
-    Array mit zwei Listen bestehend aus den Headlines und den jeweiligen Bild URL's.
-    """
-
     def __init__(self, parameters: dict = None):
         self.parameters = parameters
         self.base_url = 'http://news-service:5575/rest/api/v1'
 
     def query(self):
-        """
-        :param type: 'top', 'everything', 'sources'
-        :param category: 'business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology' or None
-        :param search: any key word or None
-        :param exclude: any domain (bild.de) or None
-        :return: array([list_of_headlines],[list_of_img_urls]) or array(list_of_sources)
-        """
+        config = configuration.find_one({'news': {'$exists': True}})
 
-        article_img = []
-        article_headline = []
+        paper_id = config['news']['_papers']
+        category = config['news']['_categories']
+
+        papers = self.get_news_source()
+
+        papers_json = papers.json()
+        paper_sources = DotMap(papers_json)
+
+        if papers:
+            for paper in paper_sources.sources:
+                if paper.name == paper_id:
+                    paper_id = paper.id
+
+        print(paper_id)
 
         if 'type' in self.parameters:
             if self.parameters['type'] == 'top':
-                if 'category' in self.parameters:
-                    result = self.getTopNews(self.parameters['category'])
+                if category:
+                    result = self.get_top_news(category)
                 else:
-                    result = self.getTopNews()
+                    result = self.get_top_news()
             elif self.parameters['type'] == 'everything':
-                if 'search' in self.parameters and 'exclude' in self.parameters:
-                    result = self.getNewsSearch(
-                        self.parameters['search'], self.parameters['exclude']
-                    )
+                if 'search' in self.parameters and paper_id:
+                    result = self.get_news_search(self.parameters['search'], paper_id)
+                elif paper_id:
+                    result = self.get_news_search(None, paper_id)
                 elif 'search' in self.parameters:
-                    result = self.getNewsSearch(self.parameters['search'])
-                elif 'exclude' in self.parameters:
-                    result = self.getNewsSearch(self.parameters['exclude'])
+                    result = self.get_news_search(self.parameters['search'], None)
                 else:
-                    result = self.getNewsSearch()
+                    result = self.get_news_search()
             elif self.parameters['type'] == 'sources':
-                result = self.getNewsSources()
+                response = self.get_news_source()
 
-                sources_json = result.json()
+                sources_json = response.json()
+                sources = DotMap(sources_json)
+                result = []
 
-                sources_name = []
-                sources_url = []
-
-                for source in sources_json['sources']:
-                    sources_name.append(source['name'])
-                    sources_url.append(source['url'])
-
-                sources = [sources_name, sources_url]
-
-                return sources
+                if response:
+                    for source in sources.sources:
+                        result.append(
+                            {'name': source.name, 'url': source.url, 'id': source.id}
+                        )
             else:
                 return 'Please provide a valid type!'
+        else:
+            return 'Please provide a type!'
 
-        news_json = result.json()
-        news = DotMap(news_json)
-        response = []
-        for value in news.articles:
-            response.append({'title': value.title, 'url': value.urlToImage})
+        return result
 
-        return response
-
-    def getTopNews(self, category=None):
-        """
-        :param category: 'business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology' or None
-        :return: array([list_of_headlines],[list_of_img_urls])
-        """
+    def get_top_news(self, category=None):
+        result = []
 
         if category is not None:
-            news = requests.get(
-                f'{self.base_url}/news/top/category?category={category}'
+            for cat in category:
+                response = requests.get(
+                    f'{self.base_url}/news/top/category?category={cat}'
+                )
+
+                result = self.format_news(response, result)
+        else:
+            response = requests.get(f'{self.base_url}/news/top')
+
+            result = self.format_news(response, result)
+
+        return result
+
+    def get_news_search(self, search=None, source=None):
+        result = []
+
+        if search is not None and source is not None:
+            response = requests.get(
+                f'{self.base_url}/news/everything/search?keyWord={search}&source={source}'
             )
 
+            result = self.format_news(response, result)
+
+        elif source is not None:
+            response = requests.get(f'{self.base_url}/news/everything?source={source}')
+
+            result = self.format_news(response, result)
         else:
-            news = requests.get(f'{self.base_url}/news/top')
+            response = requests.get(f'{self.base_url}/news/everything')
 
-        return news
+            result = self.format_news(response, result)
 
-    def getNewsSearch(self, search=None, exclude=None):
-        """
-        :param search: any key word or None
-        :param exclude: any domain (bild.de) or None
-        :return: array([list_of_headlines],[list_of_img_urls])
-        """
+        return result
 
-        if search is not None:
-            news = requests.get(
-                f'{self.base_url}/news/everything/search?keyWord={search}'
-            )
-        elif exclude is not None:
-            news = requests.get(f'{self.base_url}/news/everything?exclude={exclude}')
-        else:
-            news = requests.get(f'{self.base_url}/news/everything')
-
-        return news
-
-    def getNewsSources(self):
-        """
-        :return: array(list_of_sources)
-        """
-
+    def get_news_source(self):
         news = requests.get(f'{self.base_url}/news/sources')
 
         return news
+
+    def format_news(self, response, result):
+        news_json = response.json()
+        news = DotMap(news_json)
+
+        if response:
+            for article in news.articles:
+                if article.urlToImage and article.urlToImage != 'null':
+                    result.append(
+                        {
+                            'title': article.title,
+                            'img': article.urlToImage,
+                            'url': article.url,
+                        }
+                    )
+                else:
+                    result.append(
+                        {
+                            'title': article.title,
+                            'img': 'https://www.bag.admin.ch/bag/de/home/das-bag/aktuell/news/news-02-09-2020'
+                            '/_jcr_content/image.imagespooler.png/1603898250046/588.1000/Icons-18.png',
+                            'url': article.url,
+                        }
+                    )
+
+        return result
