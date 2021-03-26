@@ -38,12 +38,8 @@ function sendMessageToMiddleware(message) {
         crossDomain: true,
         contentType: 'application/json',
         beforeSend: setHeader,
-        complete: stopLoader()
+        complete: stopLoader('artistsloader')
     });
-}
-
-function stopLoader() {
-    document.getElementById('artistsloader').remove()
 }
 
 function setHeader(xhr) {

@@ -30,13 +30,11 @@ function retrieveNewsForTheDay() {
         error: function (error) {
             console.log(error)
         },
-        complete: stopLoader
+        complete: stopLoader('newsloader')
     })
 }
 
-function stopLoader() {
-    document.getElementById('newsloader').remove()
-}
+
 
 function createNewsElement(news) {
 
