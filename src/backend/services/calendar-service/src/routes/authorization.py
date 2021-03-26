@@ -9,10 +9,12 @@ from pymongo import MongoClient
 
 ns = Namespace('authorization', description='Google authentication APIs')
 
-SCOPES = ['https://www.googleapis.com/auth/calendar.events',
-          'https://www.googleapis.com/auth/userinfo.email',
-          'https://www.googleapis.com/auth/userinfo.profile',
-          'openid']
+SCOPES = [
+    'https://www.googleapis.com/auth/calendar.events',
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'openid',
+]
 API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v2'
 
