@@ -42,14 +42,15 @@ async function sendMessage() {
 
     sendMessageToMiddleware(chatMessage).then(function (res) {
 
+        // Play Sound
+        new Audio("data:audio/wav;base64," + res.dialogflow.output_audio).play()
+
         let intentFunction = identifyIntent(res)
 
         let answerElement = intentFunction(res);
 
         chatArea.appendChild(answerElement);
 
-        // Play Sound
-        new Audio("data:audio/wav;base64," + res.dialogflow.output_audio).play()
     });
 
 }
@@ -167,11 +168,59 @@ function handleWeatherIntent(value) {
 /**
  *
  * @param value
- * @returns {HTMLDivElement}
+ * @returns {boolean|HTMLDivElement}
  */
 function handleSpotifyIntent(value) {
 
-    return createAnswerElement(value.response);
+    if (value.hasOwnProperty('response')) {
+
+        let response = value.response;
+
+        // Check if multiple data got returned
+        if (response.constructor === Array) {
+
+            let html = `${handleMultipleSpotifyData(response)}`;
+
+            return createAnswerElement(html);
+        }
+
+    }
+    return false;
+}
+
+function handleMultipleSpotifyData(artists) {
+
+    let ret = "";
+
+    if (artists.length % 2 === 0) {
+        ret += `<div class="grid grid-rows-${(artists.length>10) ? 2 : 1} grid-cols-${artists.length/2} gap-2 m-6">`;
+    } else {
+        ret += `<div class="grid grid-rows-${(artists.length>10) ? 2 : 1} grid-cols-${artists.length/2 + 1} gap-2 m-6">`;
+    }
+
+    artists.forEach(element => {
+
+        // If tracks got selected
+        if (element.hasOwnProperty('artist') && element.hasOwnProperty('tracks') && element.hasOwnProperty('image') && element.hasOwnProperty('url')) {
+            ret += `<a href="${element.url}" target="_blank">
+                        <img class="h-36 w-36 rounded-md border shadow-2xl" src="${element.image}"/>
+                        <p class="font-medium text-green-500">${element.artist}</p>
+                        <p class="font-normal text-gray-500">${element.tracks}</p>    
+                    </a>`;
+        }
+        else if(element.hasOwnProperty('name') && element.hasOwnProperty('image') && element.hasOwnProperty('url')) {
+            ret += `<a href="${element.url}" target="_blank"><img class="h-36 w-36 rounded-md border shadow-2xl" src="${element.image}"/>
+                    <p class="font-medium text-green-500">${element.name}</p></a>`;
+        }
+        else {
+            ret += "";
+        }
+
+    })
+
+    ret += "</div>";
+
+    return ret;
 
 }
 
