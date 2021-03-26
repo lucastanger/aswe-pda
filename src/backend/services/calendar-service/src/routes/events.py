@@ -32,11 +32,11 @@ class Events(Resource):
         if date is None:
             date = self.date_now
 
-        max_date = datetime.datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%f%z')
+        max_date = datetime.datetime.strptime(date, '%Y-%m-%dT%H:%M:%S%z')
         max_date = max_date.replace(
             hour=23, minute=59, second=59, microsecond=0
         ).astimezone(pytz.timezone('Europe/Berlin'))
-        max_date = max_date.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
+        max_date = max_date.strftime('%Y-%m-%dT%H:%M:%S%z')
 
         # Load credentials from the session.
         result, success = get_credentials()
