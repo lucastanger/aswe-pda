@@ -3,13 +3,18 @@
 .dockerignore
 Dockerfile
 
+# Environments
+venv
+
 # Idea configuration
 .idea
 
 # Coverage reports
 .coverage
-htmlcov
-coverage-report
+coverage.xml
+coverage
 
 # Python
 __pycache__
+.pytest_cache
+venv
