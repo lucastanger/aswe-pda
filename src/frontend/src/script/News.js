@@ -26,17 +26,16 @@ function retrieveNewsForTheDay() {
                 newsContainer.innerHTML += createNewsElement(response.response[i]);
             }
 
+            stopLoader('newsloader')
+
         },
         error: function (error) {
             console.log(error)
-        },
-        complete: stopLoader
+        }
     })
 }
 
-function stopLoader() {
-    document.getElementById('newsloader').remove()
-}
+
 
 function createNewsElement(news) {
 

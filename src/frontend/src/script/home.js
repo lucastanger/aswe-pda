@@ -28,6 +28,10 @@ function toggleButton(button) {
     button.classList.add("dark:bg-green-600", "bg-green-400");
 }
 
+function stopLoader(id) {
+    document.getElementById(id).remove()
+}
+
 function loadPage(pageName) {
 
     // If page is chat, hide top input
