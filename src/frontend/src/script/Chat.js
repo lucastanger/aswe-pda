@@ -71,9 +71,8 @@ async function sendMessage(from) {
 
 }
 
-// Returns the proper function according to intent type
 /**
- *
+ * Returns the proper function according to intent type
  * @param intent
  * @returns {(function(*): (boolean|HTMLDivElement))|(function(): string)|(function(*): HTMLDivElement)}
  */
