@@ -4,7 +4,7 @@ from app import app
 
 
 @pytest.fixture()
-def test_client():
+def test_client(mocker):
     return app.test_client()
 
 
@@ -29,6 +29,8 @@ class TestMaps:
         assert response.status_code == 200
 
     def test_route_fail_missing_parameters(self, test_client):
-        response = test_client.get('/rest/api/v1/maps/route')
+        response = test_client.get(
+            '/rest/api/v1/maps/route'
+        )
 
         assert response.status_code == 400
