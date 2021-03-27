@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 5580
 
-CMD ["python", "app.py"]
+CMD ["python", "-u", "app.py"]
