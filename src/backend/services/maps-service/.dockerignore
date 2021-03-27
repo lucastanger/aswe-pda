@@ -3,6 +3,9 @@
 .dockerignore
 Dockerfile
 
+# Environments
+venv
+
 # Idea configuration
 .idea
 
