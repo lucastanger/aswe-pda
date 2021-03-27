@@ -21,17 +21,18 @@ function retrieveAppointmentsForTheDay() {
         beforeSend: setHeader,
         success: function (response) {
 
-            for (let i = 0; i<4; i++) {
+            response.response.forEach(event => {
 
-                calendar.innerHTML += createCalendarElement(response.response[i]);
+                calendar.innerHTML += createCalendarElement(event);
 
-            }
+            })
+
+            stopLoader('calendarloader')
 
         },
         error: function (error) {
             console.log(error)
-        },
-        complete: stopLoader('calendarloader')
+        }
 
     })
 

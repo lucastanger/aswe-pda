@@ -26,11 +26,12 @@ function retrieveNewsForTheDay() {
                 newsContainer.innerHTML += createNewsElement(response.response[i]);
             }
 
+            stopLoader('newsloader')
+
         },
         error: function (error) {
             console.log(error)
-        },
-        complete: stopLoader('newsloader')
+        }
     })
 }
 

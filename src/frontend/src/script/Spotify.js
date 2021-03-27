@@ -4,7 +4,6 @@ const recentArtists = document.getElementById('recent-artists');
 $(document).ready(function () {
 
     sendMessageToMiddleware('Profile artist').then(function (res) {
-        console.log(res)
 
         let html = "";
 

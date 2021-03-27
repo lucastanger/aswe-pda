@@ -41,8 +41,6 @@ $(document).ready(function () {
     })
 });
 
-let i = "";
-
 /**
  *
  * @returns {Promise<void>}
