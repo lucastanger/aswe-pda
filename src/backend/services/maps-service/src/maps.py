@@ -1,9 +1,11 @@
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 from dotenv import load_dotenv
 from os.path import dirname, join
 
 import googlemaps
 import os
+import datetime
+import pytz
 import werkzeug  # Fix ImportError: cannot import name 'cached_property'
 
 werkzeug.cached_property = werkzeug.utils.cached_property
@@ -31,30 +33,45 @@ parser.add_argument('arrival_time', type=str, help='Desired arrival time')
 )
 @ns.expect(parser)
 class GetMapsRoute(Resource):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.date_now = datetime.datetime.utcnow().astimezone(
+            pytz.timezone('Europe/Berlin')
+        )
+
     def get(self):
-        if (
-            'origin' not in request.args
-            or 'destination' not in request.args
-            or 'arrival_time' not in request.args
+        if ('origin' not in request.args or 'destination' not in request.args) or (
+            not request.args.get('origin') or not request.args.get('destination')
         ):
-            ns.abort(
+            return make_response(
+                {
+                    'error': 'Not all required arguments specified (origin, '
+                    'destination, arrival_time)'
+                },
                 400,
-                'not all required arguments specified (origin, destination, arrival_time)',
             )
+
         origin = request.args.get('origin')
         destination = request.args.get('destination')
         arrival_time = request.args.get('arrival_time')
         gmaps = googlemaps.Client(key=os.getenv('API_KEY'))
 
         # Request directions
-        # now = datetime.now()
-        directions_result = gmaps.directions(
-            origin,
-            destination,
-            arrival_time=arrival_time,
-            mode='transit',
-            # departure_time=now,
-            units='metric',
-        )
+        if 'arrival_time' not in request.args or not request.args.get('arrival_time'):
+            directions_result = gmaps.directions(
+                origin,
+                destination,
+                # mode='transit',
+                departure_time=self.date_now,
+                units='metric',
+            )
+        else:
+            directions_result = gmaps.directions(
+                origin,
+                destination,
+                arrival_time=arrival_time,
+                # mode='transit',
+                units='metric',
+            )
 
-        return jsonify(directions_result), 200
+        return make_response(jsonify(directions_result), 200)
