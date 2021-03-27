@@ -1,16 +1,12 @@
-from flask import jsonify, request, make_response
-from dotenv import load_dotenv
+import os
 from os.path import dirname, join
 
 import googlemaps
-import os
 import datetime
 import pytz
-import werkzeug  # Fix ImportError: cannot import name 'cached_property'
-
-werkzeug.cached_property = werkzeug.utils.cached_property
-
-from flask_restplus import Resource, Namespace, reqparse
+from dotenv import load_dotenv
+from flask import jsonify, request, make_response
+from flask_restx import Resource, Namespace, reqparse
 
 project_root = dirname(dirname(__file__))
 output_path = join(project_root, '.secrets/.env')
@@ -32,12 +28,10 @@ parser.add_argument('arrival_time', type=str, help='Desired arrival time')
     400, 'not all required arguments specified (origin, destination, arrival_time)'
 )
 @ns.expect(parser)
-class GetMapsRoute(Resource):
+class MapsRoute(Resource):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.date_now = datetime.datetime.utcnow().astimezone(
-            pytz.timezone('Europe/Berlin')
-        )
+        self.date_now = (datetime.datetime.utcnow() + datetime.timedelta(hours=1))
 
     def get(self):
         if ('origin' not in request.args or 'destination' not in request.args) or (
@@ -45,8 +39,7 @@ class GetMapsRoute(Resource):
         ):
             return make_response(
                 {
-                    'error': 'Not all required arguments specified (origin, '
-                    'destination, arrival_time)'
+                    'error': 'Not all required arguments specified (origin, destination)'
                 },
                 400,
             )
@@ -58,6 +51,7 @@ class GetMapsRoute(Resource):
 
         # Request directions
         if 'arrival_time' not in request.args or not request.args.get('arrival_time'):
+            print(self.date_now)
             directions_result = gmaps.directions(
                 origin,
                 destination,
