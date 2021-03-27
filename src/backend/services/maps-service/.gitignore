@@ -1,7 +1,7 @@
 # Secrets
 .secrets
 
-# Enviroments
+# Environments
 .env
 venv
 
@@ -10,8 +10,8 @@ venv
 
 # Coverage reports
 .coverage
-htmlcov
-coverage-report
+coverage.xml
+coverage
 
 # Python
 __pycache__
