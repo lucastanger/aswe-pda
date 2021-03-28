@@ -5,7 +5,7 @@ from os.path import dirname, join
 import googlemaps
 from dotenv import load_dotenv
 from flask import jsonify, request, make_response
-from flask_restx import Resource, Namespace, reqparse
+from flask_restx import Resource, Namespace, reqparse, fields
 
 project_root = dirname(dirname(__file__))
 output_path = join(project_root, '.secrets/.env')
@@ -28,10 +28,21 @@ parser.add_argument('arrival_time', type=str, help='Desired arrival time')
 )
 @ns.expect(parser)
 class MapsRoute(Resource):
+    success_model = ns.model(
+        'Maps service route response - success', {}
+    )
+
+    error_model = ns.model(
+        'Maps service route response - error', {'error': fields.Raw({})}
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.date_now = (datetime.datetime.utcnow() + datetime.timedelta(hours=1))
 
+    @ns.response(200, 'OK', success_model)
+    @ns.response(400, 'Error', error_model)
+    @ns.doc(description='Get a route from origin to destination with a optional arrival time.')
     def get(self):
         if ('origin' not in request.args or 'destination' not in request.args) or (
             not request.args.get('origin') or not request.args.get('destination')
