@@ -3,7 +3,6 @@ from unittest import mock
 import pytest
 
 from app import app
-from unittest.mock import MagicMock
 
 
 @pytest.fixture()
@@ -30,19 +29,18 @@ class TestCallback:
 
 
 class TestRevoke:
-    post_mock_success = MagicMock()
-    post_mock_success.status_code = 200
-    post_mock_fail = MagicMock()
-    post_mock_fail.status_code = 400
-
-    @mock.patch('requests.post', return_value=post_mock_success)
+    @mock.patch('requests.post')
     def test_revoke_success(self, mocked_post, test_client):
+        mocked_post.return_value.status_code = 200
+
         response = test_client.get('/rest/api/v1/authorization/revoke')
 
         assert response.status_code == 200
 
-    @mock.patch('requests.post', return_value=post_mock_fail)
+    @mock.patch('requests.post')
     def test_revoke_fail(self, mocked_post, test_client):
+        mocked_post.return_value.status_code = 400
+
         response = test_client.get('/rest/api/v1/authorization/revoke')
 
         assert response.status_code == 400

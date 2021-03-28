@@ -1,9 +1,6 @@
-from unittest import mock
-
 import pytest
 
 from app import app
-from src.routes.authorization import get_credentials
 
 
 @pytest.fixture()
