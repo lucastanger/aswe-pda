@@ -30,5 +30,5 @@ class CalendarService:
         ).strftime('%Y-%m-%dT%H:%M:%S%z')
         response = requests.get(f'{self.base_url}/events/{date_tomorrow}')
         if 'message' in response.json():
-            return response.json()
+            return {'message': 'No upcoming events for tomorrow found.'}
         return response.json()[0]
