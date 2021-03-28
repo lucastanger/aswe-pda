@@ -1,4 +1,3 @@
-import json
 import os
 
 import requests
@@ -202,6 +201,9 @@ def get_credentials():
 
 
 class MongoDB:
+    """
+    Creates a connection to the mongodb.
+    """
     __instance = None
 
     def __init__(self):
