@@ -137,6 +137,15 @@ paths:
       name: date
       required: true
       type: string
+  /swagger/swagger.json:
+    get:
+      description: Generate a swagger.json file.
+      operationId: get_swagger
+      responses:
+        '200':
+          description: OK
+      tags:
+      - swagger
   /swagger/swagger.yml:
     get:
       description: Generate a swagger.yml file.
