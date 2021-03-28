@@ -3,7 +3,6 @@
 
 # Environments
 .env
-venv
 
 # Idea configuration
 .idea
@@ -16,3 +15,4 @@ coverage
 # Python
 __pycache__
 .pytest_cache
+venv

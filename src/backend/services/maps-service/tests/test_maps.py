@@ -4,7 +4,7 @@ from app import app
 
 
 @pytest.fixture()
-def test_client(mocker):
+def test_client():
     return app.test_client()
 
 

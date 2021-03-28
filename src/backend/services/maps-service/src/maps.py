@@ -1,9 +1,8 @@
+import datetime
 import os
 from os.path import dirname, join
 
 import googlemaps
-import datetime
-import pytz
 from dotenv import load_dotenv
 from flask import jsonify, request, make_response
 from flask_restx import Resource, Namespace, reqparse
