@@ -1,11 +1,6 @@
-from pymongo import MongoClient
 import requests
-from flask import jsonify
 
-client = MongoClient(host='mongo', port=27017)
-db = client['aswe-pda']
-db.authenticate('dev', 'dev')
-configuration = db['configuration']
+from src.util.mongodb import MongoDB
 
 
 class StockService:
@@ -18,7 +13,7 @@ class StockService:
         # No stock is given. Take stock from config
         if not self.parameters['stock']:
             # Load config
-            config = configuration.find_one({'stocks': {'$exists': True},})
+            config = MongoDB.instance().db['configuration'].find_one({'stocks': {'$exists': True},})
 
             stock = config['stocks']['_stock']
         else:

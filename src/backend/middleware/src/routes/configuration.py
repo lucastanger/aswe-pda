@@ -1,15 +1,10 @@
+import requests
 from flask import request, make_response, jsonify
 from flask_restx import Resource, Namespace, fields
-from pymongo import MongoClient
-import requests
-import json
+
+from src.util.mongodb import MongoDB
 
 ns = Namespace('configuration', description='Configuration APIs')
-
-client = MongoClient(host='mongo', port=27017)
-db = client['aswe-pda']
-db.authenticate('dev', 'dev')
-configuration = db['configuration']
 
 
 @ns.route('/')
@@ -41,7 +36,7 @@ class ConfigurationService(Resource):
     @ns.response(400, 'Error', get_error_model)
     @ns.doc(description='Get configuration json.')
     def get(self):
-        response = configuration.find_one(
+        response = MongoDB.instance().db['configuration'].find_one(
             {
                 'general': {'$exists': True},
                 'dualis': {'$exists': True},
@@ -57,7 +52,7 @@ class ConfigurationService(Resource):
     @ns.response(400, 'Error', post_error_model)
     @ns.doc(description='Post configuration json.')
     def post(self):
-        configuration.replace_one(
+        MongoDB.instance().db['configuration'].replace_one(
             {
                 'general': {'$exists': True},
                 'dualis': {'$exists': True},
