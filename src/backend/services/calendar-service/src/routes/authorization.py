@@ -204,14 +204,19 @@ class MongoDB:
     """
     Creates a connection to the mongodb.
     """
+
     __instance = None
 
     def __init__(self):
         try:
-            client = MongoClient(host='mongo', port=27017, serverSelectionTimeoutMS=1000)
+            client = MongoClient(
+                host='mongo', port=27017, serverSelectionTimeoutMS=1000
+            )
             client.server_info()
         except ServerSelectionTimeoutError:
-            client = MongoClient(host='localhost', port=27017, serverSelectionTimeoutMS=1000)
+            client = MongoClient(
+                host='localhost', port=27017, serverSelectionTimeoutMS=1000
+            )
             client.server_info()
         db = client['aswe-pda']
         db.authenticate('dev', 'dev')
