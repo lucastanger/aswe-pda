@@ -6,6 +6,7 @@ from flask_restx import Resource, Namespace, fields
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
 from pymongo import MongoClient
+from pymongo.errors import ServerSelectionTimeoutError
 
 ns = Namespace('authorization', description='Google authentication APIs')
 
@@ -20,11 +21,6 @@ API_VERSION = 'v2'
 
 # When running locally, disable OAuthlib's HTTPs verification
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-
-client = MongoClient(host='mongo', port=27017)
-db = client['aswe-pda']
-db.authenticate('dev', 'dev')
-authorization = db['authorization']
 
 
 @ns.route('/')
@@ -60,7 +56,7 @@ class Authorize(Resource):
         )
 
         # Store the state so the callback can verify the auth server response.
-        authorization.replace_one(
+        MongoDB.instance().authorization.replace_one(
             {'service': 'calendar-service', 'type': 'state'},
             {'service': 'calendar-service', 'type': 'state', 'state': state},
             upsert=True,
@@ -82,7 +78,7 @@ class Callback(Resource):
     def get():
         # Specify the state when creating the flow in the callback so that it can
         # verified in the authorization server response.
-        result = authorization.find_one(
+        result = MongoDB.instance().authorization.find_one(
             {'service': 'calendar-service', 'type': 'state'}
         )
         state = result['state']
@@ -98,7 +94,7 @@ class Callback(Resource):
 
         # Store credentials in mongo.
         credentials = flow.credentials
-        authorization.replace_one(
+        MongoDB.instance().authorization.replace_one(
             {'service': 'calendar-service', 'type': 'credentials'},
             credentials_to_dict(credentials),
             upsert=True,
@@ -118,7 +114,7 @@ class Revoke(Resource):
     @ns.response(400, 'Error', error_model)
     @ns.doc(description='Revoke the permissions.')
     def get():
-        result = authorization.find_one(
+        result = MongoDB.instance().authorization.find_one(
             {'service': 'calendar-service', 'type': 'credentials'}
         )
         if result is None:
@@ -153,7 +149,7 @@ class Clear(Resource):
         'permissions, call /authorization/revoke first.'
     )
     def get():
-        authorization.delete_many({'service': 'calendar-service'})
+        MongoDB.instance().authorization.delete_many({'service': 'calendar-service'})
         return make_response({'message': 'Credentials have been cleared.'}, 200)
 
 
@@ -196,9 +192,44 @@ def get_credentials():
     Get the credentials from the mongodb.
     :return: Credentials from mongodb.
     """
-    document = authorization.find_one(
+    document = MongoDB.instance().authorization.find_one(
         {'service': 'calendar-service', 'type': 'credentials'}
     )
     if document is None:
         return make_response({'error': 'You are not authenticated.'}, 401), False
     return document_to_dict(document), True
+
+
+class MongoDB:
+    """
+    Creates a connection to the mongodb.
+    """
+
+    __instance = None
+
+    def __init__(self):
+        try:
+            client = MongoClient(
+                host='mongo', port=27017, serverSelectionTimeoutMS=1000
+            )
+            client.server_info()
+        except ServerSelectionTimeoutError:
+            client = MongoClient(
+                host='localhost', port=27017, serverSelectionTimeoutMS=1000
+            )
+            client.server_info()
+        db = client['aswe-pda']
+        db.authenticate('dev', 'dev')
+        self.authorization = db['authorization']
+
+    @classmethod
+    def instance(cls):
+        """
+        Returns a singleton instance of this class. Upon its first call, a new instance
+        is being created. On all subsequent calls, the already created instance is returned.
+        """
+        if cls.__instance:
+            return cls.__instance
+        else:
+            cls.__instance = MongoDB()
+            return cls.__instance

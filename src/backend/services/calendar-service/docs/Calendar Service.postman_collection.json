@@ -1,0 +1,54 @@
+{
+	"info": {
+		"_postman_id": "49e035bc-47ca-40c9-b252-33e0610e24f1",
+		"name": "Calendar Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5560/rest/api/v1/events/2021-03-26T12:00:00+01:00",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5560",
+					"path": [
+						"rest",
+						"api",
+						"v1",
+						"events",
+						"2021-03-26T12:00:00+01:00"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Events Today",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5560/rest/api/v1/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5560",
+					"path": [
+						"rest",
+						"api",
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
