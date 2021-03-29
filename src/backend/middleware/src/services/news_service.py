@@ -14,30 +14,15 @@ class NewsService:
         self.base_url = 'http://news-service:5575/rest/api/v1'
 
     def query(self):
-        config = configuration.find_one({'news': {'$exists': True}})
-
-        paper_id = config['news']['_papers']
-        category = config['news']['_categories']
-
-        papers = self.get_news_source()
-
-        papers_json = papers.json()
-        paper_sources = DotMap(papers_json)
-
-        if papers:
-            for paper in paper_sources.sources:
-                if paper.name == paper_id:
-                    paper_id = paper.id
-
-        print(paper_id)
-
         if 'type' in self.parameters:
             if self.parameters['type'] == 'top':
+                paper_id, category = self.get_db_info()
                 if category:
                     result = self.get_top_news(category)
                 else:
                     result = self.get_top_news()
             elif self.parameters['type'] == 'everything':
+                paper_id, category = self.get_db_info()
                 if 'search' in self.parameters and paper_id:
                     result = self.get_news_search(self.parameters['search'], paper_id)
                 elif paper_id:
@@ -133,3 +118,23 @@ class NewsService:
                     )
 
         return result
+
+    def get_db_info(self):
+        config = configuration.find_one({'news': {'$exists': True}})
+
+        paper_id = config['news']['_papers']
+        category = config['news']['_categories']
+
+        papers = self.get_news_source()
+
+        papers_json = papers.json()
+        paper_sources = DotMap(papers_json)
+
+        if papers:
+            for paper in paper_sources.sources:
+                if paper.name == paper_id:
+                    paper_id = paper.id
+
+            return paper_id, category
+        else:
+            return None, category

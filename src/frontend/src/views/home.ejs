@@ -113,31 +113,8 @@
                     <h1 class="text-8xl dark:text-gray-300 font-medium" id="time"></h1>
                     <h1 class="text-3xl dark:text-gray-300 font-thin" id="date">Monday, February 26, 2021</h1>
                     <!-- calendar entry container -->
-                    <div class="grid grid-rows-4 gap-4 pt-6">
-                        <!-- calendar entry -->
-                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <h1 class="dark:text-gray-300 font-light pb-1">Meeting "Online Learning" Team</h1>
-                            <p class="dark:text-green-500 font-thin">14:00 - 16:00</p>
-                        </div>
-                        <!-- end calendar entry -->
-                        <!-- calendar entry -->
-                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <h1 class="dark:text-gray-300 font-light pb-1">Backlog Refinement</h1>
-                            <p class="dark:text-green-500 font-thin">16:00 - 17:00</p>
-                        </div>
-                        <!-- end calendar entry -->
-                        <!-- calendar entry -->
-                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <h1 class="dark:text-gray-300 font-light pb-1">Finish fact sheet</h1>
-                            <p class="dark:text-green-500 font-thin">19:00 - 20:00</p>
-                        </div>
-                        <!-- end calendar entry -->
-                        <!-- calendar entry -->
-                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <h1 class="dark:text-gray-300 font-light pb-1">Training</h1>
-                            <p class="dark:text-green-500 font-thin">20:30 - 21:30</p>
-                        </div>
-                        <!-- end calendar entry -->
+                    <div class="grid grid-rows-4 gap-4 pt-6" id="calendarContainer">
+                        <div class="lds-default" id="calendarloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </div>
                     <!-- end calendar entry container -->
                 </div>
@@ -223,6 +200,8 @@
 <script src="script/Chat.js" async></script>
 <script src="script/Spotify.js"></script>
 <script src="script/News.js"></script>
+<script src="script/Calendar.js"></script>
+
 </html>
 
 <!---->
