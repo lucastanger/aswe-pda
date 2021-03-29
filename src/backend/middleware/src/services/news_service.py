@@ -1,11 +1,7 @@
 import requests
-from pymongo import MongoClient
 from dotmap import DotMap
 
-client = MongoClient(host='mongo', port=27017)
-db = client['aswe-pda']
-db.authenticate('dev', 'dev')
-configuration = db['configuration']
+from src.util.mongodb import MongoDB
 
 
 class NewsService:
@@ -14,7 +10,7 @@ class NewsService:
         self.base_url = 'http://news-service:5575/rest/api/v1'
 
     def query(self):
-        config = configuration.find_one({'news': {'$exists': True}})
+        config = MongoDB.instance().db['configuration'].find_one({'news': {'$exists': True}})
 
         paper_id = config['news']['_papers']
         category = config['news']['_categories']
