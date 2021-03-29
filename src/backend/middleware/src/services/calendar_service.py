@@ -39,11 +39,13 @@ class CalendarService:
         :return: First event of the following day.
         """
         date_tomorrow = (
-            datetime.datetime.utcnow().astimezone(pytz.timezone('Europe/Berlin'))
-            + datetime.timedelta(days=1)
-        ).replace(
-            hour=0, minute=0, second=0
-        ).strftime('%Y-%m-%dT%H:%M:%S%z')
+            (
+                datetime.datetime.utcnow().astimezone(pytz.timezone('Europe/Berlin'))
+                + datetime.timedelta(days=1)
+            )
+            .replace(hour=0, minute=0, second=0)
+            .strftime('%Y-%m-%dT%H:%M:%S%z')
+        )
         response = requests.get(f'{self.base_url}/events/{date_tomorrow}')
         if 'message' in response.json():
             return {'message': 'No upcoming events for tomorrow found.'}

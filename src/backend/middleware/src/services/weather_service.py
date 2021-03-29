@@ -12,7 +12,11 @@ class WeatherService:
     def query(self):
         print(self.parameters)
         # load config
-        config = MongoDB.instance().db['configuration'].find_one({'weather': {'$exists': True},})
+        config = (
+            MongoDB.instance()
+            .db['configuration']
+            .find_one({'weather': {'$exists': True},})
+        )
 
         lat = config['weather']['_location']['_lat']
         lon = config['weather']['_location']['_lon']

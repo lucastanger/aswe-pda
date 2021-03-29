@@ -23,7 +23,9 @@ class TestCalendarServiceCallback:
     @mock.patch('requests.get')
     def test_callback_success(self, mocked_get, test_client):
         mocked_get.return_value.json.return_value = {}
-        response = test_client.get('/rest/api/v1/authorization/calendar-service/oauth2callback')
+        response = test_client.get(
+            '/rest/api/v1/authorization/calendar-service/oauth2callback'
+        )
 
         assert response.status_code == 200
 
@@ -59,6 +61,8 @@ class TestSpotifyServiceCallback:
     @mock.patch('requests.get')
     def test_callback_success(self, mocked_get, test_client):
         mocked_get.return_value.json.return_value = {}
-        response = test_client.get('/rest/api/v1/authorization/spotify-service/oauth2callback')
+        response = test_client.get(
+            '/rest/api/v1/authorization/spotify-service/oauth2callback'
+        )
 
         assert response.status_code == 200

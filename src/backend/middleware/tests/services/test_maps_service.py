@@ -18,12 +18,21 @@ class TestCalendarService:
     __arrival_time = ''
 
     @mock.patch('requests.get')
-    @pytest.mark.parametrize('parameters', [{'origin': __origin,
-                                             'destination': __destination,
-                                             'arrival_time': __arrival_time}])
+    @pytest.mark.parametrize(
+        'parameters',
+        [
+            {
+                'origin': __origin,
+                'destination': __destination,
+                'arrival_time': __arrival_time,
+            }
+        ],
+    )
     def test_query_route_success(self, mocked_get, service):
         _response = service.query()
 
-        mocked_get.assert_called_with(f'{BASE_URL}/maps/route?origin={self.__origin}&'
-                                      f'destination={self.__destination}&'
-                                      f'arrival_time={self.__arrival_time}')
+        mocked_get.assert_called_with(
+            f'{BASE_URL}/maps/route?origin={self.__origin}&'
+            f'destination={self.__destination}&'
+            f'arrival_time={self.__arrival_time}'
+        )

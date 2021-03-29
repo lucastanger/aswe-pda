@@ -13,7 +13,11 @@ class StockService:
         # No stock is given. Take stock from config
         if not self.parameters['stock']:
             # Load config
-            config = MongoDB.instance().db['configuration'].find_one({'stocks': {'$exists': True},})
+            config = (
+                MongoDB.instance()
+                .db['configuration']
+                .find_one({'stocks': {'$exists': True},})
+            )
 
             stock = config['stocks']['_stock']
         else:

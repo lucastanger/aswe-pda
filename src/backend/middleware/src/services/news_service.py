@@ -10,7 +10,9 @@ class NewsService:
         self.base_url = 'http://news-service:5575/rest/api/v1'
 
     def query(self):
-        config = MongoDB.instance().db['configuration'].find_one({'news': {'$exists': True}})
+        config = (
+            MongoDB.instance().db['configuration'].find_one({'news': {'$exists': True}})
+        )
 
         paper_id = config['news']['_papers']
         category = config['news']['_categories']

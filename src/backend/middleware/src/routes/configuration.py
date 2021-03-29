@@ -36,14 +36,18 @@ class ConfigurationService(Resource):
     @ns.response(400, 'Error', get_error_model)
     @ns.doc(description='Get configuration json.')
     def get(self):
-        response = MongoDB.instance().db['configuration'].find_one(
-            {
-                'general': {'$exists': True},
-                'dualis': {'$exists': True},
-                'news': {'$exists': True},
-                'weather': {'$exists': True},
-                'stocks': {'$exists': True},
-            }
+        response = (
+            MongoDB.instance()
+            .db['configuration']
+            .find_one(
+                {
+                    'general': {'$exists': True},
+                    'dualis': {'$exists': True},
+                    'news': {'$exists': True},
+                    'weather': {'$exists': True},
+                    'stocks': {'$exists': True},
+                }
+            )
         )
         del response['_id']
         return make_response(jsonify(response), 200)

@@ -28,11 +28,13 @@ class TestCalendarService:
     @pytest.mark.parametrize('parameters', [{'date': '', 'calendar-alarm': 'alarm'}])
     def test_query_alarm_success(self, mocked_get, service):
         date_tomorrow = (
+            (
                 datetime.datetime.utcnow().astimezone(pytz.timezone('Europe/Berlin'))
                 + datetime.timedelta(days=1)
-        ).replace(
-            hour=0, minute=0, second=0
-        ).strftime('%Y-%m-%dT%H:%M:%S%z')
+            )
+            .replace(hour=0, minute=0, second=0)
+            .strftime('%Y-%m-%dT%H:%M:%S%z')
+        )
 
         _response = service.query()
 
