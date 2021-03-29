@@ -1,4 +1,3 @@
-import json
 import os
 from os.path import dirname, join
 
@@ -8,7 +7,6 @@ from flask_restx import Resource, Namespace, reqparse, fields
 from google.api_core.exceptions import InvalidArgument
 from google.cloud import dialogflow_v2
 from google.protobuf.json_format import MessageToDict
-
 from src.services import query
 
 ns = Namespace('dialogflow', description='Dialogflow APIs')
@@ -81,11 +79,6 @@ class Dialogflow(Resource):
             parsed_response.query_result.intent_detection_confidence,
         )
         print('Fulfillment text:', parsed_response.query_result.fulfillment_text)
-
-        # Parse response to audio file
-        with open('response.wav', 'wb') as out:
-            out.write(response.output_audio)
-            print('Audio content written to file "response.wav"')
 
         # Call the corresponding function for the intent
         parameters = parsed_response.query_result.parameters.toDict()
