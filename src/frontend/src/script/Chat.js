@@ -87,6 +87,7 @@ function identifyIntent(intent) {
             return handleNewsIntent;
         case 'calendar-intent':
             return handleCalendarIntent;
+
         default:
             // If intent could not get identified
             return () => {return `${intent.dialogflow.query_result.intent.display_name} does not have a according intent function`}
@@ -224,6 +225,7 @@ function handleCalendarIntent(value) {
 
         }
     }
+
 }
 
 /**
@@ -278,6 +280,7 @@ function handleMultipleNewsData(news) {
     ret += "</div>";
 
     return ret;
+
 }
 
 
@@ -304,6 +307,7 @@ function handleMultipleCalendarData(appointments) {
     })
 
     return ret;
+
 }
 
 /**

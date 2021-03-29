@@ -26,6 +26,7 @@ function retrieveNewsForTheDay() {
                 newsContainer.innerHTML += createNewsElement(response.response[i]);
             }
 
+
             stopLoader('newsloader')
 
         },
@@ -34,6 +35,7 @@ function retrieveNewsForTheDay() {
         }
     })
 }
+
 
 
 
