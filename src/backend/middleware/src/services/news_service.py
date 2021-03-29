@@ -116,7 +116,9 @@ class NewsService:
         return result
 
     def get_db_info(self):
-        config = MongoDB.instance().db['configuration'].find_one({'news': {'$exists': True}})
+        config = (
+            MongoDB.instance().db['configuration'].find_one({'news': {'$exists': True}})
+        )
 
         paper_id = config['news']['_papers']
         category = config['news']['_categories']
