@@ -4,7 +4,6 @@ const recentArtists = document.getElementById('recent-artists');
 $(document).ready(function () {
 
     sendMessageToMiddleware('Profile artist').then(function (res) {
-        console.log(res)
 
         let html = "";
 
@@ -38,12 +37,10 @@ function sendMessageToMiddleware(message) {
         crossDomain: true,
         contentType: 'application/json',
         beforeSend: setHeader,
-        complete: stopLoader()
-    });
-}
 
-function stopLoader() {
-    document.getElementById('artistsloader').remove()
+        complete: stopLoader('artistsloader')
+    });
+
 }
 
 function setHeader(xhr) {
