@@ -46,7 +46,7 @@ db.authenticate('dev', 'dev')
 authorization = db['authorization']
 
 
-def getToken(code):
+def get_token(code):
 
     body = {
         'grant_type': 'authorization_code',
@@ -106,7 +106,7 @@ def document_to_dict(document):
     return document['token']
 
 
-def getAuthHeader():
+def get_auth_header():
 
     document = authorization.find_one(
         {'service': 'spotify-service', 'type': 'credentials'}
