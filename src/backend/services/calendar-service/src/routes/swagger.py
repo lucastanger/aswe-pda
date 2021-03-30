@@ -2,7 +2,7 @@ import json
 
 import requests
 import yaml
-from flask import request
+from flask import request, make_response
 from flask_restx import Resource, Namespace
 
 ns = Namespace('swagger', description='Swagger APIs')
@@ -19,18 +19,4 @@ class Swagger(Resource):
         data = json.loads(response.content)
         with open('docs/swagger.yml', 'w') as f:
             yaml.dump(data, f, allow_unicode=True)
-        return {'message': 'Yaml document generated!'}
-
-
-@ns.route('/swagger.json')
-class Swagger(Resource):
-    @staticmethod
-    @ns.response(200, 'OK')
-    @ns.doc(description='Generate a swagger.json file.')
-    def get():
-        url = f'{request.url_root}/rest/api/v1/swagger.json'
-        response = requests.get(url)
-        data = json.loads(response.content)
-        with open('docs/swagger.json', 'w') as f:
-            json.dump(data, f)
-        return {'message': 'Json document generated!'}
+        return make_response({'message': 'Yaml document generated!'}, 200)
