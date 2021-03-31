@@ -1,6 +1,6 @@
 // Home.js
 // Define all available sidebar pages
-let pages = ['home', 'profile', 'chat', 'history', 'settings'];
+let pages = ['home', 'homegb', 'chat', 'history', 'settings'];
 
 /*
     Add some jQuery features to the page.
@@ -35,11 +35,11 @@ function stopLoader(id) {
 function loadPage(pageName) {
 
     // If page is chat, hide top input
-    if (pageName === 'chat') {
-        headerInput.classList.add('hidden');
-    } else {
-        headerInput.classList.remove('hidden');
-    }
+    // if (pageName === 'chat') {
+    //     headerInput.classList.add('hidden');
+    // } else {
+    //     headerInput.classList.remove('hidden');
+    // }
 
     // Hide all other pages
     pages.forEach(page => document.getElementById(page).classList.add('hidden'));

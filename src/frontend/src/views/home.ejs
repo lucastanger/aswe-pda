@@ -29,12 +29,12 @@
         </button>
         <!-- end btn -->
         <!-- btn -->
-        <button class="btn active group-hover:w-full mb-4 dark:hover:bg-green-600 hover:bg-green-400 rounded-3xl" name="profile">
+        <button class="btn active group-hover:w-full mb-4 dark:hover:bg-green-600 hover:bg-green-400 rounded-3xl" name="homegb">
             <div class="rounded-md dark:text-gray-300 flex items-center transition transition-none m-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="float-left">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span class="chat-expand hidden text-xl">Profile</span>
+                <span class="chat-expand hidden text-xl">Good Bye</span>
             </div>
         </button>
         <!-- end btn -->
@@ -86,9 +86,7 @@
                     <h1 class="text-3xl dark:text-gray-300 font-thin">Recent artists</h1>
                     <!-- artists container -->
                     <div class="h-full mt-5 grid grid-rows-1 xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-4" id="recent-artists">
-
                         <div class="lds-default" id="artistsloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-
                     </div>
                     <!-- end artists container -->
                 </div>
@@ -143,40 +141,73 @@
             </div>
         </div>
     </div>
+    <div id="homegb" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-blue-100 to-green-200 w-full relative p-14 flex flex-col h-full overflow-auto hidden">
+
+        <div class="grid grid-cols-3 h-full w-full gap-x-2 gap-y-10 grid-rows-5">
+
+            <h1 class="text-7xl dark:text-gray-300 font-thin col-start-2">Until tomorrow!</h1>
+
+            <div class="row-start-2 h-full w-full">
+                <div class="bg-gray-700 bg-opacity-40 w-full py-4 px-5 rounded-xl shadow-2xl">
+                    <h1 class="text-4xl font-thin text-gray-300">First appointment tomorrow:</h1>
+                </div>
+                <div class="bg-gray-700 bg-opacity-40 p-5 w-full rounded-xl shadow-2xl mt-3">
+                    <h1 id="firstAppointmentName" class="text-2xl font-thin text-gray-300">Advanced Software Engineering</h1>
+                    <h4 id="firstAppointmentTime" class="font-thin text-green-500">08:15 - 11:45</h4>
+                </div>
+            </div>
+
+            <div class="row-start-2 col-start-2 h-full w-full flex flex-col items-center">
+                <h1 class="text-4xl text-gray-300 font-thin mt-3">Set alarm clock for</h1>
+                <input type="time" name="alarm" id="alarm" class="mt-4 appearance-none bg-transparent text-4xl font-thin text-gray-300">
+            </div>
+
+            <div id="weatherGoodBye" class="col-span-2 row-span-2 h-full w-full"></div>
+
+            <div id="stockContainer" class="row-start-3 row-span-3 col-span-3 col-start-1"></div>
+
+
+        </div>
+
+
+    </div>
     <!-- end home container -->
     <!-- profile container -->
     <div id="profile" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 w-full relative p-14 hidden">
     </div>
     <!-- end profile container -->
     <!-- chat container -->
-    <div id="chat" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 relative hidden w-full max-h-full overflow-y-auto">
-        <div class="static p-14 overflow-y-auto w-full">
-            <div id="chatArea" class="w-full h-auto grid">
-                <!-- SINGLE MESSAGE -->
-                <div class="clearfix">
-                    <div>
-                        <div class="bg-gray-900 mx-6 rounded-t-xl w-40 flex justify-center text-green-400 border-b border-gray-800" id="jarvistime"><script>document.getElementById('jarvistime').innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();</script></div>
-                        <div class="bg-gray-300 dark:bg-gray-900 dark:text-gray-300 mx-4 p-2 rounded-lg float-left left-0">Hello Sir! My name is J.A.R.V.I.S. How may I help you today?</div>
+    <div id="chat" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 relative hidden w-full overflow-y-auto">
+        <div class="p-14 w-full mb-10">
+            <div id="" class="w-full h-auto grid">
+                <div id="chatArea" class="grid">
+                    <!-- SINGLE MESSAGE -->
+                    <div class="clearfix">
+                        <div>
+                            <div class="bg-gray-900 mx-6 rounded-t-xl w-40 flex justify-center text-green-400 border-b border-gray-800" id="jarvistime"><script>document.getElementById('jarvistime').innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();</script></div>
+                            <div class="bg-gray-300 dark:bg-gray-900 dark:text-gray-300 mx-4 p-2 rounded-lg float-left left-0">Hello Sir! My name is J.A.R.V.I.S. How may I help you today?</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Input -->
-            <div class="flex-col w-full bg-gray-100 dark:bg-gray-800 absolute bottom-0 right-0 border-t dark:border-gray-900 border-gray-300">
-                <div class="flex flex-row">
-                    <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 w-full dark:text-gray-300 group-focus:ring-black" type="text" placeholder="Write a message" id="chatInput"/>
-                    <div class="m-auto justify-end w-12">
-                        <a href="#">
+                <!-- Input -->
+                <div class="flex-col w-full bg-gray-100 dark:bg-gray-800 absolute bottom-0 right-0 border-t dark:border-gray-900 border-gray-300 hidden">
+                    <div class="flex flex-row">
+                        <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 w-full dark:text-gray-300 group-focus:ring-black" type="text" placeholder="Write a message" id="chatInput"/>
+                        <div class="m-auto justify-end w-12">
+                            <a href="#">
                         <span>
                             <!-- mic -->
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="text-gray-500 dark:text-gray-300">
                                 <path class="" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                             </svg>
                         </span>
-                        </a>
+                            </a>
+                        </div>
                     </div>
                 </div>
+                <!-- end input -->
             </div>
-            <!-- end input -->
+
         </div>
 
     </div>
@@ -194,11 +225,12 @@
 </body>
 <script src="script/home.js"></script>
 <script src="script/Time.js"></script>
-<script src="script/Weather.js"></script>
 <script src="script/Chat.js" async></script>
 <script src="script/Spotify.js"></script>
+<script src="script/Weather.js"></script>
 <script src="script/News.js"></script>
 <script src="script/Calendar.js"></script>
+<script src="script/Stock.js"></script>
 </html>
 
 <!---->

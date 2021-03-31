@@ -21,11 +21,13 @@ function retrieveAppointmentsForTheDay() {
         beforeSend: setHeader,
         success: function (response) {
 
-            response.response.forEach(event => {
+            if (response.response.constructor === Array) {
+                response.response.forEach(event => {
 
-                calendar.innerHTML += createCalendarElement(event);
+                    calendar.innerHTML += createCalendarElement(event);
 
-            })
+                })
+            }
 
             stopLoader('calendarloader')
 
