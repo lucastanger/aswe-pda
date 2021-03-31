@@ -38,6 +38,7 @@ class Daily(Resource):
             getenv('STOCK_ENDPOINT')
             + '?function=TIME_SERIES_DAILY&symbol='
             + args['symbol']
+            + '&outputsize=full'
             + '&apikey='
             + getenv('STOCK_API_KEY')
         )

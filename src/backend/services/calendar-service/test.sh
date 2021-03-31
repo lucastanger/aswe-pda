@@ -1,2 +1,2 @@
 #!/bin/bash
-./venv/bin/python -m coverage run -m unittest discover tests
+python -m pytest --cov=src --cov-report=xml --cov-report html:docs/coverage --cov-report term tests/

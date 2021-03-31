@@ -41,8 +41,6 @@ $(document).ready(function () {
     })
 });
 
-let i = "";
-
 /**
  *
  * @returns {Promise<void>}
@@ -73,9 +71,8 @@ async function sendMessage(from) {
 
 }
 
-// Returns the proper function according to intent type
 /**
- *
+ * Returns the proper function according to intent type
  * @param intent
  * @returns {(function(*): (boolean|HTMLDivElement))|(function(): string)|(function(*): HTMLDivElement)}
  */
@@ -86,6 +83,11 @@ function identifyIntent(intent) {
             return handleWeatherIntent;
         case 'spotify-intent':
             return handleSpotifyIntent;
+        case 'news-intent':
+            return handleNewsIntent;
+        case 'calendar-intent':
+            return handleCalendarIntent;
+
         default:
             // If intent could not get identified
             return () => {return `${intent.dialogflow.query_result.intent.display_name} does not have a according intent function`}
@@ -186,6 +188,49 @@ function handleWeatherIntent(value) {
 /**
  *
  * @param value
+ */
+function handleNewsIntent(value) {
+
+    if (value.hasOwnProperty('response')) {
+
+        let response = value.response;
+
+        // Check if multiple data got returned
+        if (response.constructor === Array) {
+
+            let html = `${handleMultipleNewsData(response)}`;
+
+            return createAnswerElement(html);
+
+        }
+    }
+}
+
+/**
+ *
+ * @param value
+ * @returns {HTMLDivElement}
+ */
+function handleCalendarIntent(value) {
+
+    if (value.hasOwnProperty('response')) {
+
+        let response = value.response;
+
+        if (response.constructor === Array) {
+
+            let html = `${handleMultipleCalendarData(response)}`;
+
+            return createAnswerElement(html);
+
+        }
+    }
+
+}
+
+/**
+ *
+ * @param value
  * @returns {boolean|HTMLDivElement}
  */
 function handleSpotifyIntent(value) {
@@ -206,6 +251,70 @@ function handleSpotifyIntent(value) {
     return false;
 }
 
+/**
+ *
+ * @param news
+ * @returns {string}
+ */
+function handleMultipleNewsData(news) {
+
+    let ret = "<div class='grid gap-y-2 h-56 overflow-auto'>";
+
+    news.forEach(element => {
+
+        if (element.hasOwnProperty('title') && element.hasOwnProperty('url') && element.hasOwnProperty('img')) {
+
+            ret += `<a href="${element.url}" target="_blank"><div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center cursor-pointer">
+                        <div class="w-40 mr-5">
+                            <img class="rounded-md max-h-24 w-40" src="${element.img}" alt="news-image">
+                        </div>
+                        <div class="">
+                            <p class="text-gray-300 text-xl">${element.title}</p>
+                        </div>
+                    </div></a>`;
+
+        }
+
+    })
+
+    ret += "</div>";
+
+    return ret;
+
+}
+
+
+/**
+ *
+ * @param appointments
+ * @returns {string}
+ */
+function handleMultipleCalendarData(appointments) {
+
+    let ret = "";
+
+    appointments.forEach(element => {
+
+        if (element.hasOwnProperty('htmlLink') && element.hasOwnProperty('summary') && element.hasOwnProperty('start') && element.hasOwnProperty('end')) {
+
+            ret += `<a href="${element.htmlLink}" target="_blank">
+                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
+                            <h1 class="dark:text-gray-300 font-light pb-1">${element.summary}</h1>
+                            <p class="dark:text-green-500 font-thin">${new Date(Date.parse(element.start.dateTime)).getHours()}:${new Date(Date.parse(element.start.dateTime)).getMinutes()} - ${new Date(Date.parse(element.end.dateTime)).getHours()}:${new Date(Date.parse(element.end.dateTime)).getMinutes()} </p>
+                        </div>
+                    </a>`;
+        }
+    })
+
+    return ret;
+
+}
+
+/**
+ *
+ * @param artists
+ * @returns {string}
+ */
 function handleMultipleSpotifyData(artists) {
 
     let ret = "";

@@ -1,6 +1,6 @@
 #!/bin/bash
 app="middleware"
 docker build -t ${app} .
-docker run -d --rm -p 5580:5580 \
+docker run -d --rm -p 5600:5600 \
   --name=${app} \
   ${app}
