@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "b9a28f9f-1df7-4840-bf8f-8cc7150409ce",
-		"name": "Middleware",
+		"_postman_id": "59789b19-f65b-49c6-bb52-76e19ef15dbf",
+		"name": "Middleware Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -290,6 +290,176 @@
 			]
 		},
 		{
+			"name": "calendar-service",
+			"item": [
+				{
+					"name": "Events",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"What appointments do i have?\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Events Today",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"What are my appointments today?\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alarm",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Set my alarm clock\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "maps-service",
+			"item": [
+				{
+					"name": "Route",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Route from Römerstraße 24, 71336 Waiblingen, Deutschland to Stuttgart\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Route Arrival Time",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Route from Römerstraße 24, 71336 Waiblingen, Deutschland to Stuttgart at 1pm\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5600/rest/api/v1/dialogflow/query",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5600",
+							"path": [
+								"rest",
+								"api",
+								"v1",
+								"dialogflow",
+								"query"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Post Query",
 			"request": {
 				"method": "POST",
@@ -322,40 +492,17 @@
 			"response": []
 		},
 		{
-			"name": "Swagger.json",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:5600/rest/api/v1/authorization/spotify-service",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5600",
-					"path": [
-						"rest",
-						"api",
-						"v1",
-						"authorization",
-						"spotify-service"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Swagger.yml",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/rest/api/v1/swagger/swagger.yml",
+					"raw": "http://localhost:5600/rest/api/v1/swagger/swagger.yml",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5600",
 					"path": [
 						"rest",
 						"api",
@@ -370,9 +517,31 @@
 		{
 			"name": "Post conf data",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
-				"url": null
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"general\": {\n    \"_username\": \"Luca\",\n    \"_welcomeTime\": \"09:00:00\",\n    \"_goodbyeTime\": \"21:00:00\"\n  },\n  \"dualis\": {\n    \"_username\": \"inf18244@lehre.dhbw-stuttgart.de\",\n    \"_password\": \"test\"\n  },\n  \"news\": {\n    \"_papers\": [\n      \"ABC News\"\n    ],\n    \"_categories\": [\n      \"Sports\"\n    ]\n  },\n  \"weather\": {\n    \"_location\": {\n      \"lat\": 18.452452,\n      \"lon\": 34.123219\n    },\n    \"_unit\": \"metric\"\n  },\n  \"stocks\": {\n    \"_stocks\": \"AAPL\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5600/rest/api/v1/configuration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5600",
+					"path": [
+						"rest",
+						"api",
+						"v1",
+						"configuration"
+					]
+				}
 			},
 			"response": []
 		},
@@ -381,7 +550,20 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "http://localhost:5600/rest/api/v1/configuration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5600",
+					"path": [
+						"rest",
+						"api",
+						"v1",
+						"configuration"
+					]
+				}
 			},
 			"response": []
 		}

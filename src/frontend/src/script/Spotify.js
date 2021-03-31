@@ -37,8 +37,10 @@ function sendMessageToMiddleware(message) {
         crossDomain: true,
         contentType: 'application/json',
         beforeSend: setHeader,
+
         complete: stopLoader('artistsloader')
     });
+
 }
 
 function setHeader(xhr) {

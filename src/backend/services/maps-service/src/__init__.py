@@ -1,8 +1,4 @@
-import werkzeug  # Fix ImportError: cannot import name 'cached_property'
-
-werkzeug.cached_property = werkzeug.utils.cached_property
-
-from flask_restplus import Api
+from flask_restx import Api
 from .maps import ns as maps_ns
 from .swagger import ns as swagger_ns
 

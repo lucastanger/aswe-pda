@@ -1,11 +1,7 @@
-import requests
-from pymongo import MongoClient
 from datetime import datetime
 
-client = MongoClient(host='mongo', port=27017)
-db = client['aswe-pda']
-db.authenticate('dev', 'dev')
-configuration = db['configuration']
+import requests
+from src.util.mongodb import MongoDB
 
 
 class WeatherService:
@@ -16,7 +12,11 @@ class WeatherService:
     def query(self):
         print(self.parameters)
         # load config
-        config = configuration.find_one({'weather': {'$exists': True},})
+        config = (
+            MongoDB.instance()
+            .db['configuration']
+            .find_one({'weather': {'$exists': True},})
+        )
 
         lat = config['weather']['_location']['_lat']
         lon = config['weather']['_location']['_lon']

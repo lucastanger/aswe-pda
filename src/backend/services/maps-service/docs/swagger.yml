@@ -8,7 +8,7 @@ info:
 paths:
   /maps/route:
     get:
-      operationId: get_get_maps_route
+      operationId: get_maps_route
       responses:
         '200':
           description: Success
@@ -30,20 +30,13 @@ paths:
       in: query
       name: arrival_time
       type: string
-  /swagger/swagger.json:
-    get:
-      operationId: get_get_swagger
-      responses:
-        '200':
-          description: Success
-      tags:
-      - swagger
   /swagger/swagger.yml:
     get:
-      operationId: get_get_swagger
+      description: Generate a swagger.yml file.
+      operationId: get_swagger
       responses:
         '200':
-          description: Success
+          description: OK
       tags:
       - swagger
 produces:
