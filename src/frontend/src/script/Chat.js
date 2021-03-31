@@ -3,6 +3,11 @@ const input = document.getElementById('chatInput');
 const chatArea = document.getElementById('chatArea');
 const headerInput = document.getElementById('headerChatInput');
 
+// Globals
+let data = "";
+let uuid = "";
+let stockTitle = "";
+
 let weekday = new Array(7);
 weekday[0] = "Sun";
 weekday[1] = "Mon";
@@ -67,6 +72,11 @@ async function sendMessage(from) {
 
         chatArea.appendChild(answerElement);
 
+        // If it is a stock intent
+        if (intentFunction === handleStockIntent) {
+            createStockPlot(data, uuid, stockTitle);
+        }
+
     });
 
 }
@@ -78,6 +88,9 @@ async function sendMessage(from) {
  */
 function identifyIntent(intent) {
 
+    // Create a UUID for the request
+    uuid = uuidv4();
+
     switch (intent.dialogflow.query_result.intent.display_name) {
         case 'weather-intent':
             return handleWeatherIntent;
@@ -87,6 +100,8 @@ function identifyIntent(intent) {
             return handleNewsIntent;
         case 'calendar-intent':
             return handleCalendarIntent;
+        case 'stock-intent':
+            return handleStockIntent;
         default:
             // If intent could not get identified
             return () => {return `${intent.dialogflow.query_result.intent.display_name} does not have a according intent function`}
@@ -122,6 +137,16 @@ function handleMultipleWeatherData(weather) {
     });
 
     return ret;
+
+}
+
+function handleStockIntent(value) {
+
+    data = value.response['Time Series (Daily)'];
+
+    stockTitle = value.response["Meta Data"]["2. Symbol"] + " " + value.response["Meta Data"]["3. Last Refreshed"]
+
+    return createAnswerElement("", uuid);
 
 }
 
@@ -368,9 +393,10 @@ function sendMessageToMiddleware(message) {
 /**
  * createAnswerElement
  * @param {string} messagePayload
+ * @param id
  * @returns {HTMLDivElement}
  */
-function createAnswerElement(messagePayload) {
+function createAnswerElement(messagePayload, id = null) {
 
     // Create divs
     let div = document.createElement('div');
@@ -382,6 +408,11 @@ function createAnswerElement(messagePayload) {
     header.classList.add('bg-gray-900', 'mx-6', 'rounded-t-xl', 'w-40', 'flex', 'justify-center', 'text-green-400', 'border-b', 'border-gray-800');
 
     header.innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();
+
+    if (id != null) {
+        message.id = id;
+        message.classList.add('w-2/3', 'h-96')
+    }
 
     message.innerHTML = messagePayload;
 
@@ -425,3 +456,13 @@ function setHeader(xhr) {
     xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
 }
 
+/**
+ * Generates a UUID
+ * @returns {string}
+ */
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
