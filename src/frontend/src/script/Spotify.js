@@ -7,7 +7,7 @@ $(document).ready(function () {
 
         let html = "";
 
-        res.response = res.response.slice(0, 5);
+        res.response = res.response.slice(15, 20);
 
         res.response.forEach(entry => {
 

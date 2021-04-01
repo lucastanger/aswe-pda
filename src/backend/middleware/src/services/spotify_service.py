@@ -146,7 +146,7 @@ class SpotifyService:
 
         if response:
             for value in tracks['items']:
-                if len(value.images) > 0:
+                if len(value.album.images) > 0:
                     result.append(
                         {
                             'name': value.name,
