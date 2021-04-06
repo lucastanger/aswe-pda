@@ -18,7 +18,7 @@ class CurrentWeather(Resource):
         """
 
         # Load environment variables.
-        load_dotenv('./.secrets/weather-service.env')
+        load_dotenv("./.secrets/weather-service.env")
 
     def get(self):
         """
@@ -31,45 +31,45 @@ class CurrentWeather(Resource):
 
         # Extract arguments from get request
         parser = reqparse.RequestParser()
-        parser.add_argument('city', location='args')
-        parser.add_argument('lat', type=float, location='args')
-        parser.add_argument('lon', type=float, location='args')
+        parser.add_argument("city", location="args")
+        parser.add_argument("lat", type=float, location="args")
+        parser.add_argument("lon", type=float, location="args")
         parser.add_argument(
-            'unit',
+            "unit",
             required=True,
-            choices=('metric', 'imperial'),
-            location='args',
-            help='Invalid Unit: {error_msg}',
+            choices=("metric", "imperial"),
+            location="args",
+            help="Invalid Unit: {error_msg}",
         )
         args = parser.parse_args(strict=True)
 
         # Check if get current weather by city name or coordinates
-        if args['city'] and not (args['lat'] or args['lon']):
+        if args["city"] and not (args["lat"] or args["lon"]):
             # Create url for openweather api
             url = (
-                getenv('WEATHER_ENDPOINT')
-                + '/weather?q='
-                + args['city']
-                + '&appid='
-                + getenv('WEATHER_API_KEY')
-                + '&units='
-                + args['unit']
+                getenv("WEATHER_ENDPOINT")
+                + "/weather?q="
+                + args["city"]
+                + "&appid="
+                + getenv("WEATHER_API_KEY")
+                + "&units="
+                + args["unit"]
             )
-        elif args['lat'] and args['lon'] and not args['city']:
+        elif args["lat"] and args["lon"] and not args["city"]:
             # Create url for openweather api
             url = (
-                getenv('WEATHER_ENDPOINT')
-                + '/weather?lat='
-                + str(args['lat'])
-                + '&lon='
-                + str(args['lon'])
-                + '&appid='
-                + getenv('WEATHER_API_KEY')
-                + '&units='
-                + args['unit']
+                getenv("WEATHER_ENDPOINT")
+                + "/weather?lat="
+                + str(args["lat"])
+                + "&lon="
+                + str(args["lon"])
+                + "&appid="
+                + getenv("WEATHER_API_KEY")
+                + "&units="
+                + args["unit"]
             )
         else:
-            response_error = {'error': 'Either `city` or `lat` and `lon` are required.'}
+            response_error = {"error": "Either `city` or `lat` and `lon` are required."}
             return response_error, 400
 
         # Send request to openweather api
@@ -78,11 +78,11 @@ class CurrentWeather(Resource):
             response_openweather.raise_for_status()
         except requests.exceptions.HTTPError as ex:
             response_error = {
-                'info': 'Internal server error caused by third party api.',
-                'error': {
-                    'code': response_openweather.status_code,
-                    'message': response_openweather.reason,
-                    'full_error': str(ex),
+                "info": "Internal server error caused by third party api.",
+                "error": {
+                    "code": response_openweather.status_code,
+                    "message": response_openweather.reason,
+                    "full_error": str(ex),
                 },
             }
             return response_error, 500
@@ -92,34 +92,34 @@ class CurrentWeather(Resource):
 
         # Create response json
         json_response = {
-            'city_name': json_openweather['name'],
-            'weather': {
-                'main': json_openweather['weather'][0]['main'],
-                'description': json_openweather['weather'][0]['description'],
-                'icon': json_openweather['weather'][0]['icon'],
-                'cloudiness': json_openweather['clouds']['all'],
-                'wind': {
-                    'speed': json_openweather['wind']['speed'],
-                    'deg': json_openweather['wind']['deg'],
+            "city_name": json_openweather["name"],
+            "weather": {
+                "main": json_openweather["weather"][0]["main"],
+                "description": json_openweather["weather"][0]["description"],
+                "icon": json_openweather["weather"][0]["icon"],
+                "cloudiness": json_openweather["clouds"]["all"],
+                "wind": {
+                    "speed": json_openweather["wind"]["speed"],
+                    "deg": json_openweather["wind"]["deg"],
                 },
-                'temp': {
-                    'current': json_openweather['main']['temp'],
-                    'feels_like': json_openweather['main']['feels_like'],
-                    'min': json_openweather['main']['temp_min'],
-                    'max': json_openweather['main']['temp_max'],
+                "temp": {
+                    "current": json_openweather["main"]["temp"],
+                    "feels_like": json_openweather["main"]["feels_like"],
+                    "min": json_openweather["main"]["temp_min"],
+                    "max": json_openweather["main"]["temp_max"],
                 },
             },
-            'time': {
-                'current': json_openweather['dt'],
-                'timezone': json_openweather['timezone'],
-                'sunrise': json_openweather['sys']['sunrise'],
-                'sunset': json_openweather['sys']['sunset'],
+            "time": {
+                "current": json_openweather["dt"],
+                "timezone": json_openweather["timezone"],
+                "sunrise": json_openweather["sys"]["sunrise"],
+                "sunset": json_openweather["sys"]["sunset"],
             },
-            'widget': (
+            "widget": (
                 '<div id="openweathermap-widget-22"></div><script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({id: 22,cityid: \''
-                + str(json_openweather['id'])
+                + str(json_openweather["id"])
                 + "',appid: '"
-                + getenv('WEATHER_API_KEY')
+                + getenv("WEATHER_API_KEY")
                 + "',units: 'metric',containerid: 'openweathermap-widget-22',  });  (function() {var script = document.createElement('script');script.async = true;script.charset = \"utf-8\";script.src = \"//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js\";var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(script, s);  })();</script>"
             ),
         }

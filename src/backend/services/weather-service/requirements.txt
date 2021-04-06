@@ -1,6 +1,7 @@
 flask-swagger-ui==3.36.0
 python-dotenv==0.15.0
 Flask-RESTful==0.3.8
+pytest-mock==3.5.1
 pytest-cov==2.11.1
 requests==2.25.1
 pytest==6.2.2
