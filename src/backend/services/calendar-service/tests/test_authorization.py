@@ -16,7 +16,7 @@ def test_client(mocker):
 
 class TestAuthorization:
     def test_authorize_success(self, test_client):
-        response = test_client.get('/rest/api/v1/events/2021-03-26T12:00:00+01:00')
+        response = test_client.get('/rest/api/v1/authorization/')
 
         assert response.status_code == 200
 
