@@ -23,7 +23,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"text\": \"Hier könnte Ihre Werbung stehen.\"\r\n}"
+					"raw": "{\r\n    \"text\": \"Here goes your text.\"\r\n}"
 				},
 				"url": {
 					"raw": "{{host}}:{{port}}/{{baseurl}}/synthesize",
@@ -53,7 +53,7 @@
 						{
 							"key": "audio",
 							"type": "file",
-							"src": "wetter.wav"
+							"src": "wetter.weba"
 						}
 					]
 				},
