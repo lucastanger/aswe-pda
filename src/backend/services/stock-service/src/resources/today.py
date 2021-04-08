@@ -18,7 +18,7 @@ class Today(Resource):
         """
 
         # Load environment variables
-        load_dotenv('./.secrets/stock-service.env')
+        load_dotenv("./.secrets/stock-service.env")
 
     def get(self):
         """
@@ -30,16 +30,16 @@ class Today(Resource):
 
         # Extract argument from get request
         parser = reqparse.RequestParser()
-        parser.add_argument('symbol', required=True, location='args')
+        parser.add_argument("symbol", required=True, location="args")
         args = parser.parse_args(strict=True)
 
         # Create url for alpha vantage
         url = (
-            getenv('STOCK_ENDPOINT')
-            + '?function=GLOBAL_QUOTE&symbol='
-            + args['symbol']
-            + '&apikey='
-            + getenv('STOCK_API_KEY')
+            getenv("STOCK_ENDPOINT")
+            + "?function=GLOBAL_QUOTE&symbol="
+            + args["symbol"]
+            + "&apikey="
+            + getenv("STOCK_API_KEY")
         )
 
         # Send request to alpha vantage
@@ -49,20 +49,24 @@ class Today(Resource):
         json_alpha_vantage = response_alpha_vantage.json()
 
         # Check if api throwed error
-        if 'Error Message' in json_alpha_vantage:
+        if "Note" in json_alpha_vantage:
             response_error = {
-                'info': 'Internal server error caused by third party api.',
-                'error': json_alpha_vantage['Error Message'],
+                "info": "Internal server error caused by third party api.",
+                "error": json_alpha_vantage["Note"],
             }
             return response_error, 500
 
         # Check if symbol is found
-        if not '01. symbol' in json_alpha_vantage['Global Quote']:
-            response_error = {'error': 'No symbol found.'}
+        if not "Global Quote" in json_alpha_vantage:
+            response_error = {"error": "No symbol found."}
+            return response_error, 400
+
+        if not "01. symbol" in json_alpha_vantage["Global Quote"]:
+            response_error = {"error": "No symbol found."}
             return response_error, 400
 
         # Create response json
-        response_json = {'symbol': json_alpha_vantage['Global Quote']}
+        response_json = {"symbol": json_alpha_vantage["Global Quote"]}
 
         # Return response
         return response_json, 200
