@@ -9,7 +9,15 @@
 <header class="w-full">
     <div class="px-5 py-3 flex justify-between items-center bg-white dark:bg-gray-900 border-b dark:border-gray-900">
         <div class="font-semibold text-2xl dark:text-gray-300">J.A.R.V.I.S </div>
-            <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 dark:text-gray-300 group-focus:ring-black w-1/2 h-10 rounded-xl" type="text" placeholder="Write a message" id="headerChatInput"/>
+            <div class="flex w-2/3 items-center justify-center space-x-2">
+                <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 dark:text-gray-300 group-focus:ring-black w-1/2 h-10 rounded-xl" type="text" placeholder="Write a message" id="headerChatInput"/>
+                <div id="mic">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    </svg>
+                </div>
+            </div>
+
         <div class="h-12 w-12 p-2 bg-green-500 rounded-full text-white font-semibold flex items-center justify-center dark:text-gray-300">LS</div>
     </div>
 </header>

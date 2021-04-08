@@ -18,7 +18,71 @@ $(function () {
         // Load selected page
         loadPage(this.name);
     });
+    // Add Event Listener to Microfon
+    $('#mic').click(function () {
+        listen();
+
+    });
 });
+
+function listen() {
+
+    navigator.mediaDevices.getUserMedia({audio:true}).then(stream => {
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start();
+
+        const audioChunks = [];
+
+        mediaRecorder.addEventListener('dataavailable', event => {
+            audioChunks.push(event.data);
+        });
+
+        mediaRecorder.addEventListener("stop", () => {
+            const audioBlob = new Blob(audioChunks, {'type': 'audio/wav'});
+
+            let reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = function () {
+                let base64data = reader.result
+                console.log(base64data)
+
+                $.ajax({
+                    url: 'http://localhost:5600/rest/api/v1/t2ss2t/recognize',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        'audio': base64data
+                    }),
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    beforeSend: setHeader,
+                    success: function (response) {
+                        if (response.hasOwnProperty('text')) {
+                            let input = document.createElement('input');
+                            input.value = response.text;
+                            console.log(input);
+                            loadPage('chat');
+                            sendMessage(input).then(function (r) {
+                                console.log(r);
+                            });
+                        } else {
+                            alert('Looks like there is no valid response!')
+                        }
+                    },
+                    error: function (error) {
+                        console.log('Could not reach the middleware! Error:');
+                        console.log(error);
+                    }
+                })
+
+            }
+
+        });
+
+        setTimeout(() => {
+            mediaRecorder.stop();
+        }, 3000);
+    });
+}
 
 function toggleButton(button) {
     $('.btn').each(function () {
@@ -88,4 +152,3 @@ $(document).ready(function () {
 function onButtonClick(btn) {
     btn.classList.add('active');
 }
-
