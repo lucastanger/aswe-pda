@@ -18,7 +18,7 @@ class Symbol(Resource):
         """
 
         # Load environment variables
-        load_dotenv("./.secrets/stock-service.env")
+        load_dotenv('./.secrets/stock-service.env')
 
     def get(self):
         """
@@ -30,16 +30,16 @@ class Symbol(Resource):
 
         # Extract argument from get request
         parser = reqparse.RequestParser()
-        parser.add_argument("keyword", required=True, location="args")
+        parser.add_argument('keyword', required=True, location='args')
         args = parser.parse_args(strict=True)
 
         # Create url for alpha vantage
         url = (
-            getenv("STOCK_ENDPOINT")
-            + "?function=SYMBOL_SEARCH&keywords="
-            + args["keyword"]
-            + "&apikey="
-            + getenv("STOCK_API_KEY")
+            getenv('STOCK_ENDPOINT')
+            + '?function=SYMBOL_SEARCH&keywords='
+            + args['keyword']
+            + '&apikey='
+            + getenv('STOCK_API_KEY')
         )
 
         # Send request to alpha vantage
@@ -49,23 +49,23 @@ class Symbol(Resource):
         json_alpha_vantage = response_alpha_vantage.json()
 
         # Check if api throwed error
-        if "Note" in json_alpha_vantage:
+        if 'Note' in json_alpha_vantage:
             response_error = {
-                "info": "Internal server error caused by third party api.",
-                "error": json_alpha_vantage["Note"],
+                'info': 'Internal server error caused by third party api.',
+                'error': json_alpha_vantage['Note'],
             }
             return response_error, 500
 
-        if "Error Message" in json_alpha_vantage:
+        if 'Error Message' in json_alpha_vantage:
             response_error = {
-                "info": "Internal server error caused by third party api.",
-                "error": json_alpha_vantage["Error Message"],
+                'info': 'Internal server error caused by third party api.',
+                'error': json_alpha_vantage['Error Message'],
             }
             return response_error, 500
 
         # Check if matches are found
-        if not len(json_alpha_vantage["bestMatches"]):
-            response_error = {"error": "No matches found."}
+        if not len(json_alpha_vantage['bestMatches']):
+            response_error = {'error': 'No matches found.'}
             return response_error, 400
 
         # Return response
