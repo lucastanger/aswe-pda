@@ -55,3 +55,8 @@ pom.xml.tag
 .vscode
 
 .pytest_cache
+
+# Coverage reports
+.coverage*
+coverage.xml
+coverage

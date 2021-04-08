@@ -27,13 +27,13 @@ class RecognizeService(Resource):
     def post(self):
 
         # create wav file from base64 string
-        wav_file = open('text2speech.wav', 'wb')
+        wav_file = open('text2speech.weba', 'wb')
         decode_string = base64.b64decode(request.json['audio'][22:])
         wav_file.write(decode_string)
         wav_file.close()
 
         # make request with file attached
-        files = {'audio': ('audio.wav', open('text2speech.wav', 'rb'))}
+        files = {'audio': ('audio.wav', open('text2speech.weba', 'rb'))}
         response = requests.post(
             'http://t2s-s2t-service:5555/rest/api/v1/recognize', files=files,
         )
