@@ -51,7 +51,7 @@ class Recognize(Resource):
             speech_recognition_results = self.speech_to_text.recognize(
                 audio=audio_file.read(),
                 content_type='audio/webm',
-                model='en-GB_BroadbandModel',
+                model='en-US_BroadbandModel',
             ).get_result()
         except ApiException as ex:
             # Raise exception if HTTP response code is in the 4xx and 5xx range
