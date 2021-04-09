@@ -1,13 +1,18 @@
 from unittest import mock
+from requests.models import Response
 
 import pytest
 
 from app import app
 
+test_response = Response()
+test_response._content = b'{"access_token": "testToken", "refresh_token": "testRefreshToken"}'
+
 
 @pytest.fixture()
 def test_client(mocker):
-    mocker.patch('src/backend/services/spotify-service/src/flask_spotify_auth.authorize', return_value=True)
+    mocker.patch('src.flask_spotify_auth.requests.post', return_value=test_response)
+    mocker.patch('src.flask_spotify_auth.MongoDB', return_value=None)
     return app.test_client()
 
 

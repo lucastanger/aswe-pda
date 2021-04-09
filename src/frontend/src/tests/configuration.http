@@ -10,7 +10,7 @@ Content-Type: application/json
   },
   "dualisService": {
     "username": "inf18244@lehre.dhbw-stuttgart.de",
-    "password": "test"
+    "password": "tests"
   },
   "newsService": {
     "papers": [
