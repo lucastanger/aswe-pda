@@ -30,6 +30,6 @@ PyYAML==5.4.1
 requests==2.25.1
 rsa==4.7.2
 six==1.15.0
-urllib3==1.26.3
+urllib3==1.26.4
 Werkzeug==1.0.1
 flask-cors==3.0.10
