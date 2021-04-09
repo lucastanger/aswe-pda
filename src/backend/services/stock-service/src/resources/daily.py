@@ -50,6 +50,13 @@ class Daily(Resource):
         json_alpha_vantage = response_alpha_vantage.json()
 
         # Check if api throwed error
+        if 'Note' in json_alpha_vantage:
+            response_error = {
+                'info': 'Internal server error caused by third party api.',
+                'error': json_alpha_vantage['Note'],
+            }
+            return response_error, 500
+
         if 'Error Message' in json_alpha_vantage:
             response_error = {
                 'info': 'Internal server error caused by third party api.',

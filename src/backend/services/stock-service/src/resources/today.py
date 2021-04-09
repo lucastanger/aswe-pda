@@ -49,14 +49,18 @@ class Today(Resource):
         json_alpha_vantage = response_alpha_vantage.json()
 
         # Check if api throwed error
-        if 'Error Message' in json_alpha_vantage:
+        if 'Note' in json_alpha_vantage:
             response_error = {
                 'info': 'Internal server error caused by third party api.',
-                'error': json_alpha_vantage['Error Message'],
+                'error': json_alpha_vantage['Note'],
             }
             return response_error, 500
 
         # Check if symbol is found
+        if not 'Global Quote' in json_alpha_vantage:
+            response_error = {'error': 'No symbol found.'}
+            return response_error, 400
+
         if not '01. symbol' in json_alpha_vantage['Global Quote']:
             response_error = {'error': 'No symbol found.'}
             return response_error, 400
