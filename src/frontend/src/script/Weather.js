@@ -10,6 +10,7 @@ $(document).ready(function () {
     weatherImage = document.getElementById('weather-image');
 
     retrieveWeatherInformationForTheDay();
+    retrieveWeatherInformationForTheNight();
 });
 
 // Get Information about todays weather
@@ -44,13 +45,13 @@ function retrieveWeatherInformationForTheNight() {
         url: 'http://localhost:5600/rest/api/v1/dialogflow/query',
         type: 'POST',
         data: JSON.stringify({
-            'message': "Whats the weather for the next 7 days?"
+            'message': "Whats the weather for the next 4 days?"
         }),
         crossDomain: true,
         contentType: 'application/json',
         beforeSend: setHeader,
         success: function (response) {
-            let html = createWeatherForecast(response);
+            let html = createWeatherForecast(response, goodbye=true);
             document.getElementById('weatherGoodBye').appendChild(html);
 
         },
@@ -64,13 +65,16 @@ function retrieveWeatherInformationForTheNight() {
 /**
  *
  * @param weather
+ * @param goodbye
  * @returns {HTMLDivElement}
  */
-function createWeatherForecast(weather) {
+function createWeatherForecast(weather, goodbye=false) {
 
     let response = weather.response;
 
     console.log(response)
+
+
 
     let html = `<h1 class="dark:text-gray-300 font-light">Weather forecast for ${response.city_name}</h1>
                     <div class="h-0.5 dark:bg-gray-300 dark:bg-opacity-25 rounded my-1"></div>
@@ -79,7 +83,12 @@ function createWeatherForecast(weather) {
                     </div>`;
 
     let div = document.createElement('div');
-    div.classList.add('bg-gray-700', 'bg-opacity-40', 'p-2', 'rounded-lg');
+
+    if (goodbye) {
+        div.classList.add('bg-black', 'bg-opacity-25', 'p-2', 'rounded-lg');
+    } else {
+        div.classList.add('bg-gray-700', 'bg-opacity-40', 'p-2', 'rounded-lg');
+    }
 
     div.innerHTML = html;
 

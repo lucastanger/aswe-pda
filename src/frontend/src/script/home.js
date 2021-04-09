@@ -98,13 +98,6 @@ function stopLoader(id) {
 
 function loadPage(pageName) {
 
-    // If page is chat, hide top input
-    // if (pageName === 'chat') {
-    //     headerInput.classList.add('hidden');
-    // } else {
-    //     headerInput.classList.remove('hidden');
-    // }
-
     // Hide all other pages
     pages.forEach(page => document.getElementById(page).classList.add('hidden'));
     // Show requested page
