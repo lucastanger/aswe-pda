@@ -29,7 +29,7 @@ class Synthesize(Resource):
         """
 
         return {
-            'message': 'To transfer text to speech use POST /rest/api/v1/synthesize.'
+            "message": "To transfer text to speech use POST /rest/api/v1/synthesize."
         }
 
     def post(self):
@@ -41,21 +41,21 @@ class Synthesize(Resource):
 
         # Extract text from request body.
         parser = reqparse.RequestParser()
-        parser.add_argument('text', required=True, location='json')
+        parser.add_argument("text", required=True, location="json")
         args = parser.parse_args(strict=True)
-        text = args['text']
+        text = args["text"]
 
         # Only accept if text is not empty
         if not text:
-            response_error = {'error': 'No text given.'}
+            response_error = {"error": "No text given."}
             return response_error, 400
 
         # Create static audio folder if not exists.
-        Path('./static/audio').mkdir(parents=True, exist_ok=True)
+        Path("./static/audio").mkdir(parents=True, exist_ok=True)
 
         # Create audio file.
-        audio_file = wave.open('static/audio/text2speech.wav', 'wb')
-        audio_file.setparams((1, 2, 22050, 0, 'NONE', 'Uncompressed'))
+        audio_file = wave.open("static/audio/text2speech.wav", "wb")
+        audio_file.setparams((1, 2, 22050, 0, "NONE", "Uncompressed"))
 
         # Instantiates a client
         client = texttospeech.TextToSpeechClient()
@@ -66,8 +66,8 @@ class Synthesize(Resource):
         # Build the voice request, select the language code ("en-US") and the ssml
         # voice gender ("neutral")
         voice = texttospeech.VoiceSelectionParams(
-            language_code='en-GB',
-            name='en-GB-Wavenet-B',
+            language_code="en-GB",
+            name="en-GB-Wavenet-B",
             ssml_gender=texttospeech.SsmlVoiceGender.MALE,
         )
 
@@ -83,14 +83,14 @@ class Synthesize(Resource):
         )
 
         # The response's audio_content is binary.
-        with open('static/audio/text2speech.wav', 'wb') as out:
+        with open("static/audio/text2speech.wav", "wb") as out:
             # Write the response to the output file.
             out.write(response.audio_content)
 
         # Create response.
         return send_file(
-            'static/audio/text2speech.wav',
-            mimetype='audio/wav',
+            "static/audio/text2speech.wav",
+            mimetype="audio/wav",
             as_attachment=True,
-            attachment_filename='text2speech.wav',
+            attachment_filename="text2speech.wav",
         )
