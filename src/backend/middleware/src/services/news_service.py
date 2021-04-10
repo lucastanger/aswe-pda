@@ -49,7 +49,7 @@ class NewsService:
     def get_top_news(self, category=None):
         result = []
 
-        if category is not None:
+        if category is not None and isinstance(category, list):
             for cat in category:
                 response = requests.get(
                     f'{self.base_url}/news/top/category?category={cat}'
@@ -66,7 +66,7 @@ class NewsService:
     def get_news_search(self, search=None, source=None):
         result = []
 
-        if search is not None and source is not None:
+        if search != '' and search is not None and source is not None:
             response = requests.get(
                 f'{self.base_url}/news/everything/search?keyWord={search}&source={source}'
             )
