@@ -22,7 +22,7 @@ def callback():
 
 
 def valid_token(resp):
-    return resp is not None #and not 'error' in resp
+    return resp is not None  # and not 'error' in resp
 
 
 @app.route('/rest/api/v1/spotify/profile/<search_type>')

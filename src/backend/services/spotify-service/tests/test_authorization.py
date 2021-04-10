@@ -6,7 +6,9 @@ import pytest
 from app import app
 
 test_response = Response()
-test_response._content = b'{"access_token": "testToken", "refresh_token": "testRefreshToken"}'
+test_response._content = (
+    b'{"access_token": "testToken", "refresh_token": "testRefreshToken"}'
+)
 
 
 @pytest.fixture()
