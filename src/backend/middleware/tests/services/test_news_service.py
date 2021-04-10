@@ -15,7 +15,9 @@ test_response._content = b'{"sources": [{"name": "testName", "url": "testURL", "
 test_response.status_code = 200
 
 test_response_no_url = Response()
-test_response_no_url._content = b'{"articles": [{"title": "testTitle", "url": "testURL"}]}'
+test_response_no_url._content = (
+    b'{"articles": [{"title": "testTitle", "url": "testURL"}]}'
+)
 test_response_no_url.status_code = 200
 
 
@@ -44,9 +46,14 @@ class TestNewsService:
     def test_top_news_category_success(self, mocked_get, service_with_db_info):
         _response = service_with_db_info.query()
 
-        mocked_get.assert_called_with(f'{BASE_URL}/news/{self.__type_top}/category?category={CATEGORY[0]}')
+        mocked_get.assert_called_with(
+            f'{BASE_URL}/news/{self.__type_top}/category?category={CATEGORY[0]}'
+        )
 
-        assert _response[0]['img'] == 'https://www.bag.admin.ch/bag/de/home/das-bag/aktuell/news/news-02-09-2020/_jcr_content/image.imagespooler.png/1603898250046/588.1000/Icons-18.png'
+        assert (
+            _response[0]['img']
+            == 'https://www.bag.admin.ch/bag/de/home/das-bag/aktuell/news/news-02-09-2020/_jcr_content/image.imagespooler.png/1603898250046/588.1000/Icons-18.png'
+        )
 
     @mock.patch('requests.get', return_value=test_response)
     @pytest.mark.parametrize('parameters', [{'type': __type_top}])
@@ -69,17 +76,27 @@ class TestNewsService:
     def test_everything_news_paper_success(self, mocked_get, service_with_db_info):
         _response = service_with_db_info.query()
 
-        mocked_get.assert_called_with(f'{BASE_URL}/news/{self.__type_everything}?source={PAPER_ID}')
+        mocked_get.assert_called_with(
+            f'{BASE_URL}/news/{self.__type_everything}?source={PAPER_ID}'
+        )
 
     @mock.patch('requests.get')
-    @pytest.mark.parametrize('parameters', [{'type': __type_everything, 'search': __search}])
-    def test_everything_news_search_and_paper_success(self, mocked_get, service_with_db_info):
+    @pytest.mark.parametrize(
+        'parameters', [{'type': __type_everything, 'search': __search}]
+    )
+    def test_everything_news_search_and_paper_success(
+        self, mocked_get, service_with_db_info
+    ):
         _response = service_with_db_info.query()
 
-        mocked_get.assert_called_with(f'{BASE_URL}/news/{self.__type_everything}/search?keyWord={self.__search}&source={PAPER_ID}')
+        mocked_get.assert_called_with(
+            f'{BASE_URL}/news/{self.__type_everything}/search?keyWord={self.__search}&source={PAPER_ID}'
+        )
 
     @mock.patch('requests.get')
-    @pytest.mark.parametrize('parameters', [{'type': __type_everything, 'search': __search}])
+    @pytest.mark.parametrize(
+        'parameters', [{'type': __type_everything, 'search': __search}]
+    )
     def test_everything_news_search_success(self, mocked_get, service_without_db_info):
         _response = service_without_db_info.query()
 
@@ -94,9 +111,13 @@ class TestNewsService:
 
         assert _response[0]['name'] == 'testName'
 
-    @pytest.mark.parametrize('parameters', [{'type': 'failureType'}, {'noType': 'noType'}])
+    @pytest.mark.parametrize(
+        'parameters', [{'type': 'failureType'}, {'noType': 'noType'}]
+    )
     def test_news_failure(self, service_with_db_info):
         _response = service_with_db_info.query()
 
-        assert _response == 'Please provide a valid type!' or _response == 'Please provide a type!'
-
+        assert (
+            _response == 'Please provide a valid type!'
+            or _response == 'Please provide a type!'
+        )

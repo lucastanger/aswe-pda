@@ -29,13 +29,17 @@ class TestNews:
         assert json_response['status'] == 'error'
 
     def test_everything_news_search_success(self, test_client):
-        response = test_client.get('/rest/api/v1/news/everything/search?source=abc-news&keyWord=testKeyWord')
+        response = test_client.get(
+            '/rest/api/v1/news/everything/search?source=abc-news&keyWord=testKeyWord'
+        )
         json_response = json.loads(response.get_data(as_text=True))
 
         assert json_response['status'] == 'ok'
 
     def test_everything_news_search_failure(self, test_client):
-        response = test_client.get('/rest/api/v1/news/everything/search?source=notASource&keyWord=testKeyWord')
+        response = test_client.get(
+            '/rest/api/v1/news/everything/search?source=notASource&keyWord=testKeyWord'
+        )
         json_response = json.loads(response.get_data(as_text=True))
 
         assert json_response['status'] == 'error'

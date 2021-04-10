@@ -6,7 +6,11 @@ from app import app
 
 @pytest.fixture()
 def test_client(mocker):
-    mocker.patch('src/backend/services/spotify-service/src/flask_spotify_auth.get_auth_header', auth_header=None, success=True)
+    mocker.patch(
+        'src/backend/services/spotify-service/src/flask_spotify_auth.get_auth_header',
+        auth_header=None,
+        success=True,
+    )
     return app.test_client()
 
 
