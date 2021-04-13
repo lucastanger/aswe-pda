@@ -7,6 +7,7 @@ const headerInput = document.getElementById('headerChatInput');
 let data = "";
 let uuid = "";
 let stockTitle = "";
+let grades = {};
 
 let weekday = new Array(7);
 weekday[0] = "Sun";
@@ -61,6 +62,16 @@ async function sendMessage(from) {
     let chatElement = createChatElement(chatMessage);
     chatArea.appendChild(chatElement);
 
+    // Special response if a module got selected
+    if (chatMessage.startsWith("Module:")) {
+
+        let selectedModule = chatMessage.replace("Module:", "")
+
+        chatArea.appendChild(createGradeReport(selectedModule));
+
+        return;
+    }
+
     sendMessageToMiddleware(chatMessage).then(function (res) {
 
         // Play Sound
@@ -102,6 +113,8 @@ function identifyIntent(intent) {
             return handleCalendarIntent;
         case 'stock-intent':
             return handleStockIntent;
+        case 'dualis-intent':
+            return handleDualisIntent;
         default:
             // If intent could not get identified
             return () => {return `${intent.dialogflow.query_result.intent.display_name} does not have a according intent function`}
@@ -140,6 +153,42 @@ function handleMultipleWeatherData(weather) {
 
 }
 
+function createGradeReport(selectedModule) {
+
+    let module = grades[selectedModule];
+    let html = `<h1>${module.id}</h1>`;
+    let textToSpeech = "Your grade is ";
+
+    module.forEach(singleModule => {
+
+        if (singleModule.hasOwnProperty('name') && singleModule.hasOwnProperty('grade')) {
+            html += `<p>${singleModule.name}: ${singleModule.grade}</p>`;
+            textToSpeech += `${singleModule.grade} `;
+        }
+    });
+
+    $.ajax({
+        url: 'http://localhost:5600/rest/api/v1/t2ss2t/synthesize',
+        type: 'POST',
+        data: JSON.stringify({
+            'text': textToSpeech
+        }),
+        crossDomain: true,
+        contentType: 'application/json',
+        beforeSend: setHeader,
+        success: function (resp) {
+            new Audio("data:audio/wav;base64," + resp.audio).play()
+        }
+    });
+
+    return createAnswerElement(html);
+}
+
+/**
+ *
+ * @param value
+ * @returns {HTMLDivElement}
+ */
 function handleStockIntent(value) {
 
     data = value.response['Time Series (Daily)'];
@@ -147,6 +196,33 @@ function handleStockIntent(value) {
     stockTitle = value.response["Meta Data"]["2. Symbol"] + " " + value.response["Meta Data"]["3. Last Refreshed"]
 
     return createAnswerElement("", uuid);
+
+}
+
+
+function handleDualisIntent(value) {
+
+    if (value.hasOwnProperty('response')) {
+
+        let response = value.response;
+
+        // Check if array of exams got submitted
+        if (response.constructor === Array) {
+
+            response.forEach(module => {
+                if (module.hasOwnProperty('name') && module.hasOwnProperty('exams')) {
+
+                    let moduleName = module.name.split(" ")[0].trim();
+
+                    grades[moduleName] = module.exams;
+                    grades[moduleName].id = module.name;
+                }
+            })
+
+            return createAnswerElement("Please select your module");
+
+        }
+    }
 
 }
 
@@ -204,7 +280,6 @@ function handleWeatherIntent(value) {
 
     }
 
-    // TODO: define proper failure
     return false;
 
 }
