@@ -20,21 +20,20 @@ START_STOP_MUSIC_ENDPOINT = '{}/{}'.format(USER_PROFILE_ENDPOINT, 'player')
 ARTIST_IMAGE_URL = '{}/{}'.format(SPOTIFY_API_URL, 'artists')
 
 
-def getUserProfile(auth_header):
+def get_user_profile(auth_header):
     url = USER_PROFILE_ENDPOINT
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 
-def getUserPlaylists(auth_header):
+def get_user_playlists(auth_header):
     url = USER_PLAYLISTS_ENDPOINT
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 
-def getUserTop(auth_header, t):
+def get_user_top(auth_header, t):
     if t not in ['artists', 'tracks']:
-        print('invalid type')
         return None
     url = '{}/{type}?time_range=long_term'.format(
         USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=t
@@ -43,31 +42,31 @@ def getUserTop(auth_header, t):
     return resp.json()
 
 
-def getUserRecentlyPlayed(auth_header):
+def get_user_recently_played(auth_header):
     url = USER_RECENTLY_PLAYED_ENDPOINT
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 
-def getFeaturedPlaylists(auth_header):
+def get_featured_playlists(auth_header):
     url = BROWSE_FEATURED_PLAYLISTS
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 
-def startMusic(auth_header):
+def start_music(auth_header):
     url = '{}/{}'.format(START_STOP_MUSIC_ENDPOINT, 'play')
     resp = requests.put(url, headers=auth_header)
     return resp.ok
 
 
-def pauseMusic(auth_header):
+def pause_music(auth_header):
     url = '{}/{}'.format(START_STOP_MUSIC_ENDPOINT, 'pause')
     resp = requests.put(url, headers=auth_header)
     return resp.ok
 
 
-def getImageUrl(auth_header, a_id):
+def get_image_url(auth_header, a_id):
     url = '{}/{}'.format(ARTIST_IMAGE_URL, a_id)
     resp = requests.get(url, headers=auth_header)
     return resp.json()

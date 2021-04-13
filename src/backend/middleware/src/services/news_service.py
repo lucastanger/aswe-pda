@@ -66,7 +66,7 @@ class NewsService:
     def get_news_search(self, search=None, source=None):
         result = []
 
-        if search is not None and source is not None:
+        if search != '' and source is not None:
             response = requests.get(
                 f'{self.base_url}/news/everything/search?keyWord={search}&source={source}'
             )

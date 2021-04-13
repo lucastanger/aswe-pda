@@ -17,33 +17,33 @@ def callback():
     result = flask_spotify_auth.authorize(auth_token)
 
     if result:
-        return make_response({'message': 'Authorization successful'}, 201)
-    return make_response({'error': 'Authorization failed'}, 401)
+        return make_response({'message': 'Authorization successful'}, 200)
+    return make_response({'error': 'Authorization failed'}, 400)
 
 
 def valid_token(resp):
-    return resp is not None and not 'error' in resp
+    return resp is not None  # and not 'error' in resp
 
 
 @app.route('/rest/api/v1/spotify/profile/<search_type>')
-def profileInfos(search_type):
+def profile_infos(search_type):
 
-    auth_header, success = flask_spotify_auth.getAuthHeader()
+    auth_header, success = flask_spotify_auth.get_auth_header()
 
     if success:
 
         if search_type == 'info':
-            data = profile.getUserProfile(auth_header)
+            data = profile.get_user_profile(auth_header)
         elif search_type == 'playlist':
-            data = profile.getUserPlaylists(auth_header)
+            data = profile.get_user_playlists(auth_header)
         elif search_type == 'artists':
-            data = profile.getUserTop(auth_header, 'artists')
+            data = profile.get_user_top(auth_header, 'artists')
         elif search_type == 'tracks':
-            data = profile.getUserTop(auth_header, 'tracks')
+            data = profile.get_user_top(auth_header, 'tracks')
         elif search_type == 'recent':
-            data = profile.getUserRecentlyPlayed(auth_header)
+            data = profile.get_user_recently_played(auth_header)
         elif search_type == 'featured':
-            data = profile.getFeaturedPlaylists(auth_header)
+            data = profile.get_featured_playlists(auth_header)
         else:
             return 'Invalid Input', False
 
@@ -51,7 +51,7 @@ def profileInfos(search_type):
             return data
         else:
             flask_spotify_auth.refresh()
-            profileInfos(search_type)
+            profile_infos(search_type)
     else:
         return {'error': 'Could not get the authorization header'}
 
@@ -59,10 +59,10 @@ def profileInfos(search_type):
 @app.route('/rest/api/v1/spotify/play')
 def play():
 
-    auth_header, success = flask_spotify_auth.getAuthHeader()
+    auth_header, success = flask_spotify_auth.get_auth_header()
 
     if success:
-        if profile.startMusic(auth_header):
+        if profile.start_music(auth_header):
             return {'message': 'Play'}
         return {'error': 'Something went wrong or music already playing'}
     else:
@@ -72,10 +72,10 @@ def play():
 @app.route('/rest/api/v1/spotify/pause')
 def pause():
 
-    auth_header, success = flask_spotify_auth.getAuthHeader()
+    auth_header, success = flask_spotify_auth.get_auth_header()
 
     if success:
-        if profile.pauseMusic(auth_header):
+        if profile.pause_music(auth_header):
             return {'message': 'Pause'}
         return {'error': 'Something went wrong or music already paused'}
     else:
@@ -87,13 +87,13 @@ def image():
 
     a_id = request.args['id']
 
-    auth_header, success = flask_spotify_auth.getAuthHeader()
+    auth_header, success = flask_spotify_auth.get_auth_header()
 
     if success:
-        image = profile.getImageUrl(auth_header, a_id)
+        img = profile.get_image_url(auth_header, a_id)
 
-        if valid_token(image):
-            return image
+        if valid_token(img):
+            return img
     else:
         return False
 

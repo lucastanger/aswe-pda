@@ -70,7 +70,7 @@ class SpotifyService:
                         'name': info.display_name,
                         'url': info.external_urls.spotify,
                         'image': 'https://blog-recordjet-com.exactdn.com/wp-content/uploads/2014/10/spotify'
-                        '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1 ',
+                        '-e1464103151339.jpg?strip=all&lossy=1&quality=92&ssl=1',
                     }
                 )
             return result
