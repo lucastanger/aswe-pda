@@ -10,8 +10,8 @@
   <a href="https://travis-ci.com/lucastanger/aswe-pda">
     <img alt="Travis (.com)" src="https://travis-ci.com/lucastanger/aswe-pda.svg?token=NpSo3QkoAPuqvyxKepVV&branch=main">
   </a>
-  <a href="#">
-    <img alt="Codacy Badge" src="https://api.codacy.com/project/badge/Grade/70fc6e8580b84f6fb0f4671b40d0f867">
+  <a href="https://codecov.io/gh/lucastanger/aswe-pda">
+    <img src="https://codecov.io/gh/lucastanger/aswe-pda/branch/main/graph/badge.svg?token=KBLOWOBZY0"/>
   </a>
   <a href="https://conventionalcommits.org">
     <img alt="Conventiona Commits" src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg">
