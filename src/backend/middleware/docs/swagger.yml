@@ -255,6 +255,22 @@ paths:
           description: OK
       tags:
       - swagger
+  /t2ss2t/recognize:
+    post:
+      operationId: post_recognize_service
+      responses:
+        '200':
+          description: Success
+      tags:
+      - t2ss2t
+  /t2ss2t/synthesize:
+    post:
+      operationId: post_synthesize_service
+      responses:
+        '200':
+          description: Success
+      tags:
+      - t2ss2t
 produces:
 - application/json
 responses:
@@ -272,3 +288,5 @@ tags:
   name: authorization
 - description: Configuration APIs
   name: configuration
+- description: Text to Speech and Speech to Text API
+  name: t2ss2t
