@@ -8,6 +8,7 @@ let data = "";
 let uuid = "";
 let stockTitle = "";
 let grades = {};
+let mapData;
 
 let weekday = new Array(7);
 weekday[0] = "Sun";
@@ -88,6 +89,11 @@ async function sendMessage(from) {
             createStockPlot(data, uuid, stockTitle);
         }
 
+        if (intentFunction === handleMapsIntent) {
+            drawMap(uuid);
+            calcRoute();
+        }
+
     });
 
 }
@@ -115,6 +121,8 @@ function identifyIntent(intent) {
             return handleStockIntent;
         case 'dualis-intent':
             return handleDualisIntent;
+        case 'maps-intent':
+            return handleMapsIntent;
         default:
             // If intent could not get identified
             return () => {return `${intent.dialogflow.query_result.intent.display_name} does not have a according intent function`}
@@ -197,6 +205,68 @@ function handleStockIntent(value) {
 
     return createAnswerElement("", uuid);
 
+}
+
+function handleMapsIntent(value) {
+
+    if (value.hasOwnProperty('response')) {
+
+        mapData = value.response;
+
+        return createAnswerElement("", uuid);
+
+    }
+}
+
+let mapOptions, directionsService, directionsRenderer, stuttgart;
+
+/**
+ * Callback function for Google API
+ */
+function initMap() {
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
+    stuttgart = new google.maps.LatLng(48.77172146103744, 9.16245106247243);
+    mapOptions = {
+        zoom:7,
+        center: stuttgart
+    }
+
+}
+
+/**
+ * Draws a Google map
+ * @param uuid
+ */
+function drawMap(uuid) {
+    let map = new google.maps.Map(document.getElementById(uuid), mapOptions);
+    directionsRenderer.setMap(map);
+}
+
+/**
+ * Calculates the requested route
+ */
+function calcRoute() {
+    let temp = {
+        "routes": mapData
+    }
+
+    function c() {
+        var start = mapData[0]["legs"][0].start_address;
+        var end = mapData[0]["legs"][0].end_address;
+        var request = {
+            origin: start,
+            destination: end,
+            travelMode: 'DRIVING'
+        };
+        directionsService.route(request, function(result, status) {
+            if (status == 'OK') {
+                directionsRenderer.setDirections(result);
+            }
+        });
+    }
+
+    c();
 }
 
 
