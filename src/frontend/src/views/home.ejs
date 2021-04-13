@@ -157,7 +157,7 @@
 
             <h1 class="text-7xl dark:text-gray-300 font-thin col-start-2">Until tomorrow!</h1>
 
-            <div id="weatherGoodBye" class="row-start-1 col-start-3 row-span-2 h-full w-full">
+            <div id="weatherGoodBye" class="row-start-3 col-start-3 row-span-2 h-full w-full">
             </div>
 
             <div class="row-start-2 h-full w-full">
@@ -165,8 +165,10 @@
                     <h1 class="text-4xl font-thin text-gray-300">First appointment tomorrow:</h1>
                 </div>
                 <div class="bg-gray-700 bg-opacity-40 p-5 w-full rounded-xl shadow-2xl mt-3">
-                    <h1 id="firstAppointmentName" class="text-2xl font-thin text-gray-300">Advanced Software Engineering</h1>
-                    <h4 id="firstAppointmentTime" class="font-thin text-green-500">08:15 - 11:45</h4>
+                    <a id="firstAppointmentLink" href="" target="_blank">
+                        <h1 id="firstAppointmentName" class="text-2xl font-thin text-gray-300">No upcoming events</h1>
+                        <h4 id="firstAppointmentTime" class="font-thin text-green-500"></h4>
+                    </a>
                 </div>
             </div>
 
@@ -175,7 +177,7 @@
                 <input type="time" name="alarm" id="alarm" class="mt-4 appearance-none bg-transparent text-4xl font-thin text-gray-300">
             </div>
 
-            <div id="stockContainer" class="row-start-3 row-span-3 col-span-3 col-start-1"></div>
+            <div id="stockContainer" class="row-start-3 row-span-3 col-span-2 col-start-1"></div>
         </div>
     </div>
     <!-- end goodbye container -->

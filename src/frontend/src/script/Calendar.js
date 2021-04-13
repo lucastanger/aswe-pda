@@ -4,10 +4,47 @@ const calendar = document.getElementById('calendarContainer');
 $(document).ready(function () {
 
     retrieveAppointmentsForTheDay();
+    retrieveAppointmentsForTheNextDay();
 
 });
 
-// Get information about appointments for the day
+/**
+ *
+ */
+function retrieveAppointmentsForTheNextDay() {
+
+    $.ajax({
+        url: 'http://localhost:5600/rest/api/v1/dialogflow/query',
+        type: 'POST',
+        data: JSON.stringify({
+            'message': "alarm"
+        }),
+        crossDomain: true,
+        contentType: 'application/json',
+        beforeSend: setHeader,
+        success: function (response) {
+
+            if (response.response.hasOwnProperty('message')) {
+                document.getElementById('firstAppointmentName').innerText = response.response.message;
+            } else {
+                let event = response.response;
+                document.getElementById('firstAppointmentLink').setAttribute("href", `${event.htmlLink}`);
+                document.getElementById('firstAppointmentName').innerText = event.summary;
+                document.getElementById('firstAppointmentTime').innerText = `${new Date(Date.parse(event.start.dateTime)).getHours()}:${new Date(Date.parse(event.start.dateTime)).getMinutes()} - ${new Date(Date.parse(event.end.dateTime)).getHours()}:${new Date(Date.parse(event.end.dateTime)).getMinutes()}`;
+            }
+
+        },
+        error: function (error) {
+            console.log(error)
+        }
+
+    })
+
+}
+
+/**
+ *
+ */
 function retrieveAppointmentsForTheDay() {
 
     $.ajax({
