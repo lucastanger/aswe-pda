@@ -221,6 +221,7 @@
     <!-- end chat container -->
     <!-- history container -->
     <div id="history" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 w-full relative p-14 hidden">
+        <div id="map" class="h-full w-full"></div>
     </div>
     <!-- end profile container -->
     <!-- settings container -->
@@ -230,6 +231,7 @@
     <!-- end content container -->
 </div>
 </body>
+
 <script src="script/home.js"></script>
 <script src="script/Time.js"></script>
 <script src="script/Chat.js" async></script>
@@ -238,6 +240,12 @@
 <script src="script/News.js"></script>
 <script src="script/Calendar.js"></script>
 <script src="script/Stock.js"></script>
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIKHuafeSxtEq8z5FSgF9dtVnRzMWNfHg&callback=initMap&libraries=&v=weekly"
+        async
+></script>
+
 </html>
 
 <!---->
