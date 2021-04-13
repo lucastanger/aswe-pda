@@ -103,6 +103,6 @@ python3 app.py # some services use server.py
 Copyright :copyright: 2021 Florian Drinkler, Luca Stanger, Hakim Assadi, Andrea Budimir, Timo Ströhlein, Luca Massa
 
 ## License :page_facing_up:
-[![GitHub](https://img.shields.io/github/license/lucastanger/aswe-pda)](https://www.github.com/lucastanger/aswe-pda/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/lucastanger/aswe-pda)](https://www.github.com/lucastanger/aswe-pda/blob/main/LICENSE)
 
-This project is licensed under the **MIT License** - see the [LICENSE.MD](https://www.github.com/lucastanger/aswe-pda/blob/master/LICENSE) files for details
+This project is licensed under the **MIT License** - see the [LICENSE.MD](https://www.github.com/lucastanger/aswe-pda/blob/main/LICENSE) files for details
