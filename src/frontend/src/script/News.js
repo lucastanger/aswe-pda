@@ -14,7 +14,7 @@ function retrieveNewsForTheDay() {
         url: 'http://localhost:5600/rest/api/v1/dialogflow/query',
         type: 'POST',
         data: JSON.stringify({
-            'message': 'Top'
+            'message': 'Everything news'
         }),
         crossDomain: true,
         contentType: 'application/json',
@@ -25,7 +25,6 @@ function retrieveNewsForTheDay() {
 
                 newsContainer.innerHTML += createNewsElement(response.response[i]);
             }
-
 
             stopLoader('newsloader')
 
