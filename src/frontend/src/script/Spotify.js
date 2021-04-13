@@ -4,11 +4,10 @@ const recentArtists = document.getElementById('recent-artists');
 $(document).ready(function () {
 
     sendMessageToMiddleware('Profile artist').then(function (res) {
-        console.log(res)
 
         let html = "";
 
-        res.response = res.response.slice(0, 5);
+        res.response = res.response.slice(15, 20);
 
         res.response.forEach(entry => {
 
@@ -24,9 +23,7 @@ $(document).ready(function () {
         });
 
         recentArtists.innerHTML = html;
-
     });
-
 });
 
 function sendMessageToMiddleware(message) {
@@ -39,7 +36,9 @@ function sendMessageToMiddleware(message) {
         }),
         crossDomain: true,
         contentType: 'application/json',
-        beforeSend: setHeader
+        beforeSend: setHeader,
+
+        complete: stopLoader('artistsloader')
     });
 
 }

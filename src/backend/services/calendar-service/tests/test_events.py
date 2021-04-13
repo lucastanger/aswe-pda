@@ -1,17 +1,25 @@
-import unittest
+import pytest
 
 from app import app
 
 
-class TestEventsToday(unittest.TestCase):
-    def setUp(self):
-        self.app = app.test_client()
-
-    def test_events_today(self):
-        response = self.app.get('/rest/api/v1/events/today')
-
-        self.assertEqual(response.status_code, 200)
+@pytest.fixture()
+def test_client():
+    return app.test_client()
 
 
-if __name__ == '__main__':
-    unittest.main()
+class TestEvents:
+    def test_date_success(self, test_client):
+        response = test_client.get('/rest/api/v1/events/2021-03-26T12:00:00+01:00')
+
+        assert response.status_code == 200
+
+    def test_date_fail(self, test_client):
+        response = test_client.get('/rest/api/v1/events/thisisnotadate')
+
+        assert response.status_code == 400
+
+    def test_date_today_success(self, test_client):
+        response = test_client.get('/rest/api/v1/events/')
+
+        assert response.status_code == 200

@@ -42,6 +42,39 @@ definitions:
       message:
         type: string
     type: object
+  Configuration get response - error:
+    properties:
+      error:
+        type: string
+    type: object
+  Configuration get response - success:
+    properties:
+      dualis:
+        default: {}
+        type: object
+      general:
+        default: {}
+        type: object
+      news:
+        default: {}
+        type: object
+      stocks:
+        default: {}
+        type: object
+      weather:
+        default: {}
+        type: object
+    type: object
+  Configuration post response - error:
+    properties:
+      error:
+        type: string
+    type: object
+  Configuration post response - success:
+    properties:
+      message:
+        type: string
+    type: object
   Query response:
     properties:
       dialogflow:
@@ -50,6 +83,16 @@ definitions:
       response:
         default: {}
         type: object
+    type: object
+  Spotify service authorization response - error:
+    properties:
+      error:
+        type: string
+    type: object
+  Spotify service authorization response - success:
+    properties:
+      authorization_url:
+        type: string
     type: object
 info:
   description: Middleware to connect frontend with backend.
@@ -117,6 +160,74 @@ paths:
             $ref: '#/definitions/Calendar%20service%20revoke%20response%20-%20error'
       tags:
       - authorization
+  /authorization/spotify-service:
+    get:
+      description: Authorize with Spotify.
+      operationId: get_spotify_service
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Spotify%20service%20authorization%20response%20-%20success'
+        '400':
+          description: Error
+          schema:
+            $ref: '#/definitions/Spotify%20service%20authorization%20response%20-%20error'
+      tags:
+      - authorization
+  /authorization/spotify-service/oauth2callback:
+    get:
+      description: Callback to be called after authentication with Spotify.
+      operationId: get_spotify_service_callback
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Calendar%20service%20callback%20response%20-%20success'
+        '400':
+          description: Error
+          schema:
+            $ref: '#/definitions/Calendar%20service%20callback%20response%20-%20error'
+      tags:
+      - authorization
+  /configuration/:
+    get:
+      description: Get configuration json.
+      operationId: get_configuration_service
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Configuration%20get%20response%20-%20success'
+        '400':
+          description: Error
+          schema:
+            $ref: '#/definitions/Configuration%20get%20response%20-%20error'
+      tags:
+      - configuration
+    post:
+      description: Post configuration json.
+      operationId: post_configuration_service
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Configuration%20post%20response%20-%20success'
+        '400':
+          description: Error
+          schema:
+            $ref: '#/definitions/Configuration%20post%20response%20-%20error'
+      tags:
+      - configuration
+  /configuration/stock-service/symbol:
+    get:
+      description: Get stock symbol by keyword.
+      operationId: get_stock_service
+      responses:
+        '200':
+          description: Success
+      tags:
+      - configuration
   /dialogflow/query:
     post:
       description: Query a message and return the dialogflow and service response.
@@ -135,15 +246,6 @@ paths:
           description: 'Missing argument: message'
       tags:
       - dialogflow
-  /swagger/swagger.json:
-    get:
-      description: Generate a swagger.json file.
-      operationId: get_swagger
-      responses:
-        '200':
-          description: OK
-      tags:
-      - swagger
   /swagger/swagger.yml:
     get:
       description: Generate a swagger.yml file.
@@ -153,6 +255,22 @@ paths:
           description: OK
       tags:
       - swagger
+  /t2ss2t/recognize:
+    post:
+      operationId: post_recognize_service
+      responses:
+        '200':
+          description: Success
+      tags:
+      - t2ss2t
+  /t2ss2t/synthesize:
+    post:
+      operationId: post_synthesize_service
+      responses:
+        '200':
+          description: Success
+      tags:
+      - t2ss2t
 produces:
 - application/json
 responses:
@@ -168,3 +286,7 @@ tags:
   name: dialogflow
 - description: Authorization APIs
   name: authorization
+- description: Configuration APIs
+  name: configuration
+- description: Text to Speech and Speech to Text API
+  name: t2ss2t

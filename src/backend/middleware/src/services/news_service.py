@@ -1,11 +1,7 @@
 import requests
-from pymongo import MongoClient
 from dotmap import DotMap
 
-client = MongoClient(host='mongo', port=27017)
-db = client['aswe-pda']
-db.authenticate('dev', 'dev')
-configuration = db['configuration']
+from src.util.mongodb import MongoDB
 
 
 class NewsService:
@@ -14,30 +10,15 @@ class NewsService:
         self.base_url = 'http://news-service:5575/rest/api/v1'
 
     def query(self):
-        config = configuration.find_one({'news': {'$exists': True}})
-
-        paper_id = config['news']['_papers']
-        category = config['news']['_categories']
-
-        papers = self.get_news_source()
-
-        papers_json = papers.json()
-        paper_sources = DotMap(papers_json)
-
-        if papers:
-            for paper in paper_sources.sources:
-                if paper.name == paper_id:
-                    paper_id = paper.id
-
-        print(paper_id)
-
         if 'type' in self.parameters:
             if self.parameters['type'] == 'top':
+                paper_id, category = self.get_db_info()
                 if category:
                     result = self.get_top_news(category)
                 else:
                     result = self.get_top_news()
             elif self.parameters['type'] == 'everything':
+                paper_id, category = self.get_db_info()
                 if 'search' in self.parameters and paper_id:
                     result = self.get_news_search(self.parameters['search'], paper_id)
                 elif paper_id:
@@ -68,7 +49,7 @@ class NewsService:
     def get_top_news(self, category=None):
         result = []
 
-        if category is not None:
+        if category is not None and isinstance(category, list):
             for cat in category:
                 response = requests.get(
                     f'{self.base_url}/news/top/category?category={cat}'
@@ -85,7 +66,7 @@ class NewsService:
     def get_news_search(self, search=None, source=None):
         result = []
 
-        if search is not None and source is not None:
+        if search != '' and search is not None and source is not None:
             response = requests.get(
                 f'{self.base_url}/news/everything/search?keyWord={search}&source={source}'
             )
@@ -133,3 +114,25 @@ class NewsService:
                     )
 
         return result
+
+    def get_db_info(self):
+        config = (
+            MongoDB.instance().db['configuration'].find_one({'news': {'$exists': True}})
+        )
+
+        paper_id = config['news']['_papers']
+        category = config['news']['_categories']
+
+        papers = self.get_news_source()
+
+        papers_json = papers.json()
+        paper_sources = DotMap(papers_json)
+
+        if papers:
+            for paper in paper_sources.sources:
+                if paper.name == paper_id:
+                    paper_id = paper.id
+
+            return paper_id, category
+        else:
+            return None, category

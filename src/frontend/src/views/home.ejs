@@ -9,7 +9,15 @@
 <header class="w-full">
     <div class="px-5 py-3 flex justify-between items-center bg-white dark:bg-gray-900 border-b dark:border-gray-900">
         <div class="font-semibold text-2xl dark:text-gray-300">J.A.R.V.I.S </div>
-            <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 dark:text-gray-300 group-focus:ring-black w-1/2 h-10 rounded-xl" type="text" placeholder="Write a message" id="headerChatInput"/>
+            <div class="flex w-2/3 items-center justify-center space-x-2">
+                <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 dark:text-gray-300 group-focus:ring-black w-1/2 h-10 rounded-xl" type="text" placeholder="Write a message" id="headerChatInput"/>
+                <div id="mic">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    </svg>
+                </div>
+            </div>
+
         <div class="h-12 w-12 p-2 bg-green-500 rounded-full text-white font-semibold flex items-center justify-center dark:text-gray-300">LS</div>
     </div>
 </header>
@@ -29,12 +37,12 @@
         </button>
         <!-- end btn -->
         <!-- btn -->
-        <button class="btn active group-hover:w-full mb-4 dark:hover:bg-green-600 hover:bg-green-400 rounded-3xl" name="profile">
+        <button class="btn active group-hover:w-full mb-4 dark:hover:bg-green-600 hover:bg-green-400 rounded-3xl" name="homegb">
             <div class="rounded-md dark:text-gray-300 flex items-center transition transition-none m-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="float-left">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span class="chat-expand hidden text-xl">Profile</span>
+                <span class="chat-expand hidden text-xl">Good Bye</span>
             </div>
         </button>
         <!-- end btn -->
@@ -85,7 +93,9 @@
                 <div class="h-56 w-full xl:mb-28 mb-56">
                     <h1 class="text-3xl dark:text-gray-300 font-thin">Recent artists</h1>
                     <!-- artists container -->
-                    <div class="h-full mt-5 grid grid-rows-1 xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-4" id="recent-artists"></div>
+                    <div class="h-full mt-5 grid grid-rows-1 xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-4" id="recent-artists">
+                        <div class="lds-default" id="artistsloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                    </div>
                     <!-- end artists container -->
                 </div>
                 <!-- end artists -->
@@ -93,55 +103,8 @@
                 <div class="h-full">
                     <h1 class="text-3xl dark:text-gray-300 font-thin mb-2">News</h1>
                     <!-- news container -->
-                    <div class="grid grid-rows-4 gap-4">
-                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <!-- news image -->
-                            <div class="w-40 mr-5">
-                                <img class="rounded-md max-h-24 w-40" src="https://s3.reutersmedia.net/resources/r/?m=02&d=20210223&t=2&i=1552505218&w=1100&fh=&fw=&ll=&pl=&sq=&r=LYNXMPEH1M01J" alt="">
-                            </div>
-                            <!-- end news image -->
-                            <!-- news text -->
-                            <div class="">
-                                <p class="text-gray-300 text-xl">Mars rover sends home movie of daredevil descent to landing on red planet - Reuters</p>
-                            </div>
-                            <!-- end news text -->
-                        </div>
-                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <!-- news image -->
-                            <div class="w-40 mr-5">
-                                <img class="rounded-md max-h-24 w-40" src="https://static.reuters.com/resources/r/?m=02&d=20210217&t=2&i=1551875870&r=LYNXMPEH1G1DA&w=640" alt="">
-                            </div>
-                            <!-- end news image -->
-                            <!-- news text -->
-                            <div class="">
-                                <p class="text-gray-300 text-xl">Teeth from Siberian mammoths yield oldest DNA ever recovered - Reuters</p>
-                            </div>
-                            <!-- end news text -->
-                        </div>
-                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <!-- news image -->
-                            <div class="w-40 mr-5">
-                                <img class="rounded-md max-h-24 w-40" src="https://www.metro.us/wp-content/uploads/Reuters_Direct_Media/USOnlineReportScienceNews/tagreuters.com2021binary_LYNXMPEH1M0Q1-BASEIMAGE.jpg" alt="">
-                            </div>
-                            <!-- end news image -->
-                            <!-- news text -->
-                            <div class="">
-                                <p class="text-gray-300 text-xl">Battered stones of Jerusalem's Western Wall get the full treatment - Yahoo News India</p>
-                            </div>
-                            <!-- end news text -->
-                        </div>
-                        <div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <!-- news image -->
-                            <div class="w-40 mr-5">
-                                <img class="rounded-md max-h-24 w-40" src="https://www.arctictoday.com/wp-content/uploads/2021/02/2021-02-04T190123Z_1_LYNXMPEH131KO_RTROPTP_4_GLOBAL-OCEANS-NOISE-scaled.jpg" alt="">
-                            </div>
-                            <!-- end news image -->
-                            <!-- news text -->
-                            <div class="">
-                                <p class="text-gray-300 text-xl">Noise pollution is harming sea life, needs to be prioritized, scientists say - Arctic Today</p>
-                            </div>
-                            <!-- end news text -->
-                        </div>
+                    <div class="grid grid-rows-4 gap-4" id="newsContainer">
+                        <div class="lds-default" id="newsloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </div>
                     <!-- end news container -->
                 </div>
@@ -154,31 +117,8 @@
                     <h1 class="text-8xl dark:text-gray-300 font-medium" id="time"></h1>
                     <h1 class="text-3xl dark:text-gray-300 font-thin" id="date">Monday, February 26, 2021</h1>
                     <!-- calendar entry container -->
-                    <div class="grid grid-rows-4 gap-4 pt-6">
-                        <!-- calendar entry -->
-                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <h1 class="dark:text-gray-300 font-light pb-1">Meeting "Online Learning" Team</h1>
-                            <p class="dark:text-green-500 font-thin">14:00 - 16:00</p>
-                        </div>
-                        <!-- end calendar entry -->
-                        <!-- calendar entry -->
-                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <h1 class="dark:text-gray-300 font-light pb-1">Backlog Refinement</h1>
-                            <p class="dark:text-green-500 font-thin">16:00 - 17:00</p>
-                        </div>
-                        <!-- end calendar entry -->
-                        <!-- calendar entry -->
-                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <h1 class="dark:text-gray-300 font-light pb-1">Finish fact sheet</h1>
-                            <p class="dark:text-green-500 font-thin">19:00 - 20:00</p>
-                        </div>
-                        <!-- end calendar entry -->
-                        <!-- calendar entry -->
-                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
-                            <h1 class="dark:text-gray-300 font-light pb-1">Training</h1>
-                            <p class="dark:text-green-500 font-thin">20:30 - 21:30</p>
-                        </div>
-                        <!-- end calendar entry -->
+                    <div class="grid grid-rows-4 gap-4 pt-6" id="calendarContainer">
+                        <div class="lds-default" id="calendarloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </div>
                     <!-- end calendar entry container -->
                 </div>
@@ -210,41 +150,73 @@
         </div>
     </div>
     <!-- end home container -->
+    <!-- goodbye container -->
+    <div id="homegb" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-blue-100 to-green-200 w-full relative p-14 flex flex-col h-full overflow-auto hidden">
+
+        <div class="grid grid-cols-3 h-full w-full gap-x-2 gap-y-10 grid-rows-5">
+
+            <h1 class="text-7xl dark:text-gray-300 font-thin col-start-2">Until tomorrow!</h1>
+
+            <div id="weatherGoodBye" class="row-start-3 col-start-3 row-span-2 h-full w-full">
+            </div>
+
+            <div class="row-start-2 h-full w-full">
+                <div class="bg-gray-700 bg-opacity-40 w-full py-4 px-5 rounded-xl shadow-2xl">
+                    <h1 class="text-4xl font-thin text-gray-300">First appointment tomorrow:</h1>
+                </div>
+                <div class="bg-gray-700 bg-opacity-40 p-5 w-full rounded-xl shadow-2xl mt-3">
+                    <a id="firstAppointmentLink" href="" target="_blank">
+                        <h1 id="firstAppointmentName" class="text-2xl font-thin text-gray-300">No upcoming events</h1>
+                        <h4 id="firstAppointmentTime" class="font-thin text-green-500"></h4>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row-start-2 col-start-2 h-full w-full flex flex-col items-center">
+                <h1 class="text-4xl text-gray-300 font-thin mt-3">Set alarm clock for</h1>
+                <input type="time" name="alarm" id="alarm" class="mt-4 appearance-none bg-transparent text-4xl font-thin text-gray-300">
+            </div>
+
+            <div id="stockContainer" class="row-start-3 row-span-3 col-span-2 col-start-1"></div>
+        </div>
+    </div>
+    <!-- end goodbye container -->
     <!-- profile container -->
     <div id="profile" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 w-full relative p-14 hidden">
     </div>
     <!-- end profile container -->
     <!-- chat container -->
-    <div id="chat" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 relative hidden w-full max-h-full overflow-y-auto">
-        <div class="static p-14 overflow-y-auto w-full">
-            <div id="chatArea" class="w-full h-auto grid">
-                <!-- SINGLE MESSAGE -->
-                <div class="clearfix">
-                    <div>
-                        <div class="bg-gray-900 mx-6 rounded-t-xl w-40 flex justify-center text-green-400 border-b border-gray-800" id="jarvistime"><script>document.getElementById('jarvistime').innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();</script></div>
-                        <div class="bg-gray-300 dark:bg-gray-900 dark:text-gray-300 mx-4 p-2 rounded-lg float-left left-0">Hello Sir! My name is J.A.R.V.I.S. How may I help you today?</div>
+    <div id="chat" class="bg-gradient-to-b dark:from-green-800 dark:to-gray-800 from-gray-100 to-gray-200 relative hidden w-full overflow-y-auto">
+        <div class="p-14 w-full mb-10">
+            <div id="" class="w-full h-auto grid">
+                <div id="chatArea" class="grid">
+                    <!-- SINGLE MESSAGE -->
+                    <div class="clearfix">
+                        <div>
+                            <div class="bg-gray-900 mx-6 rounded-t-xl w-40 flex justify-center text-green-400 border-b border-gray-800" id="jarvistime"><script>document.getElementById('jarvistime').innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();</script></div>
+                            <div class="bg-gray-300 dark:bg-gray-900 dark:text-gray-300 mx-4 p-2 rounded-lg float-left left-0">Hello Sir! My name is J.A.R.V.I.S. How may I help you today?</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Input -->
-            <div class="flex-col w-full bg-gray-100 dark:bg-gray-800 absolute bottom-0 right-0 border-t dark:border-gray-900 border-gray-300">
-                <div class="flex flex-row">
-                    <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 w-full dark:text-gray-300 group-focus:ring-black" type="text" placeholder="Write a message" id="chatInput"/>
-                    <div class="m-auto justify-end w-12">
-                        <a href="#">
+                <!-- Input -->
+                <div class="flex-col w-full bg-gray-100 dark:bg-gray-800 absolute bottom-0 right-0 border-t dark:border-gray-900 border-gray-300 hidden">
+                    <div class="flex flex-row">
+                        <input class="bg-gray-100 dark:bg-gray-800 py-5 px-3 w-full dark:text-gray-300 group-focus:ring-black" type="text" placeholder="Write a message" id="chatInput"/>
+                        <div class="m-auto justify-end w-12">
+                            <a href="#">
                         <span>
                             <!-- mic -->
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="35" height="35" stroke="currentColor" class="text-gray-500 dark:text-gray-300">
                                 <path class="" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                             </svg>
                         </span>
-                        </a>
+                            </a>
+                        </div>
                     </div>
                 </div>
+                <!-- end input -->
             </div>
-            <!-- end input -->
         </div>
-
     </div>
     <!-- end chat container -->
     <!-- history container -->
@@ -260,9 +232,12 @@
 </body>
 <script src="script/home.js"></script>
 <script src="script/Time.js"></script>
-<script src="script/Weather.js"></script>
 <script src="script/Chat.js" async></script>
 <script src="script/Spotify.js"></script>
+<script src="script/Weather.js"></script>
+<script src="script/News.js"></script>
+<script src="script/Calendar.js"></script>
+<script src="script/Stock.js"></script>
 </html>
 
 <!---->

@@ -7,7 +7,7 @@ from tests.BaseCase import BaseCase
 
 
 class RecognizeTest(BaseCase):
-    def test_successful_recognize_get(self):
+    def test_get_recognize_success(self):
         # Arrange
         message = 'To transfer speech to text use POST /rest/api/v1/recognize.'
 
@@ -18,9 +18,9 @@ class RecognizeTest(BaseCase):
         self.assertEqual(message, response.json['message'])
         self.assertEqual(200, response.status_code)
 
-    def test_successful_recognize_post(self):
+    def test_post_recognize_success(self):
         # Arrange
-        with open('docs/Postman/wetter.wav', 'rb') as audio_file:
+        with open('docs/Postman/wetter.weba', 'rb') as audio_file:
             payload = BytesIO(audio_file.read())
 
         # Act
@@ -32,7 +32,22 @@ class RecognizeTest(BaseCase):
 
         # Assert
         self.assertEqual(
-            response.json, {'text': 'wie ist das wetter in neuhausen auf den fildern '},
+            response.json, {'text': 'how is the weather in Stuttgart '},
         )
         self.assertEqual(response.headers['Content-Type'], 'application/json')
         self.assertEqual(response.status_code, 200)
+
+    def test_post_recognize_no_audio_failure(self):
+        # Arrange
+        with open('docs/Postman/wetter.weba', 'rb') as audio_file:
+            payload = BytesIO(audio_file.read()[14:])
+
+        # Act
+        response = self.app.post(
+            'rest/api/v1/recognize',
+            headers={'Content-Type': 'multipart/form-data'},
+            data={'audio': (payload, 'wetter.weba')},
+        )
+
+        # Assert
+        self.assertEqual(response.status_code, 500)

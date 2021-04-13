@@ -3,6 +3,12 @@ const input = document.getElementById('chatInput');
 const chatArea = document.getElementById('chatArea');
 const headerInput = document.getElementById('headerChatInput');
 
+// Globals
+let data = "";
+let uuid = "";
+let stockTitle = "";
+let grades = {};
+
 let weekday = new Array(7);
 weekday[0] = "Sun";
 weekday[1] = "Mon";
@@ -41,8 +47,6 @@ $(document).ready(function () {
     })
 });
 
-let i = "";
-
 /**
  *
  * @returns {Promise<void>}
@@ -58,6 +62,16 @@ async function sendMessage(from) {
     let chatElement = createChatElement(chatMessage);
     chatArea.appendChild(chatElement);
 
+    // Special response if a module got selected
+    if (chatMessage.startsWith("Module:")) {
+
+        let selectedModule = chatMessage.replace("Module:", "")
+
+        chatArea.appendChild(createGradeReport(selectedModule));
+
+        return;
+    }
+
     sendMessageToMiddleware(chatMessage).then(function (res) {
 
         // Play Sound
@@ -69,23 +83,38 @@ async function sendMessage(from) {
 
         chatArea.appendChild(answerElement);
 
+        // If it is a stock intent
+        if (intentFunction === handleStockIntent) {
+            createStockPlot(data, uuid, stockTitle);
+        }
+
     });
 
 }
 
-// Returns the proper function according to intent type
 /**
- *
+ * Returns the proper function according to intent type
  * @param intent
  * @returns {(function(*): (boolean|HTMLDivElement))|(function(): string)|(function(*): HTMLDivElement)}
  */
 function identifyIntent(intent) {
+
+    // Create a UUID for the request
+    uuid = uuidv4();
 
     switch (intent.dialogflow.query_result.intent.display_name) {
         case 'weather-intent':
             return handleWeatherIntent;
         case 'spotify-intent':
             return handleSpotifyIntent;
+        case 'news-intent':
+            return handleNewsIntent;
+        case 'calendar-intent':
+            return handleCalendarIntent;
+        case 'stock-intent':
+            return handleStockIntent;
+        case 'dualis-intent':
+            return handleDualisIntent;
         default:
             // If intent could not get identified
             return () => {return `${intent.dialogflow.query_result.intent.display_name} does not have a according intent function`}
@@ -121,6 +150,79 @@ function handleMultipleWeatherData(weather) {
     });
 
     return ret;
+
+}
+
+function createGradeReport(selectedModule) {
+
+    let module = grades[selectedModule];
+    let html = `<h1>${module.id}</h1>`;
+    let textToSpeech = "Your grade is ";
+
+    module.forEach(singleModule => {
+
+        if (singleModule.hasOwnProperty('name') && singleModule.hasOwnProperty('grade')) {
+            html += `<p>${singleModule.name}: ${singleModule.grade}</p>`;
+            textToSpeech += `${singleModule.grade} `;
+        }
+    });
+
+    $.ajax({
+        url: 'http://localhost:5600/rest/api/v1/t2ss2t/synthesize',
+        type: 'POST',
+        data: JSON.stringify({
+            'text': textToSpeech
+        }),
+        crossDomain: true,
+        contentType: 'application/json',
+        beforeSend: setHeader,
+        success: function (resp) {
+            new Audio("data:audio/wav;base64," + resp.audio).play()
+        }
+    });
+
+    return createAnswerElement(html);
+}
+
+/**
+ *
+ * @param value
+ * @returns {HTMLDivElement}
+ */
+function handleStockIntent(value) {
+
+    data = value.response['Time Series (Daily)'];
+
+    stockTitle = value.response["Meta Data"]["2. Symbol"] + " " + value.response["Meta Data"]["3. Last Refreshed"]
+
+    return createAnswerElement("", uuid);
+
+}
+
+
+function handleDualisIntent(value) {
+
+    if (value.hasOwnProperty('response')) {
+
+        let response = value.response;
+
+        // Check if array of exams got submitted
+        if (response.constructor === Array) {
+
+            response.forEach(module => {
+                if (module.hasOwnProperty('name') && module.hasOwnProperty('exams')) {
+
+                    let moduleName = module.name.split(" ")[0].trim();
+
+                    grades[moduleName] = module.exams;
+                    grades[moduleName].id = module.name;
+                }
+            })
+
+            return createAnswerElement("Please select your module");
+
+        }
+    }
 
 }
 
@@ -178,9 +280,50 @@ function handleWeatherIntent(value) {
 
     }
 
-    // TODO: define proper failure
     return false;
 
+}
+
+/**
+ *
+ * @param value
+ */
+function handleNewsIntent(value) {
+
+    if (value.hasOwnProperty('response')) {
+
+        let response = value.response;
+
+        // Check if multiple data got returned
+        if (response.constructor === Array) {
+
+            let html = `${handleMultipleNewsData(response)}`;
+
+            return createAnswerElement(html);
+
+        }
+    }
+}
+
+/**
+ *
+ * @param value
+ * @returns {HTMLDivElement}
+ */
+function handleCalendarIntent(value) {
+
+    if (value.hasOwnProperty('response')) {
+
+        let response = value.response;
+
+        if (response.constructor === Array) {
+
+            let html = `${handleMultipleCalendarData(response)}`;
+
+            return createAnswerElement(html);
+
+        }
+    }
 }
 
 /**
@@ -206,6 +349,68 @@ function handleSpotifyIntent(value) {
     return false;
 }
 
+/**
+ *
+ * @param news
+ * @returns {string}
+ */
+function handleMultipleNewsData(news) {
+
+    let ret = "<div class='grid gap-y-2 h-56 overflow-auto'>";
+
+    news.forEach(element => {
+
+        if (element.hasOwnProperty('title') && element.hasOwnProperty('url') && element.hasOwnProperty('img')) {
+
+            ret += `<a href="${element.url}" target="_blank"><div class="bg-gray-600 bg-opacity-30 h-28 rounded-xl p-3 flex items-center cursor-pointer">
+                        <div class="w-40 mr-5">
+                            <img class="rounded-md max-h-24 w-40" src="${element.img}" alt="news-image">
+                        </div>
+                        <div class="">
+                            <p class="text-gray-300 text-xl">${element.title}</p>
+                        </div>
+                    </div></a>`;
+
+        }
+
+    })
+
+    ret += "</div>";
+
+    return ret;
+}
+
+
+/**
+ *
+ * @param appointments
+ * @returns {string}
+ */
+function handleMultipleCalendarData(appointments) {
+
+    let ret = "";
+
+    appointments.forEach(element => {
+
+        if (element.hasOwnProperty('htmlLink') && element.hasOwnProperty('summary') && element.hasOwnProperty('start') && element.hasOwnProperty('end')) {
+
+            ret += `<a href="${element.htmlLink}" target="_blank">
+                        <div class="dark:bg-black dark:bg-opacity-25 rounded-md h-20 p-2.5 shadow-2xl transition duration-500 ease-in-out transform-gpu hover:-translate-y-1 hover:scale-105 cursor-pointer">
+                            <h1 class="dark:text-gray-300 font-light pb-1">${element.summary}</h1>
+                            <p class="dark:text-green-500 font-thin">${new Date(Date.parse(element.start.dateTime)).getHours()}:${new Date(Date.parse(element.start.dateTime)).getMinutes()} - ${new Date(Date.parse(element.end.dateTime)).getHours()}:${new Date(Date.parse(element.end.dateTime)).getMinutes()} </p>
+                        </div>
+                    </a>`;
+        }
+    })
+
+    return ret;
+}
+
+/**
+ *
+ * @param artists
+ * @returns {string}
+ */
 function handleMultipleSpotifyData(artists) {
 
     let ret = "";
@@ -263,9 +468,10 @@ function sendMessageToMiddleware(message) {
 /**
  * createAnswerElement
  * @param {string} messagePayload
+ * @param id
  * @returns {HTMLDivElement}
  */
-function createAnswerElement(messagePayload) {
+function createAnswerElement(messagePayload, id = null) {
 
     // Create divs
     let div = document.createElement('div');
@@ -277,6 +483,11 @@ function createAnswerElement(messagePayload) {
     header.classList.add('bg-gray-900', 'mx-6', 'rounded-t-xl', 'w-40', 'flex', 'justify-center', 'text-green-400', 'border-b', 'border-gray-800');
 
     header.innerText = "J.A.R.V.I.S at " + new Date().getHours() + ":" + new Date().getMinutes();
+
+    if (id != null) {
+        message.id = id;
+        message.classList.add('w-2/3', 'h-96')
+    }
 
     message.innerHTML = messagePayload;
 
@@ -320,3 +531,13 @@ function setHeader(xhr) {
     xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
 }
 
+/**
+ * Generates a UUID
+ * @returns {string}
+ */
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}

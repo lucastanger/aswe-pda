@@ -7,7 +7,7 @@ from tests.BaseCase import BaseCase
 
 
 class SynthesizeTest(BaseCase):
-    def test_successful_synthesize_get(self):
+    def test_get_synthesize_success(self):
         # Arrange
         message = 'To transfer text to speech use POST /rest/api/v1/synthesize.'
 
@@ -18,7 +18,7 @@ class SynthesizeTest(BaseCase):
         self.assertEqual(response.json['message'], message)
         self.assertEqual(response.status_code, 200)
 
-    def test_successful_synthesize_post(self):
+    def test_post_synthesize_success(self):
         # Arrange
         payload = json.dumps({'text': 'Test'})
 
@@ -36,3 +36,20 @@ class SynthesizeTest(BaseCase):
         )
         self.assertEqual(response.headers['Content-Type'], 'audio/wav')
         self.assertEqual(response.status_code, 200)
+
+    def test_post_synthesize_no_text_failure(self):
+        # Arrange
+        payload = json.dumps({'text': ''})
+        code = 400
+        error = 'No text given.'
+
+        # Act
+        response = self.app.post(
+            'rest/api/v1/synthesize',
+            headers={'Content-Type': 'application/json'},
+            data=payload,
+        )
+
+        # Assert
+        self.assertEqual(response.json['error'], error)
+        self.assertEqual(response.status_code, code)

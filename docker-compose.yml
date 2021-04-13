@@ -78,7 +78,7 @@ services:
       - "27017:27017"
     volumes: 
       - mongo:/data/mongodb
-      - ./src/backend/services/database-service/init.js:/docker-entrypoint-initdb.d/init.js
+      - ./init.js:/docker-entrypoint-initdb.d/init.js
     environment:
       MONGO_INITDB_ROOT_USERNAME: dev
       MONGO_INITDB_ROOT_PASSWORD: dev

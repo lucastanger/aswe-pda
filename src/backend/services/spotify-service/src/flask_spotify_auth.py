@@ -2,6 +2,7 @@ import base64, json, sys, requests
 
 from flask import make_response
 from pymongo import MongoClient
+from pymongo.errors import ServerSelectionTimeoutError
 
 try:
     import urllib.request, urllib.error
@@ -40,31 +41,10 @@ URL_ARGS = 'client_id={}&response_type={}&redirect_uri={}&scope={}'.format(
 
 AUTH_URL = '{}{}'.format(SPOTIFY_URL_AUTH, URL_ARGS)
 
-client = MongoClient(host='mongo', port=27017)
+"""client = MongoClient(host='mongo', port=27017)
 db = client['aswe-pda']
 db.authenticate('dev', 'dev')
-authorization = db['authorization']
-
-
-def getToken(code):
-
-    body = {
-        'grant_type': 'authorization_code',
-        'code': str(code),
-        'redirect_uri': REDIRECT_URI,
-    }
-
-    encoded = base64.b64encode(('{}:{}'.format(CLIENT_ID, CLIENT_SECRET)).encode())
-    headers = {'Authorization': 'Basic {}'.format(encoded)}
-
-    post_request = requests.post(SPOTIFY_URL_TOKEN, data=body, headers=headers)
-
-    respones_data = json.loads(post_request.text)
-    access_token = respones_data['access_token']
-
-    auth_header = {'Authorization': 'Bearer {}'.format(access_token)}
-
-    return auth_header
+authorization = db['authorization']"""
 
 
 def authorize(auth_token):
@@ -78,7 +58,9 @@ def authorize(auth_token):
 
 
 def refresh():
-    document = authorization.find_one({'service': 'spotify-service', 'type': 'refresh'})
+    document = MongoDB.instance().authorization.find_one(
+        {'service': 'spotify-service', 'type': 'refresh'}
+    )
 
     code_payload = {
         'grant_type': 'refresh_token',
@@ -106,9 +88,9 @@ def document_to_dict(document):
     return document['token']
 
 
-def getAuthHeader():
+def get_auth_header():
 
-    document = authorization.find_one(
+    document = MongoDB.instance().authorization.find_one(
         {'service': 'spotify-service', 'type': 'credentials'}
     )
 
@@ -137,14 +119,14 @@ def set_tokens(data):
     access_token = response_data['access_token']
 
     if access_token:
-        authorization.replace_one(
+        MongoDB.instance().authorization.replace_one(
             {'service': 'spotify-service', 'type': 'credentials'},
             credentials_to_dict(access_token),
             upsert=True,
         )
         if 'refresh_token' in response_data:
             refresh_token = response_data['refresh_token']
-            authorization.replace_one(
+            MongoDB.instance().authorization.replace_one(
                 {'service': 'spotify-service', 'type': 'refresh'},
                 {
                     'service': 'spotify-service',
@@ -156,3 +138,30 @@ def set_tokens(data):
         return True
     else:
         return False
+
+
+class MongoDB:
+    __instance = None
+
+    def __init__(self):
+        try:
+            client = MongoClient(
+                host='mongo', port=27017, serverSelectionTimeoutMS=1000
+            )
+            client.server_info()
+        except ServerSelectionTimeoutError:
+            client = MongoClient(
+                host='localhost', port=27017, serverSelectionTimeoutMS=1000
+            )
+            client.server_info()
+        db = client['aswe-pda']
+        db.authenticate('dev', 'dev')
+        self.authorization = db['authorization']
+
+    @classmethod
+    def instance(cls):
+        if cls.__instance:
+            return cls.__instance
+        else:
+            cls.__instance = MongoDB()
+            return cls.__instance

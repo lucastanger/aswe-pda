@@ -1,6 +1,13 @@
 basePath: /rest/api/v1
 consumes:
 - application/json
+definitions:
+  Maps service route response - error:
+    properties:
+      error:
+        default: {}
+        type: object
+    type: object
 info:
   description: Service to handle requests for the google maps api
   title: REST-API for Maps-Service
@@ -8,13 +15,16 @@ info:
 paths:
   /maps/route:
     get:
-      operationId: get_get_maps_route
+      description: Get a route from origin to destination with a optional arrival
+        time.
+      operationId: get_maps_route
       responses:
         '200':
-          description: Success
+          description: OK
         '400':
-          description: not all required arguments specified (origin, destination,
-            arrival_time)
+          description: Error
+          schema:
+            $ref: '#/definitions/Maps%20service%20route%20response%20-%20error'
       tags:
       - maps
     parameters:
@@ -30,20 +40,13 @@ paths:
       in: query
       name: arrival_time
       type: string
-  /swagger/swagger.json:
-    get:
-      operationId: get_get_swagger
-      responses:
-        '200':
-          description: Success
-      tags:
-      - swagger
   /swagger/swagger.yml:
     get:
-      operationId: get_get_swagger
+      description: Generate a swagger.yml file.
+      operationId: get_swagger
       responses:
         '200':
-          description: Success
+          description: OK
       tags:
       - swagger
 produces:
