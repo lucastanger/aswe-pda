@@ -32,7 +32,7 @@ class RecognizeTest(BaseCase):
 
         # Assert
         self.assertEqual(
-            response.json, {'text': 'how is the weather instead cut '},
+            response.json, {'text': 'how is the weather in Stuttgart '},
         )
         self.assertEqual(response.headers['Content-Type'], 'application/json')
         self.assertEqual(response.status_code, 200)

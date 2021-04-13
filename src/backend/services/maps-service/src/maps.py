@@ -64,7 +64,7 @@ class MapsRoute(Resource):
                 origin,
                 destination,
                 # mode='transit',
-                departure_time=self.date_now,
+                # departure_time=self.date_now,
                 units='metric',
             )
         else:
