@@ -10,6 +10,7 @@ $(document).ready(function () {
     weatherImage = document.getElementById('weather-image');
 
     retrieveWeatherInformationForTheDay();
+    retrieveWeatherInformationForTheNight();
 });
 
 // Get Information about todays weather
@@ -25,16 +26,34 @@ function retrieveWeatherInformationForTheDay() {
         contentType: 'application/json',
         beforeSend: setHeader,
         success: function (response) {
-
-            //console.log(response.response);
             // TODO: implement imperial
             weatherLocation.innerText = response.response['city_name'];
             temperature.innerText = `${Math.round(response.response.weather.temp['current'])} °C`;
             weatherType.innerText = capitalizeFirstLetter(response.response.weather['description']);
             windType.innerText = `Wind: ${response.response.weather.wind.speed} m/s Moderate breeze`;
-
-            // TODO: implement dynamic image
             weatherImage.src = `http://openweathermap.org/img/wn/${response.response.weather.icon}@2x.png`;
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
+}
+
+function retrieveWeatherInformationForTheNight() {
+
+    $.ajax({
+        url: 'http://localhost:5600/rest/api/v1/dialogflow/query',
+        type: 'POST',
+        data: JSON.stringify({
+            'message': "Whats the weather for the next 4 days?"
+        }),
+        crossDomain: true,
+        contentType: 'application/json',
+        beforeSend: setHeader,
+        success: function (response) {
+            let html = createWeatherForecast(response, goodbye=true);
+            document.getElementById('weatherGoodBye').appendChild(html);
+
         },
         error: function (error) {
             console.log(error)
@@ -42,6 +61,42 @@ function retrieveWeatherInformationForTheDay() {
     })
 
 }
+
+/**
+ *
+ * @param weather
+ * @param goodbye
+ * @returns {HTMLDivElement}
+ */
+function createWeatherForecast(weather, goodbye=false) {
+
+    let response = weather.response;
+
+    console.log(response)
+
+
+
+    let html = `<h1 class="dark:text-gray-300 font-light">Weather forecast for ${response.city_name}</h1>
+                    <div class="h-0.5 dark:bg-gray-300 dark:bg-opacity-25 rounded my-1"></div>
+                    <div class="flex">
+                        ${handleMultipleWeatherData(response.weather)}
+                    </div>`;
+
+    let div = document.createElement('div');
+
+    if (goodbye) {
+        div.classList.add('bg-black', 'bg-opacity-25', 'p-2', 'rounded-lg');
+    } else {
+        div.classList.add('bg-gray-700', 'bg-opacity-40', 'p-2', 'rounded-lg');
+    }
+
+    div.innerHTML = html;
+
+    console.log(div)
+
+    return div;
+}
+
 
 function setHeader(xhr) {
     xhr.setRequestHeader('Access-Control-Allow-Headers', 'access-control-allow-methods, access-control-allow-origin');
