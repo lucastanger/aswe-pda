@@ -8,7 +8,7 @@ click==7.1.2
 coverage==5.4
 cryptography==3.4.6
 Flask==1.1.2
-flask-restx==0.2.0
+flask-restx==0.5.1
 google-api-core==1.26.0
 google-api-python-client==1.12.8
 google-auth==1.26.1
